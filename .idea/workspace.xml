@@ -4,7 +4,15 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="eccb96ee-7265-484c-a6c0-5cfe834e0db6" name="Changes" comment="Initial Commit" />
+    <list default="true" id="eccb96ee-7265-484c-a6c0-5cfe834e0db6" name="Changes" comment="Initial Commit">
+      <change afterPath="$PROJECT_DIR$/src/test/java/com/keyin/golf/MembersTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/java/com/keyin/golf/TournamentsTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/java/com/keyin/golf/json_data/AddTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/java/com/keyin/golf/json_data/ReadTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/java/com/keyin/golf/ui/CLITest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/keyin/golf/json_data/Read.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/keyin/golf/json_data/Read.java" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -18,6 +26,24 @@
     </option>
   </component>
   <component name="Git.Settings">
+    <favorite-branches>
+      <branch-storage>
+        <map>
+          <entry type="LOCAL">
+            <value>
+              <list>
+                <branch-info repo="$PROJECT_DIR$" source="davidOct25" />
+              </list>
+            </value>
+          </entry>
+        </map>
+      </branch-storage>
+    </favorite-branches>
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="master" />
+      </map>
+    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="MarkdownSettingsMigration">
@@ -53,6 +79,8 @@
     <recent_temporary>
       <list>
         <item itemvalue="Application.Read" />
+        <item itemvalue="Application.Read" />
+        <item itemvalue="Application.Read" />
       </list>
     </recent_temporary>
   </component>
@@ -79,7 +107,14 @@
       <option name="project" value="LOCAL" />
       <updated>1666624622279</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="Initial Commit">
+      <created>1666624838008</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1666624838008</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -87,7 +122,19 @@
       <map>
         <entry key="MAIN">
           <value>
-            <State />
+            <State>
+              <option name="FILTERS">
+                <map>
+                  <entry key="branch">
+                    <value>
+                      <list>
+                        <option value="davidOct25" />
+                      </list>
+                    </value>
+                  </entry>
+                </map>
+              </option>
+            </State>
           </value>
         </entry>
       </map>
