@@ -1,10 +1,10 @@
 [
   {
     "member": {
-      "roleNum": "122",
+      "memberID": 122,
+      "membershipType": "Standard",
       "membershipStartDate": "Oct 24, 2022",
       "membershipExpireDate": "Oct 24, 2023",
-      "membershipType": "Standard",
       "name": "David Bishop",
       "address": "49 Shearstown Rd",
       "email": "david@email.com",
@@ -16,7 +16,7 @@
   },
   {
     "member": {
-      "roleNum": "123",
+      "memberID": 123,
       "membershipType": "Standard",
       "membershipStartDate": "Oct 24, 2022",
       "membershipExpireDate": "Oct 24, 2023",
@@ -31,7 +31,7 @@
   },
   {
     "member": {
-      "roleNum": "124",
+      "memberID": 124,
       "membershipType": "Trail",
       "membershipStartDate": "Oct 24, 2022",
       "membershipExpireDate": "Oct 31, 2022",
@@ -46,7 +46,7 @@
   },
   {
     "member": {
-      "roleNum": "125",
+      "memberID": 125,
       "membershipType": "Special Offer",
       "membershipStartDate": "Oct 24, 2022",
       "membershipExpireDate": "Nov 8, 2022",
@@ -61,20 +61,23 @@
   },
   {
     "member": {
-      "roleNum": "126",
       "membershipType": "Family Plan",
       "membershipStartDate": "Oct 24, 2022",
       "membershipExpireDate": "Nov 8, 2022",
-      "familyMember1": {
-        "name": "Bobby Joe",
-        "email": "bobbyJoe9@gmail.com",
-        "phone": "6092345"
-      },
-      "familyMember2": {
-        "name": "Jamie Joe",
-        "email": "dropkick_norr@gmail.com",
-        "phone": "6093124"
-      },
+      "familyMembers": [
+        {
+          "memberID": 126,
+          "name": "Bobby Joe",
+          "email": "bobbyJoe9@gmail.com",
+          "phone": "6092345"
+        },
+        {
+          "memberID": 127,
+          "name": "Jamie Joe",
+          "email": "dropkick_norr@gmail.com",
+          "phone": "6093124"
+        }
+      ],
       "address": "19 Kingpin Dr",
       "familyPlayer": "Bobby Joe",
       "currentTournaments": "A1 Greengrass, Tely Tour Provincial",
