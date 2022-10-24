@@ -1,0 +1,32 @@
+[
+  {
+    "tournament": {
+      "name": "A1 Greengrass",
+      "tournamentStartDate": "Oct 28, 2022",
+      "tournamentEndDate": "Oct 31, 2022",
+      "location": "St.John's",
+      "entryFee": 250,
+      "cashPrize": 1500,
+      "membersParticipating": {
+        "member1": 123,
+        "member2": 12,
+        "member3": 34,
+        "member4": 24,
+        "member5": 12,
+        "member6": 5,
+        "member7": 67,
+        "member8": 102
+      },
+      "finalStandings": {
+        "1": 123,
+        "2": 12,
+        "3": 34,
+        "4": 24,
+        "5": 12,
+        "6": 5,
+        "7": 67,
+        "8": 102
+      }
+    }
+  }
+]
