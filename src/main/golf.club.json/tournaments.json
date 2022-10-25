@@ -1,32 +1,31 @@
 [
   {
     "tournament": {
-      "name": "A1 Greengrass",
+      "tournamentID": 1,
       "tournamentStartDate": "Oct 28, 2022",
       "tournamentEndDate": "Oct 31, 2022",
+      "name": "A1 Greengrass",
       "location": "St.John's",
       "entryFee": 250,
       "cashPrize": 1500,
-      "membersParticipating": {
-        "member1": 123,
-        "member2": 12,
-        "member3": 34,
-        "member4": 24,
-        "member5": 12,
-        "member6": 5,
-        "member7": 67,
-        "member8": 102
-      },
-      "finalStandings": {
-        "1": 123,
-        "2": 12,
-        "3": 34,
-        "4": 24,
-        "5": 12,
-        "6": 5,
-        "7": 67,
-        "8": 102
-      }
+      "membersParticipating": [
+        {
+          "member1": 122,
+          "member2": 123,
+          "member3": 125,
+          "member4": 126,
+          "member5": 128
+        }
+      ],
+      "finalStandings": [
+        {
+          "1": "Bobby Joe | 42 Points",
+          "2": "David Bishop | 40 Points",
+          "3": "Jimmy Rodgers | 34 Points",
+          "4": "Chuck Norris | 24 Points",
+          "5": "Dougie Gilmore | 12 Points"
+        }
+      ]
     }
   }
 ]

@@ -4,13 +4,6 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="eccb96ee-7265-484c-a6c0-5cfe834e0db6" name="Changes" comment="Initial Commit">
-      <change afterPath="$PROJECT_DIR$/src/test/java/com/keyin/golf/MembersTest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/java/com/keyin/golf/TournamentsTest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/java/com/keyin/golf/json_data/AddTest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/java/com/keyin/golf/json_data/ReadTest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/java/com/keyin/golf/ui/CLITest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/keyin/golf/json_data/Read.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/keyin/golf/json_data/Read.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -24,6 +17,9 @@
         <option value="Class" />
       </list>
     </option>
+  </component>
+  <component name="Git.Rebase.Settings">
+    <option name="NEW_BASE" value="master" />
   </component>
   <component name="Git.Settings">
     <favorite-branches>
@@ -114,7 +110,6 @@
       <option name="project" value="LOCAL" />
       <updated>1666624838008</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -142,6 +137,8 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Initial Commit" />
-    <option name="LAST_COMMIT_MESSAGE" value="Initial Commit" />
+    <MESSAGE value="Test files" />
+    <MESSAGE value="Family Member Plan Fix" />
+    <option name="LAST_COMMIT_MESSAGE" value="Family Member Plan Fix" />
   </component>
 </project>
