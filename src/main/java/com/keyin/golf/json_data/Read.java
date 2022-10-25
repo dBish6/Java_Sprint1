@@ -1,7 +1,7 @@
 package com.keyin.golf.json_data;
 
 /* Read.java
-   Class for members of the tournament...
+   Class to Read (decode) the two JSON files; members.json & tournaments.json.
 
    Author: David Bishop
    Contributors: Dominic Whelan, Chris Doucette and Blake Waddleton.
@@ -175,7 +175,7 @@ public class Read {
             }
             System.out.println();
         } else {
-            System.out.println(finalStandings);
+            System.out.println(finalStandings + "\n");
         }
     }
 
