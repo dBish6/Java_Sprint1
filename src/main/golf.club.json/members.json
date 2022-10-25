@@ -7,7 +7,7 @@
       "membershipExpireDate": "Oct 24, 2023",
       "name": "David Bishop",
       "address": "49 Shearstown Rd",
-      "email": "david@email.com",
+      "email": "davidbish2002@hotmail.com",
       "phone": "6802021",
       "currentTournaments": "A1 Greengrass",
       "pastTournaments": null,
@@ -69,20 +69,36 @@
           "memberID": 126,
           "name": "Bobby Joe",
           "email": "bobbyJoe9@gmail.com",
-          "phone": "6092345"
+          "phone": "6092345",
+          "address": "19 Kingpin Dr"
         },
         {
           "memberID": 127,
           "name": "Jamie Joe",
           "email": "dropkick_norr@gmail.com",
-          "phone": "6093124"
+          "phone": "6093124",
+          "address": "19 Kingpin Dr"
         }
       ],
-      "address": "19 Kingpin Dr",
       "familyPlayer": "Bobby Joe",
       "currentTournaments": "A1 Greengrass, Tely Tour Provincial",
-      "pastTournaments": "PGA, Pippy Park Tely Tour",
+      "pastTournaments": "Pippy Park Tely Tour",
       "upcomingTournaments": "Yellow-belly Golden Open, A2 Greengrass"
+    }
+  },
+  {
+    "member": {
+      "memberID": 128,
+      "membershipType": "Trail",
+      "membershipStartDate": "Oct 24, 2022",
+      "membershipExpireDate": "Oct 31, 2022",
+      "name": "Dougie Gilmore",
+      "address": "69 FeatherCheese Rd",
+      "email": "doug69@hotmail.com",
+      "phone": "5670646",
+      "currentTournaments": null,
+      "pastTournaments": "A1 Greengrass",
+      "upcomingTournaments": null
     }
   }
 ]
