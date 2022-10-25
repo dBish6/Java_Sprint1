@@ -38,11 +38,12 @@ public class Read {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
-        } catch (ParseException e) {
+        }
+        catch (ParseException e) {
             e.printStackTrace();
         }
     }
-    private static void parseMemberObj(JSONObject member) {
+    protected static void parseMemberObj(JSONObject member) {
         String memberName; String email; String phone; String address;
 
         // First get the whole JSONObject to get specified values.
@@ -124,7 +125,7 @@ public class Read {
             e.printStackTrace();
         }
     }
-    private static void parseTournamentObj(JSONObject tournament) {
+    protected static void parseTournamentObj(JSONObject tournament) {
         // First get the whole JSONObject to get specified values.
         JSONObject tournamentObj = (JSONObject) tournament.get("tournament");
         // Get member memberID, name, email, and phone, etc.
