@@ -2,6 +2,9 @@ package com.keyin.golf.json_data;
 
 /* Write.java
    Class that writes/edits Json files.
+   Methods to create JSON objects
+   Method to add object to desired file
+   Methods that change the value of given parameters
 
    Author: Dominic Whelan
    Contributors:  David Bishop, Chris Doucette and Blake Waddleton
@@ -9,21 +12,20 @@ package com.keyin.golf.json_data;
 
  */
 
-import com.keyin.golf.Members;
+// imports
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
-
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
+// imports for Error handling
+import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
 
 public class Write {
 
+    // leave commented until Members Class methods required are completed
 //    public static JSONObject createMemberObj(Members member){
 //
 //        JSONObject objBody = new JSONObject();
@@ -47,29 +49,26 @@ public class Write {
 //        return memberObj;
 //    }
 
-    public static void toMembersFile(JSONObject memberObject){
+    public static void addToFile(JSONObject objectToAdd, String filename){
 
         JSONParser jsonParser = new JSONParser();
-        try(FileReader reader = new FileReader("src/main/golf.club.json/members.json")) {
+        try(FileReader reader = new FileReader(filename)) {
             // Reads JSON File above and then parses it to object form.
             Object obj = jsonParser.parse(reader);
             // To Json array.
-            JSONArray memberList = (JSONArray) obj;
-            memberList.add(memberObject);
+            JSONArray objectList = (JSONArray) obj;
+            objectList.add(objectToAdd);
 
 
-            try(FileWriter writer = new FileWriter("src/main/golf.club.json/members.json")){
-                writer.write(String.valueOf(memberList));
+            try(FileWriter writer = new FileWriter(filename)){
+                writer.write(objectList.toJSONString());
             }
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-                e.printStackTrace();
-        } catch (ParseException e) {
+        }  catch (IOException | ParseException e) {
                 e.printStackTrace();
         }
-
     }
+
+
 
     public static void main(String[] args) {
 
@@ -81,6 +80,6 @@ public class Write {
 
         testMember.put("member", obj);
 
-        toMembersFile(testMember);
+        addToFile(testMember,"src/main/golf.club.json/members.json");
     }
 }
