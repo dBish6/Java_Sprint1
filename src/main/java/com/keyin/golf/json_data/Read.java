@@ -231,7 +231,7 @@ public class Read {
     }
 
     // Method to get a tournament's JSON record by Id.
-    public static JSONObject getTournamentJSONRecordById(int Id) {
+    public static JSONObject getTournamentJSONRecordById(Long Id) {
         JSONParser jsonParser = new JSONParser();
         try (FileReader reader = new FileReader("src/main/golf.club.json/tournaments.json")) {
             // Reads JSON File above and then parses it to object form.
@@ -266,6 +266,6 @@ public class Read {
 //        Read.readMembersJSON();
 //        Read.readTournamentsJSON();
 //        System.out.println(Read.getMemberJSONRecordById(125));
-        System.out.println(Read.getTournamentJSONRecordById(2));
+//        System.out.println(Read.getTournamentJSONRecordById(2));
     }
 }
