@@ -20,7 +20,7 @@ public class Members {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private long id;
+    private Long id;
 
     private String firstName;
     private String lastName;
@@ -31,12 +31,18 @@ public class Members {
     private Date membershipStartDate;
     private double membershipDuration;
 
+    private String currentTournaments;
 
-    public long getId() {
+    private String pastTournaments;
+
+    private String upcomingTournaments;
+
+
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -94,6 +100,30 @@ public class Members {
 
     public void setMembershipDuration(double membershipDuration) {
         this.membershipDuration = membershipDuration;
+    }
+
+    public String getCurrentTournaments() {
+        return currentTournaments;
+    }
+
+    public void setCurrentTournaments(String currentTournaments) {
+        this.currentTournaments = currentTournaments;
+    }
+
+    public String getPastTournaments() {
+        return pastTournaments;
+    }
+
+    public void setPastTournaments(String pastTournaments) {
+        this.pastTournaments = pastTournaments;
+    }
+
+    public String getUpcomingTournaments() {
+        return upcomingTournaments;
+    }
+
+    public void setUpcomingTournaments(String upcomingTournaments) {
+        this.upcomingTournaments = upcomingTournaments;
     }
     public static void main(String[] args) {
 
