@@ -6,12 +6,13 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
-import static org.mockito.Mockito.mock;
 
 @ExtendWith(MockitoExtension.class)
 public class TournamentsTest {
@@ -26,8 +27,19 @@ public class TournamentsTest {
         membersInTourney.add(456L);
         membersInTourney.add(789L);
 
-        Date startDate = new Date(2022,10-1,28);
-        Date endDate = new Date(2022, 10-1, 31);
+        Date startDate = null;
+        try {
+            startDate = new SimpleDateFormat("MMMMM dd, yyyy").parse("October 28, 2022");
+        } catch (ParseException e) {
+            throw new RuntimeException(e);
+        }
+
+        Date endDate = null;
+        try{
+            endDate = new SimpleDateFormat("MMMMM dd, yyyy").parse("October 31, 2022");
+        } catch (ParseException e){
+            throw new RuntimeException(e);
+        }
 
         Tournaments test1 = new Tournaments(123L, startDate, endDate, "Summerside Open", "Summerside Golf Club", 50L, 1000L, membersInTourney);
         Tournaments test2 = new Tournaments(456L, startDate, endDate, "PEI Fall Invitational", "Anderson Greek Golf Course", 100L, 2000L, membersInTourney);
@@ -50,8 +62,19 @@ public class TournamentsTest {
          membersInTourney.add(456L);
          membersInTourney.add(789L);
 
-         Date startDate = new Date(2022,10-1,28);
-         Date endDate = new Date(2022, 10-1, 31);
+         Date startDate = null;
+         try {
+             startDate = new SimpleDateFormat("MMMMM dd, yyyy").parse("October 28, 2022");
+         } catch (ParseException e) {
+             throw new RuntimeException(e);
+         }
+
+         Date endDate = null;
+         try{
+             endDate = new SimpleDateFormat("MMMMM dd, yyyy").parse("October 31, 2022");
+         } catch (ParseException e){
+             throw new RuntimeException(e);
+         }
 
          Tournaments test1 = new Tournaments(123L, startDate, endDate, "Summerside Open", "Summerside Golf Club", 50L, 1000L, membersInTourney);
          Tournaments test2 = new Tournaments(456L, startDate, endDate, "PEI Fall Invitational", "Anderson Greek Golf Course", 100L, 2000L, membersInTourney);
