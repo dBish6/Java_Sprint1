@@ -14,36 +14,34 @@ import com.keyin.golf.json_data.Read;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
-import javax.persistence.criteria.CriteriaBuilder;
-import java.lang.reflect.Array;
 import java.util.*;
 
 public class Tournaments {
     // Instance Variables
-    private int tournamentId;
+    private Long tournamentId;
     private Date tournamentStartDate;
     private Date tournamentEndDate;
     private String tournamentName;
     private String tournamentLocation;
-    private int tournamentEntryFee;
-    private int tournamentCashPrize;
-    private ArrayList<Integer> membersParticipating = new ArrayList<>();
-    private ArrayList<Integer> finalStandings;
+    private Long tournamentEntryFee;
+    private Long tournamentCashPrize;
+    private ArrayList<Long> membersParticipating = new ArrayList<Long>();
+    private ArrayList<Long> finalStandings;
 
     // Constructors
     public Tournaments(){
-        this.tournamentId = 0;
+        this.tournamentId = null;
         this.tournamentStartDate = null;
         this.tournamentEndDate = null;
         this.tournamentName = "";
         this.tournamentLocation = "";
-        this.tournamentEntryFee = 0;
-        this.tournamentCashPrize = 0;
-        this.membersParticipating = new ArrayList<>();
-        this.finalStandings = new ArrayList<>();
+        this.tournamentEntryFee = null;
+        this.tournamentCashPrize = null;
+        this.membersParticipating = new ArrayList<Long>();
+        this.finalStandings = new ArrayList<Long>();
     }
 
-    public Tournaments(int tournamentId, Date tournamentStartDate, Date tournamentEndDate, String tournamentName, String tournamentLocation, int tournamentEntryFee, int tournamentCashPrize, ArrayList membersParticipating) {
+    public Tournaments(Long tournamentId, Date tournamentStartDate, Date tournamentEndDate, String tournamentName, String tournamentLocation, Long tournamentEntryFee, Long tournamentCashPrize, ArrayList membersParticipating) {
         this.tournamentId = tournamentId;
         this.tournamentStartDate = tournamentStartDate;
         this.tournamentEndDate = tournamentEndDate;
@@ -52,7 +50,7 @@ public class Tournaments {
         this.tournamentEntryFee = tournamentEntryFee;
         this.tournamentCashPrize = tournamentCashPrize;
         this.membersParticipating = membersParticipating;
-        this.finalStandings = new ArrayList<>();
+        this.finalStandings = new ArrayList<Long>();
     }
 
     public Tournaments(Tournaments tournament){
@@ -73,11 +71,11 @@ public class Tournaments {
         this.tournamentLocation = tournamentLocation;
     }
 
-    public int getTournamentId() {
+    public Long getTournamentId() {
         return tournamentId;
     }
 
-    public void setTournamentId(int tournamentId) {
+    public void setTournamentId(Long tournamentId) {
         this.tournamentId = tournamentId;
     }
 
@@ -105,35 +103,35 @@ public class Tournaments {
         this.tournamentName = tournamentName;
     }
 
-    public int getTournamentEntryFee() {
+    public Long getTournamentEntryFee() {
         return tournamentEntryFee;
     }
 
-    public void setTournamentEntryFee(int tournamentEntryFee) {
+    public void setTournamentEntryFee(Long tournamentEntryFee) {
         this.tournamentEntryFee = tournamentEntryFee;
     }
 
-    public int getTournamentCashPrize() {
+    public Long getTournamentCashPrize() {
         return tournamentCashPrize;
     }
 
-    public void setTournamentCashPrize(int tournamentCashPrize) {
+    public void setTournamentCashPrize(Long tournamentCashPrize) {
         this.tournamentCashPrize = tournamentCashPrize;
     }
 
-    public ArrayList<Integer> getMembersParticipating() {
+    public ArrayList<Long> getMembersParticipating() {
         return membersParticipating;
     }
 
-    public void setMembersParticipating(ArrayList<Integer> membersParticipating) {
+    public void setMembersParticipating(ArrayList<Long> membersParticipating) {
         this.membersParticipating = membersParticipating;
     }
 
-    public ArrayList<Integer> getFinalStandings() {
+    public ArrayList<Long> getFinalStandings() {
         return finalStandings;
     }
 
-    public void setFinalStandings(ArrayList<Integer> finalStandings) {
+    public void setFinalStandings(ArrayList<Long> finalStandings) {
         this.finalStandings = finalStandings;
     }
 
@@ -159,7 +157,7 @@ public class Tournaments {
         // Prompt user to enter all information that is needed to create a tournament
         // Save all user information to instance variables
         System.out.println("Enter your tournament id: ");
-        int tourneyId = userInput.nextInt();
+        Long tourneyId = userInput.nextLong();
 
         userInput.nextLine();
         System.out.println("Enter the tournament name: ");
@@ -178,10 +176,10 @@ public class Tournaments {
         String tourneyLocation = userInput.nextLine();
 
         System.out.println("Enter the tournament entry fee:");
-        int tourneyEntryFee = userInput.nextInt();
+        Long tourneyEntryFee = userInput.nextLong();
 
         System.out.println("Enter the tournament winning prize amount:");
-        int tourneyCashPrize = userInput.nextInt();
+        Long tourneyCashPrize = userInput.nextLong();
 
         userInput.nextLine();
         System.out.println("Enter the members memberId that are entered for tournament, separated by a comma(,):  ");
@@ -215,7 +213,7 @@ public class Tournaments {
         return new GregorianCalendar(year, month-1, day).getTime();
     }
 
-    public void getTournamentById(int tournamentId) {
+    public void getTournamentById(Long tournamentId) {
         // Creating new Read Object to receive Tournaments / Members objects
         Read read = new Read();
         JSONObject jsonObj = read.getTournamentJSONRecordById(tournamentId);
@@ -272,7 +270,7 @@ public class Tournaments {
     public static void main(String[] args){
         Tournaments tournaments1 = new Tournaments();
 
-        tournaments1.getTournamentById(1);
+        tournaments1.getTournamentById(1L);
     }
 
 }
