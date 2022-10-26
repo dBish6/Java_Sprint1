@@ -14,6 +14,8 @@ import com.keyin.golf.json_data.Read;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 public class Tournaments {
@@ -163,13 +165,25 @@ public class Tournaments {
         System.out.println("Enter the tournament name: ");
         String tourneyName = userInput.nextLine();
 
-        System.out.println("Enter the tournament start date (Format: YYYYMMDD):");
-        int tourneyStartDateInt = userInput.nextInt();
-        Date tourneyStartDate = changeDateFormat(tourneyStartDateInt);
+        userInput.nextLine();
+        System.out.println("Enter the tournament start date (Format: March 2, 2022):");
+        String tourneyStartDateString = userInput.nextLine();
+        Date tourneyStartDate = null;
+        try {
+            tourneyStartDate = new SimpleDateFormat("MMMMM dd, yyyy").parse(tourneyStartDateString);
+        } catch (ParseException e) {
+            throw new RuntimeException(e);
+        }
 
-        System.out.println("Enter the tournament end date (Format: YYYYMMDD):");
-        int tourneyEndDateInt = userInput.nextInt();
-        Date tourneyEndDate = changeDateFormat(tourneyEndDateInt);
+        userInput.nextLine();
+        System.out.println("Enter the tournament end date (Format: March 2, 2022):");
+        String tourneyEndDateString = userInput.nextLine();
+        Date tourneyEndDate = null;
+        try {
+            tourneyEndDate = new SimpleDateFormat("MMMMM dd, yyyy").parse(tourneyEndDateString);
+        } catch (ParseException e) {
+            throw new RuntimeException(e);
+        }
 
         userInput.nextLine();
         System.out.println("Enter the tournament golf club");
@@ -213,7 +227,8 @@ public class Tournaments {
         return new GregorianCalendar(year, month-1, day).getTime();
     }
 
-    public void getTournamentById(Long tournamentId) {
+    // Changed to private for now, will re-assess needs in Thursday morning's meeting
+    private Tournaments getTournamentById(Long tournamentId) throws ParseException {
         // Creating new Read Object to receive Tournaments / Members objects
         Read read = new Read();
         JSONObject jsonObj = read.getTournamentJSONRecordById(tournamentId);
@@ -225,8 +240,15 @@ public class Tournaments {
 
         // Get member memberID, name, email, and phone, etc.
         Long tournamentID = (Long) tournamentObj.get("tournamentID");
-        String tournamentStartDate = (String) tournamentObj.get("tournamentStartDate");
-        String tournamentEndDate = (String) tournamentObj.get("tournamentEndDate");
+
+        // Updating the date to a date object
+        String tournamentStartDateString = (String) tournamentObj.get("tournamentStartDate");
+        Date tournamentStartDate = new SimpleDateFormat("MMMMM dd, yyyy").parse(tournamentStartDateString);
+
+        // Updating end date to a date object
+        String tournamentEndDateString = (String) tournamentObj.get("tournamentEndDate");
+        Date tournamentEndDate = new SimpleDateFormat("MMMMM dd, yyyy").parse(tournamentEndDateString);
+
         String tournamentName = (String) tournamentObj.get("name");
         String location = (String) tournamentObj.get("location");
         Long entryFee = (Long) tournamentObj.get("entryFee");
@@ -248,14 +270,9 @@ public class Tournaments {
         }
         System.out.println(membersInTournament);
 
-        // Changing Longs to Integers for the time being
+//        Tournaments membersTournament = new Tournaments(tournamentID, tournamentStartDate, tournamentEndDate, tournamentName, location, entryFee, cashPrize, membersInTournament);
 
-
-//        int tournamentId, Date tournamentStartDate, Date tournamentEndDate, String tournamentName,
-//        String tournamentLocation, int tournamentEntryFee, int tournamentCashPrize,
-//        ArrayList membersParticipating
-
-        // Returns Tournament Object
+        return null;
 
         // In Separate Method Called Something like findMembersTournaments
         // To do if Not updating Scores here
@@ -265,12 +282,21 @@ public class Tournaments {
 
     }
 
+    public void updateMemberTournamentsStatus(Members members){
+        // Checking tournaments in members and updating their status (Eg Current, Past or Future)
+
+        // Check Tournaments in the Current List
+
+    }
 
 
-    public static void main(String[] args){
+    public static void main(String[] args) throws Exception{
         Tournaments tournaments1 = new Tournaments();
+        Tournaments tournament2 = new Tournaments();
 
-        tournaments1.getTournamentById(1L);
+        tournament2 = tournaments1.getTournamentById(1L);
+
+        System.out.println(tournament2);
     }
 
 }
