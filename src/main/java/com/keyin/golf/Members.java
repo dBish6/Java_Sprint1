@@ -31,6 +31,12 @@ public class Members {
     private Date membershipStartDate;
     private double membershipDuration;
 
+    private String currentTournaments;
+
+    private String pastTournaments;
+
+    private String upcomingTournaments;
+
 
     public long getId() {
         return id;
@@ -94,6 +100,30 @@ public class Members {
 
     public void setMembershipDuration(double membershipDuration) {
         this.membershipDuration = membershipDuration;
+    }
+
+    public String getCurrentTournaments() {
+        return currentTournaments;
+    }
+
+    public void setCurrentTournaments(String currentTournaments) {
+        this.currentTournaments = currentTournaments;
+    }
+
+    public String getPastTournaments() {
+        return pastTournaments;
+    }
+
+    public void setPastTournaments(String pastTournaments) {
+        this.pastTournaments = pastTournaments;
+    }
+
+    public String getUpcomingTournaments() {
+        return upcomingTournaments;
+    }
+
+    public void setUpcomingTournaments(String upcomingTournaments) {
+        this.upcomingTournaments = upcomingTournaments;
     }
     public static void main(String[] args) {
 
