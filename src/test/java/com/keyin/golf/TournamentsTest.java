@@ -1,31 +1,17 @@
 package com.keyin.golf;
 
-import com.keyin.golf.json_data.Write;
-import org.json.simple.JSONObject;
-import org.junit.Assert;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.mockito.stubbing.OngoingStubbing;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.InputStream;
-import java.io.PrintStream;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.GregorianCalendar;
-import java.util.Scanner;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
-import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 public class TournamentsTest {
@@ -35,16 +21,16 @@ public class TournamentsTest {
     @Test
     public void testCreateNewTournament(){
 
-        ArrayList<Integer> membersInTourney = new ArrayList<>();
-        membersInTourney.add(123);
-        membersInTourney.add(456);
-        membersInTourney.add(789);
+        ArrayList<Long> membersInTourney = new ArrayList<>();
+        membersInTourney.add(123L);
+        membersInTourney.add(456L);
+        membersInTourney.add(789L);
 
         Date startDate = new Date(2022,10-1,28);
         Date endDate = new Date(2022, 10-1, 31);
 
-        Tournaments test1 = new Tournaments(123, startDate, endDate, "Summerside Open", "Summerside Golf Club", 50, 1000, membersInTourney);
-        Tournaments test2 = new Tournaments(456, startDate, endDate, "PEI Fall Invitational", "Anderson Greek Golf Course", 100, 2000, membersInTourney);
+        Tournaments test1 = new Tournaments(123L, startDate, endDate, "Summerside Open", "Summerside Golf Club", 50L, 1000L, membersInTourney);
+        Tournaments test2 = new Tournaments(456L, startDate, endDate, "PEI Fall Invitational", "Anderson Greek Golf Course", 100L, 2000L, membersInTourney);
 
         // Testing the creation of Tournament
         Mockito.when(mockTournament.createNewTournament()).thenReturn(test1);
@@ -58,17 +44,17 @@ public class TournamentsTest {
      }
 
      @Test
-     public void testGetTournamentsById(int tournamentId){
-         ArrayList<Integer> membersInTourney = new ArrayList<>();
-         membersInTourney.add(123);
-         membersInTourney.add(456);
-         membersInTourney.add(789);
+     public void testGetTournamentsById(long tournamentId){
+         ArrayList<Long> membersInTourney = new ArrayList<>();
+         membersInTourney.add(123L);
+         membersInTourney.add(456L);
+         membersInTourney.add(789L);
 
          Date startDate = new Date(2022,10-1,28);
          Date endDate = new Date(2022, 10-1, 31);
 
-         Tournaments test1 = new Tournaments(123, startDate, endDate, "Summerside Open", "Summerside Golf Club", 50, 1000, membersInTourney);
-         Tournaments test2 = new Tournaments(456, startDate, endDate, "PEI Fall Invitational", "Anderson Greek Golf Course", 100, 2000, membersInTourney);
+         Tournaments test1 = new Tournaments(123L, startDate, endDate, "Summerside Open", "Summerside Golf Club", 50L, 1000L, membersInTourney);
+         Tournaments test2 = new Tournaments(456L, startDate, endDate, "PEI Fall Invitational", "Anderson Greek Golf Course", 100L, 2000L, membersInTourney);
          Tournaments test3 = new Tournaments();
 
          // Testing the get Tournament by ID
