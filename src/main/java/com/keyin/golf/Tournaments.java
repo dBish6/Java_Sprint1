@@ -165,25 +165,13 @@ public class Tournaments {
         System.out.println("Enter the tournament name: ");
         String tourneyName = userInput.nextLine();
 
-        userInput.nextLine();
-        System.out.println("Enter the tournament start date (Format: March 2, 2022):");
-        String tourneyStartDateString = userInput.nextLine();
-        Date tourneyStartDate = null;
-        try {
-            tourneyStartDate = new SimpleDateFormat("MMMMM dd, yyyy").parse(tourneyStartDateString);
-        } catch (ParseException e) {
-            throw new RuntimeException(e);
-        }
+        System.out.println("Enter the tournament start date (Format: YYYYMMDD):");
+        int tourneyStartDateInt = userInput.nextInt();
+        Date tourneyStartDate = changeDateFormat(tourneyStartDateInt);
 
-        userInput.nextLine();
-        System.out.println("Enter the tournament end date (Format: March 2, 2022):");
-        String tourneyEndDateString = userInput.nextLine();
-        Date tourneyEndDate = null;
-        try {
-            tourneyEndDate = new SimpleDateFormat("MMMMM dd, yyyy").parse(tourneyEndDateString);
-        } catch (ParseException e) {
-            throw new RuntimeException(e);
-        }
+        System.out.println("Enter the tournament end date (Format: YYYYMMDD):");
+        int tourneyEndDateInt = userInput.nextInt();
+        Date tourneyEndDate = changeDateFormat(tourneyEndDateInt);
 
         userInput.nextLine();
         System.out.println("Enter the tournament golf club");
