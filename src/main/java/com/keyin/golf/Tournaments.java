@@ -227,8 +227,7 @@ public class Tournaments {
         return new GregorianCalendar(year, month-1, day).getTime();
     }
 
-    // Changed to private for now, will re-assess needs in Thursday morning's meeting
-    public Tournaments getTournamentById(Long tournamentId) throws ParseException {
+    public void getTournamentById(Long tournamentId) {
         // Creating new Read Object to receive Tournaments / Members objects
         Read read = new Read();
         JSONObject jsonObj = read.getTournamentJSONRecordById(tournamentId);
