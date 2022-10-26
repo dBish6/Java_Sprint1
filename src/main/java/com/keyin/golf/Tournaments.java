@@ -9,8 +9,13 @@ package com.keyin.golf;
 
  */
 
-import java.io.InputStream;
-import java.io.PrintStream;
+import com.keyin.golf.json_data.Read;
+
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+
+import javax.persistence.criteria.CriteriaBuilder;
+import java.lang.reflect.Array;
 import java.util.*;
 
 public class Tournaments {
@@ -23,7 +28,7 @@ public class Tournaments {
     private int tournamentEntryFee;
     private int tournamentCashPrize;
     private ArrayList<Integer> membersParticipating = new ArrayList<>();
-    private ArrayList<String> finalStandings;
+    private ArrayList<Integer> finalStandings;
 
     // Constructors
     public Tournaments(){
@@ -62,7 +67,6 @@ public class Tournaments {
     }
 
     // Getters / Setters
-
     public String getTournamentLocation() { return tournamentLocation;}
 
     public void setTournamentLocation(String tournamentLocation) {
@@ -125,11 +129,11 @@ public class Tournaments {
         this.membersParticipating = membersParticipating;
     }
 
-    public ArrayList<String> getFinalStandings() {
+    public ArrayList<Integer> getFinalStandings() {
         return finalStandings;
     }
 
-    public void setFinalStandings(ArrayList<String> finalStandings) {
+    public void setFinalStandings(ArrayList<Integer> finalStandings) {
         this.finalStandings = finalStandings;
     }
 
@@ -195,10 +199,9 @@ public class Tournaments {
         // Close the scanner
         userInput.close();
 
-        System.out.println(membersForTournamentInteger);
-
         // Call the constructor to create new Tournament Instance
         Tournaments newTourney = new Tournaments(tourneyId, tourneyStartDate, tourneyEndDate, tourneyName, tourneyLocation, tourneyEntryFee, tourneyCashPrize, membersForTournamentInteger );
+
 
         // Write data to JSON Tournament file
         return newTourney;
@@ -212,19 +215,64 @@ public class Tournaments {
         return new GregorianCalendar(year, month-1, day).getTime();
     }
 
-    public void addScores(){
-        // Add scores for each player in tournament
+    public void getTournamentById(int tournamentId) {
+        // Creating new Read Object to receive Tournaments / Members objects
+        Read read = new Read();
+        JSONObject jsonObj = read.getTournamentJSONRecordById(tournamentId);
+
+        System.out.println(jsonObj);
+
+        // First get the whole JSONObject to get specified values.
+        JSONObject tournamentObj = (JSONObject) jsonObj.get("tournament");
+
+        // Get member memberID, name, email, and phone, etc.
+        Long tournamentID = (Long) tournamentObj.get("tournamentID");
+        String tournamentStartDate = (String) tournamentObj.get("tournamentStartDate");
+        String tournamentEndDate = (String) tournamentObj.get("tournamentEndDate");
+        String tournamentName = (String) tournamentObj.get("name");
+        String location = (String) tournamentObj.get("location");
+        Long entryFee = (Long) tournamentObj.get("entryFee");
+        Long cashPrize = (Long) tournamentObj.get("cashPrize");
+
+        // Get membersParticipating and add to ArrayList
+        ArrayList<Long> membersInTournament = new ArrayList<>();
+
+        JSONArray membersParticipating = (JSONArray) tournamentObj.get("membersParticipating");
+        // Iterate though each member object in the familyMembers JSONArray.
+        for (Object member : membersParticipating) {
+            // Then creates the JSONObject out of the JSONArray.
+            JSONObject members = (JSONObject) member;
+            // Iterates through each key in the members JSONObject.
+            for (Object key : members.keySet()) {
+                // Gets each of the keys values and adds to ArrayList
+                membersInTournament.add((Long) members.get(key));
+            }
+        }
+        System.out.println(membersInTournament);
+
+        // Changing Longs to Integers for the time being
+
+
+//        int tournamentId, Date tournamentStartDate, Date tournamentEndDate, String tournamentName,
+//        String tournamentLocation, int tournamentEntryFee, int tournamentCashPrize,
+//        ArrayList membersParticipating
+
+        // Returns Tournament Object
+
+        // In Separate Method Called Something like findMembersTournaments
+        // To do if Not updating Scores here
+            // Create Tournament Object
+            // Find All Members in the Tournament
+            // Update this Tournament eg(Current to Past / Future to Current) by dates
+
     }
 
-    public void getTournamentById(){
-        // Have user enter tournament search criteria
 
-        // Search for the tournament in Tournament JSON file
 
-        // Save tournament information to variables
+    public static void main(String[] args){
+        Tournaments tournaments1 = new Tournaments();
 
-        // Output results to user
-
+        tournaments1.getTournamentById(1);
     }
 
 }
