@@ -10,6 +10,7 @@ package com.keyin.golf.ui;
 
  */
 
+import com.keyin.golf.json_data.Delete;
 import com.keyin.golf.json_data.Read;
 
 import java.util.Scanner;
@@ -18,7 +19,7 @@ public class CLI {
 
     public static void main(String[] args) {
 
-        System.out.println("*The Golf Club*");
+        System.out.println("\t*The Golf Club*");
         userInterface();
     }
 
@@ -29,12 +30,14 @@ public class CLI {
         while (!quit) {
             System.out.println("\t1. Display Members");
             System.out.println("\t2. Display Tournaments");
-            System.out.println("\t3. Create New Member");
-            System.out.println("\t4. Create New Tournament");
-            System.out.println("\t5. Add a Value to Members");
-            System.out.println("\t6. Add a Value to Tournaments");
-            System.out.println("\t7. Delete Member Record");
-            System.out.println("\t8. Delete Tournament Record");
+            System.out.println("\t3. Display a Specific Member");
+            System.out.println("\t4. Display a Specific Tournament");
+            System.out.println("\t5. Create New Member");
+            System.out.println("\t6. Create New Tournament");
+            System.out.println("\t7. Add a Value to Members");
+            System.out.println("\t8. Add a Value to Tournaments");
+            System.out.println("\t9. Delete a Member Record");
+            System.out.println("\t10. Delete a Tournament Record");
             System.out.println("\t-  \"q\" to Quit");
             System.out.println("\tEnter your desired choice below:");
             switch (input.next()) {
@@ -47,35 +50,55 @@ public class CLI {
                     Read.readTournamentsJSON();
                     break;
                 case "3":
+                    System.out.println("*Members*");
+                    System.out.println("Enter the memberID for the member you wish to display:");
+                    int userInputId1 = input.nextInt();
+                    System.out.println();
+                    Read.displayJSONMemberById(userInputId1);
                     break;
                 case "4":
+                    System.out.println("*Tournaments*");
+                    System.out.println("Enter the TournamentID for the tournament you wish to display:");
+                    int userInputId2 = input.nextInt();
+                    System.out.println();
+                    Read.displayJSONTournamentById(userInputId2);
                     break;
                 case "5":
-                    System.out.println("*Members*");
-                    System.out.println("Enter the key for what value you intend to change:");
-                    input.next();
                     break;
                 case "6":
-                    System.out.println("*Tournaments*");
-                    System.out.println("Enter the key for what value you intend to change:");
-                    input.next();
                     break;
                 case "7":
                     System.out.println("*Members*");
-                    System.out.println("Enter the memberID for record you wish to delete:");
+                    System.out.println("Enter the key for what value you intend to change:");
                     input.next();
                     break;
                 case "8":
                     System.out.println("*Tournaments*");
-                    System.out.println("Enter the tournamentID for record you wish to delete:");
+                    System.out.println("Enter the key for what value you intend to change:");
                     input.next();
+                    break;
+                case "9":
+                    System.out.println("*Members*");
+                    System.out.println("Enter the memberID for the record you wish to delete:");
+                    int userInputId3 = input.nextInt();
+                    System.out.println("Deleting...");
+                    Delete.deleteMemberJSONRecord(userInputId3);
+                    System.out.println("JSON Record was successfully deleted.\n");
+                    break;
+                case "10":
+                    System.out.println("*Tournaments*");
+                    System.out.println("Enter the tournamentID for the record you wish to delete:");
+                    int userInputId4 = input.nextInt();
+                    System.out.println("Deleting...");
+                    Delete.deleteTournamentJSONRecord(userInputId4);
+                    System.out.println("JSON Record was successfully deleted.\n");
                     break;
                 case "q":
                     System.out.println("Quiting...");
                     quit = true;
                     break;
                 default:
-                    System.err.println("\nERROR: Please choose from the list from 1 to 8.");
+                    System.err.println("\nERROR: Please choose from the list from 1 to 10.");
                     userInterface();
             }
         }

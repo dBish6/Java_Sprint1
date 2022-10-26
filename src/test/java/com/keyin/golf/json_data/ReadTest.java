@@ -57,8 +57,9 @@ public class ReadTest {
         JSONParser jsonParser = new JSONParser();
         FileReader reader = new FileReader("src/main/golf.club.json/members.json");
         Object obj = jsonParser.parse(reader);
+        JSONObject jsonObj = (JSONObject) obj;
 
-//        Assertions.assertNotNull(readClassMock.parseMemberObj(Object obj));
+//        Assertions.assertNotNull(readClassMock.parseMemberObj(jsonObj));
     }
 
     @AfterAll
