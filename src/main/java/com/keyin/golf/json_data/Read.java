@@ -26,15 +26,14 @@ public class Read {
 
         JSONParser jsonParser = new JSONParser();
         try(FileReader reader = new FileReader("src/main/golf.club.json/members.json")) {
-            // Reads JSON File above and then parses it to object form.
+            // Reads the JSON File above and then parses it to object form.
             Object obj = jsonParser.parse(reader);
             // To Json array.
             JSONArray memberArray = (JSONArray) obj;
-//            System.out.println(memberList);
+//            System.out.println(memberArray);
             // Iterate over memberArray, one record at a time from the parseMemberObj function.
             memberArray.forEach(member -> parseMemberObj((JSONObject) member));
-        }
-        catch (FileNotFoundException e) {
+        } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
@@ -103,21 +102,58 @@ public class Read {
         // Somehow add these to the class here in this function.
     }
 
-// <========================================/ tournaments.json Reader Start \========================================>
+    // Method to get a members JSON record by Id.
+    public static JSONObject getMemberJSONRecordById(int Id) {
+        JSONParser jsonParser = new JSONParser();
+        try (FileReader reader = new FileReader("src/main/golf.club.json/members.json")) {
+            // Reads JSON File above and then parses it to object form.
+            Object obj = jsonParser.parse(reader);
+            System.out.println(obj);
+            // To Json array.
+            JSONArray memberArray = (JSONArray) obj;
+            // Iterate though the objects in the JSONArray.
+            for (Object objects : memberArray) {
+                // Then creates the JSONObject out of the objects.
+                JSONObject jsonObjects = (JSONObject) objects;
+                // Gets the member objects, so we can get the memberID.
+                JSONObject memberObj = (JSONObject) jsonObjects.get("member");
+                String membershipType = (String) memberObj.get("membershipType");
+                // If membershipType does not equal Family Plan.
+                if (!Objects.equals(membershipType, "Family Plan")) {
+                    Long memberID = (Long) memberObj.get("memberID");
+//                    System.out.println(memberID);
+                    // Converts the inputted Id to Long because memberID is Long data type.
+                    Long userInputId = Long.valueOf(Id);
+                    if (Objects.equals(memberID, userInputId)) {
+                        return jsonObjects;
+                    }
+                }
+            }
+        }
+        catch(FileNotFoundException e){
+            e.printStackTrace();
+        } catch(IOException e){
+            e.printStackTrace();
+        }
+        catch(ParseException e){
+            e.printStackTrace();
+        }
+        return null;
+    }
+// <=========================================/ tournaments.json Reader Start \=========================================>
 
     public static void readTournamentsJSON() {
 
         JSONParser jsonParser = new JSONParser();
         try(FileReader reader = new FileReader("src/main/golf.club.json/tournaments.json")) {
-            // Reads JSON File above and then parses it to object form.
+            // Reads the JSON File above and then parses it to object form.
             Object obj = jsonParser.parse(reader);
             // To Json array.
             JSONArray tournamentArray = (JSONArray) obj;
 //            System.out.println(tournamentList);
             // Iterate over tournamentArray, one record at a time from the parseTournamentObj function.
             tournamentArray.forEach(tournament -> parseTournamentObj((JSONObject) tournament));
-        }
-        catch (FileNotFoundException e) {
+        } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
@@ -147,9 +183,11 @@ public class Read {
         // Get membersParticipating...
         JSONArray membersParticipating = (JSONArray) tournamentObj.get("membersParticipating");
         System.out.println("*Members Participating*");
-        // Creates the JSONObject out of the JSONArray.
+        // Iterate though each member object in the familyMembers JSONArray.
         for (Object member : membersParticipating) {
+            // Then creates the JSONObject out of the JSONArray.
             JSONObject members = (JSONObject) member;
+            // Iterates through each key in the members JSONObject.
             for (Object key : members.keySet()) {
                 // Gets each of the keys values.
                 Long memberValue = (Long) members.get(key);
@@ -180,8 +218,11 @@ public class Read {
         }
     }
 
+    // Method to get the JSON record by Id.
+
     public static void main(String[] args) {
         Read.readMembersJSON();
         Read.readTournamentsJSON();
+        Read.getMemberJSONRecordById(125);
     }
 }
