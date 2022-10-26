@@ -22,6 +22,7 @@ import org.json.simple.parser.ParseException;
 public class Read {
 // <===========================================/ members.json Reader Start \===========================================>
 
+    // Read All Members
     public static void readMembersJSON() {
 
         JSONParser jsonParser = new JSONParser();
@@ -99,16 +100,14 @@ public class Read {
         System.out.println("Current Tournaments: " + currentTournaments);
         System.out.println("Past Tournaments: " + pastTournaments);
         System.out.println("Upcoming Tournaments: " + upcomingTournaments + "\n");
-        // Somehow add these to the class here in this function.
     }
 
-    // Method to get a members JSON record by Id.
+    // Method to get a member's JSON record by Id.
     public static JSONObject getMemberJSONRecordById(int Id) {
         JSONParser jsonParser = new JSONParser();
         try (FileReader reader = new FileReader("src/main/golf.club.json/members.json")) {
             // Reads JSON File above and then parses it to object form.
             Object obj = jsonParser.parse(reader);
-            System.out.println(obj);
             // To Json array.
             JSONArray memberArray = (JSONArray) obj;
             // Iterate though the objects in the JSONArray.
@@ -121,11 +120,23 @@ public class Read {
                 // If membershipType does not equal Family Plan.
                 if (!Objects.equals(membershipType, "Family Plan")) {
                     Long memberID = (Long) memberObj.get("memberID");
-//                    System.out.println(memberID);
                     // Converts the inputted Id to Long because memberID is Long data type.
                     Long userInputId = Long.valueOf(Id);
                     if (Objects.equals(memberID, userInputId)) {
                         return jsonObjects;
+                    }
+                } else {
+                    // Else when membershipType equals Family Plan.
+                    JSONArray familyMembers = (JSONArray) memberObj.get("familyMembers");
+                    // Iterate though each familyMember object in the familyMembers JSONArray.
+                    for (Object familyMember : familyMembers) {
+                        // Then create the JSONObject out of the family members.
+                        JSONObject members = (JSONObject) familyMember;
+                        Long memberID = (Long) members.get("memberID");
+                        Long userInputId = Long.valueOf(Id);
+                        if (Objects.equals(memberID, userInputId)) {
+                            return jsonObjects;
+                        }
                     }
                 }
             }
@@ -142,6 +153,7 @@ public class Read {
     }
 // <=========================================/ tournaments.json Reader Start \=========================================>
 
+    // Read all Tournaments
     public static void readTournamentsJSON() {
 
         JSONParser jsonParser = new JSONParser();
@@ -218,11 +230,42 @@ public class Read {
         }
     }
 
-    // Method to get the JSON record by Id.
+    // Method to get a tournament's JSON record by Id.
+    public static JSONObject getTournamentJSONRecordById(int Id) {
+        JSONParser jsonParser = new JSONParser();
+        try (FileReader reader = new FileReader("src/main/golf.club.json/tournaments.json")) {
+            // Reads JSON File above and then parses it to object form.
+            Object obj = jsonParser.parse(reader);
+            // To Json array.
+            JSONArray tournamentArray = (JSONArray) obj;
+            // Iterate though the objects in the JSONArray.
+            for (Object objects : tournamentArray) {
+                // Then creates the JSONObject out of the objects.
+                JSONObject jsonObjects = (JSONObject) objects;
+                // Gets the tournament objects, so we can get the tournamentID.
+                JSONObject tournamentObj = (JSONObject) jsonObjects.get("tournament");
+                Long tournamentID = (Long) tournamentObj.get("tournamentID");
+                Long userInputId = Long.valueOf(Id);
+                if (Objects.equals(tournamentID, userInputId)) {
+                    return jsonObjects;
+                }
+            }
+        }
+        catch(FileNotFoundException e){
+            e.printStackTrace();
+        } catch(IOException e){
+            e.printStackTrace();
+        }
+        catch(ParseException e){
+            e.printStackTrace();
+        }
+        return null;
+    }
 
     public static void main(String[] args) {
-        Read.readMembersJSON();
-        Read.readTournamentsJSON();
-        Read.getMemberJSONRecordById(125);
+//        Read.readMembersJSON();
+//        Read.readTournamentsJSON();
+//        System.out.println(Read.getMemberJSONRecordById(125));
+        System.out.println(Read.getTournamentJSONRecordById(2));
     }
 }
