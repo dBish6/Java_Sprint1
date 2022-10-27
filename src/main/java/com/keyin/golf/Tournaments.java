@@ -228,7 +228,7 @@ public class Tournaments {
     }
 
     // Changed to private for now, will re-assess needs in Thursday morning's meeting
-    private Tournaments getTournamentById(Long tournamentId) throws ParseException {
+    public Tournaments getTournamentById(Long tournamentId) throws ParseException {
         // Creating new Read Object to receive Tournaments / Members objects
         Read read = new Read();
         JSONObject jsonObj = read.getTournamentJSONRecordById(tournamentId);
@@ -268,11 +268,10 @@ public class Tournaments {
                 membersInTournament.add((Long) members.get(key));
             }
         }
-        System.out.println(membersInTournament);
 
-//        Tournaments membersTournament = new Tournaments(tournamentID, tournamentStartDate, tournamentEndDate, tournamentName, location, entryFee, cashPrize, membersInTournament);
+        Tournaments membersTournament = new Tournaments(tournamentID, tournamentStartDate, tournamentEndDate, tournamentName, location, entryFee, cashPrize, membersInTournament);
 
-        return null;
+        return membersTournament;
 
         // In Separate Method Called Something like findMembersTournaments
         // To do if Not updating Scores here
