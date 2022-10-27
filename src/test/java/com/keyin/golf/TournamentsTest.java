@@ -62,7 +62,7 @@ public class TournamentsTest {
         Tournaments test1 = new Tournaments();
         Tournaments test2 = new Tournaments();
 
-        test2 = test1.getTournamentById(1L);
+        test2 = test1.getTournamentById(1);
 
         Assertions.assertEquals(1L, test2.getTournamentId());
         Assertions.assertNotEquals(2L, test2.getTournamentId());

@@ -228,10 +228,9 @@ public class Tournaments {
     }
 
     // Changed to private for now, will re-assess needs in Thursday morning's meeting
-    public Tournaments getTournamentById(Long tournamentId) throws ParseException {
+    public Tournaments getTournamentById(int tournamentId) throws ParseException {
         // Creating new Read Object to receive Tournaments / Members objects
-        Read read = new Read();
-        JSONObject jsonObj = read.getTournamentJSONRecordById(tournamentId);
+        JSONObject jsonObj = Read.getTournamentJSONRecordById(tournamentId);
 
         System.out.println(jsonObj);
 
@@ -293,7 +292,7 @@ public class Tournaments {
         Tournaments tournaments1 = new Tournaments();
         Tournaments tournament2 = new Tournaments();
 
-        tournament2 = tournaments1.getTournamentById(1L);
+        tournament2 = tournaments1.getTournamentById(1);
 
         System.out.println(tournament2);
     }
