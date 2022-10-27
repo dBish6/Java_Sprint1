@@ -19,48 +19,57 @@ import org.json.simple.parser.ParseException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Objects;
 
 public class Add {
 
     // Used to set personal data ( phone,email, and address )
     public static void setMemberDetailValue(int ID, String keyToChange, String valueToSet) {
-        JSONParser jsonParser = new JSONParser();
-        try (FileReader reader = new FileReader("src/main/golf.club.json/members.json")) {
-            Object obj = jsonParser.parse(reader);
-            JSONArray memberList = (JSONArray) obj;
-            memberList.forEach(member -> {
-                JSONObject memberObj = (JSONObject) member;
-                JSONObject objDetails = (JSONObject) memberObj.get("member");
-                String membershipType = (String) objDetails.get("membershipType");
-                if (Objects.equals(membershipType, "Family Plan")) {
-                    JSONArray familyMembers = (JSONArray) objDetails.get("familyMembers");
-                    familyMembers.forEach(fMember -> {
-                        JSONObject fmObj = (JSONObject) fMember;
-                        Long memberID = (Long) fmObj.get("memberID");
+        ArrayList<String> allowableKeys = new ArrayList<>();
+        allowableKeys.add("email");
+        allowableKeys.add("phone");
+        allowableKeys.add("address");
+        if(!allowableKeys.contains(keyToChange)){
+            System.out.println("ERROR - Invalid Entry for Key");
+        }else {
+            JSONParser jsonParser = new JSONParser();
+            try (FileReader reader = new FileReader("src/main/golf.club.json/members.json")) {
+                Object obj = jsonParser.parse(reader);
+                JSONArray memberList = (JSONArray) obj;
+                memberList.forEach(member -> {
+                    JSONObject memberObj = (JSONObject) member;
+                    JSONObject objDetails = (JSONObject) memberObj.get("member");
+                    String membershipType = (String) objDetails.get("membershipType");
+                    if (Objects.equals(membershipType, "Family Plan")) {
+                        JSONArray familyMembers = (JSONArray) objDetails.get("familyMembers");
+                        familyMembers.forEach(fMember -> {
+                            JSONObject fmObj = (JSONObject) fMember;
+                            Long memberID = (Long) fmObj.get("memberID");
+                            if (memberID == ID) {
+                                fmObj.put(keyToChange, valueToSet);
+                                try (FileWriter writer = new FileWriter("src/main/golf.club.json/members.json")) {
+                                    writer.write(memberList.toJSONString());
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        });
+                    } else {
+                        Long memberID = (Long) objDetails.get("memberID");
                         if (memberID == ID) {
-                            fmObj.put(keyToChange, valueToSet);
-                            try(FileWriter writer = new FileWriter("src/main/golf.club.json/members.json")){
+                            objDetails.put(keyToChange, valueToSet);
+                            try (FileWriter writer = new FileWriter("src/main/golf.club.json/members.json")) {
                                 writer.write(memberList.toJSONString());
-                            } catch (IOException e){
+                            } catch (IOException e) {
                                 e.printStackTrace();
                             }
                         }
-                    });
-                } else {
-                    Long memberID = (Long) objDetails.get("memberID");
-                    if (memberID == ID) {
-                        objDetails.put(keyToChange, valueToSet);
-                        try(FileWriter writer = new FileWriter("src/main/golf.club.json/members.json")){
-                            writer.write(memberList.toJSONString());
-                        } catch (IOException e){
-                            e.printStackTrace();
-                        }
                     }
-                }
-            });
-        } catch (IOException | ParseException e) {
-            e.printStackTrace();
+                });
+            } catch (IOException | ParseException e) {
+                e.printStackTrace();
+            }
         }
     }
 
