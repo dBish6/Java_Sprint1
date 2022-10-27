@@ -1,5 +1,6 @@
 package com.keyin.golf;
 
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
@@ -56,35 +57,16 @@ public class TournamentsTest {
      }
 
      @Test
-     public void testGetTournamentsById(long tournamentId){
-         ArrayList<Long> membersInTourney = new ArrayList<>();
-         membersInTourney.add(123L);
-         membersInTourney.add(456L);
-         membersInTourney.add(789L);
+     public void testGetTournamentById() throws ParseException {
+        // Using tournaments.json for testing
+        Tournaments test1 = new Tournaments();
+        Tournaments test2 = new Tournaments();
 
-         Date startDate = null;
-         try {
-             startDate = new SimpleDateFormat("MMMMM dd, yyyy").parse("October 28, 2022");
-         } catch (ParseException e) {
-             throw new RuntimeException(e);
-         }
+        test2 = test1.getTournamentById(1L);
 
-         Date endDate = null;
-         try{
-             endDate = new SimpleDateFormat("MMMMM dd, yyyy").parse("October 31, 2022");
-         } catch (ParseException e){
-             throw new RuntimeException(e);
-         }
-
-         Tournaments test1 = new Tournaments(123L, startDate, endDate, "Summerside Open", "Summerside Golf Club", 50L, 1000L, membersInTourney);
-         Tournaments test2 = new Tournaments(456L, startDate, endDate, "PEI Fall Invitational", "Anderson Greek Golf Course", 100L, 2000L, membersInTourney);
-         Tournaments test3 = new Tournaments();
-
-         // Testing the get Tournament by ID
-//         Mockito.when(mockTournament.getTournamentById(123)).thenReturn(test1));
-//         assertEquals(test1.getTournamentId(), mockTournament.getTournamentId());
-//         assertNotEquals(test2.getTournamentId(), mockTournament.getTournamentId());
-     }
+        Assertions.assertEquals(1L, test2.getTournamentId());
+        Assertions.assertNotEquals(2L, test2.getTournamentId());
+    }
 
      }
 
