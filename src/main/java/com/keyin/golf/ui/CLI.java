@@ -43,22 +43,22 @@ public class CLI {
             switch (input.next()) {
                 case "1":
                     System.out.println();
-                    Read.readMembersJSON();
+                    Read.readAllJSONMembers();
                     break;
                 case "2":
                     System.out.println();
-                    Read.readTournamentsJSON();
+                    Read.readAllJSONTournaments();
                     break;
                 case "3":
                     System.out.println("*Members*");
-                    System.out.println("Enter the memberID for the member you wish to display:");
+                    System.out.println("Enter the membershipID for the record you wish to display:");
                     int userInputId1 = input.nextInt();
                     System.out.println();
-                    Read.displayJSONMemberById(userInputId1);
+                    Read.displayJSONMemberByMembershipID(userInputId1);
                     break;
                 case "4":
                     System.out.println("*Tournaments*");
-                    System.out.println("Enter the TournamentID for the tournament you wish to display:");
+                    System.out.println("Enter the tournamentID for the record you wish to display:");
                     int userInputId2 = input.nextInt();
                     System.out.println();
                     Read.displayJSONTournamentById(userInputId2);
@@ -82,7 +82,7 @@ public class CLI {
                     System.out.println("Enter the memberID for the record you wish to delete:");
                     int userInputId3 = input.nextInt();
                     System.out.println("Deleting...");
-                    Delete.deleteMemberJSONRecord(userInputId3);
+                    Delete.deleteMemberJSONRecordByMembershipID(userInputId3);
                     System.out.println("JSON Record was successfully deleted.\n");
                     break;
                 case "10":
@@ -90,7 +90,7 @@ public class CLI {
                     System.out.println("Enter the tournamentID for the record you wish to delete:");
                     int userInputId4 = input.nextInt();
                     System.out.println("Deleting...");
-                    Delete.deleteTournamentJSONRecord(userInputId4);
+                    Delete.deleteTournamentJSONRecordById(userInputId4);
                     System.out.println("JSON Record was successfully deleted.\n");
                     break;
                 case "q":
