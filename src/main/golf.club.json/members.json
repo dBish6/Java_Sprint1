@@ -1,6 +1,7 @@
 [
   {
     "member": {
+      "membershipID": 1,
       "membershipType": "Family Plan",
       "membershipStartDate": "Feb 18, 2022",
       "membershipExpireDate": "Feb 18, 2023",
@@ -12,9 +13,9 @@
           "email": "bobbyJoe9@gmail.com",
           "phone": "6092345",
           "address": "19 Kingpin Dr",
-          "currentTournaments": "A1 Greengrass, Tely Tour Provincial",
-          "pastTournaments": "Yellow-belly Open, Pippy Park Tely Tour",
-          "upcomingTournaments": "A2 Greengrass"
+          "currentTournaments": [3, 4],
+          "pastTournaments": [1, 2],
+          "upcomingTournaments": [5]
         },
         {
           "memberID": 124,
@@ -32,6 +33,7 @@
   {
     "member": {
       "memberID": 125,
+      "membershipID": 2,
       "membershipType": "Standard",
       "membershipStartDate": "March 1, 2022",
       "membershipExpireDate": "March 1, 2023",
@@ -40,14 +42,15 @@
       "email": "Jimmy1_1@hotmail.com",
       "phone": "8670666",
       "address": "14 New Hangover Dr",
-      "currentTournaments": "A1 Greengrass, Tely Tour Provincial",
-      "pastTournaments": "Yellow-belly Open, Pippy Park Tely Tour",
-      "upcomingTournaments": "A2 Greengrass"
+      "currentTournaments": [3, 4],
+      "pastTournaments": [1, 2],
+      "upcomingTournaments": [5]
     }
   },
   {
     "member": {
       "memberID": 126,
+      "membershipID": 3,
       "membershipType": "Trail",
       "membershipStartDate": "March 1, 2022",
       "membershipExpireDate": "March 8, 2022",
@@ -57,13 +60,14 @@
       "phone": "5670646",
       "address": "6 Yellow-belly Rd",
       "currentTournaments": null,
-      "pastTournaments": "Yellow-belly Open",
+      "pastTournaments": [1],
       "upcomingTournaments": null
     }
   },
   {
     "member": {
       "memberID": 127,
+      "membershipID": 4,
       "membershipType": "Standard",
       "membershipStartDate": "March 5, 2022",
       "membershipExpireDate": "March 5, 2023",
@@ -72,14 +76,15 @@
       "email": "doug69@hotmail.com",
       "phone": "5670646",
       "address": "69 FeatherCheese Rd",
-      "currentTournaments": "A1 Greengrass, Tely Tour Provincial",
-      "pastTournaments": "Pippy Park Tely Tour",
+      "currentTournaments": [3, 4],
+      "pastTournaments": [2],
       "upcomingTournaments": null
     }
   },
   {
     "member": {
       "memberID": 128,
+      "membershipID": 5,
       "membershipType": "Special Offer",
       "membershipStartDate": "March 14, 2022",
       "membershipExpireDate": "March 14, 2023",
@@ -88,14 +93,15 @@
       "email": "dropkick_norr@gmail.com",
       "phone": "6093124",
       "address": "10260 Westheimer Rd",
-      "currentTournaments": "A1 Greengrass, Tely Tour Provincial",
-      "pastTournaments": "Pippy Park Tely Tour",
-      "upcomingTournaments": "A2 Greengrass"
+      "currentTournaments": [3, 4],
+      "pastTournaments": [2],
+      "upcomingTournaments": [5]
     }
   },
   {
     "member": {
       "memberID": 129,
+      "membershipID": 6,
       "membershipType": "Standard",
       "membershipStartDate": "Oct 18, 2022",
       "membershipExpireDate": "Oct 18, 2023",
@@ -104,9 +110,9 @@
       "email": "davidbish2002@hotmail.com",
       "phone": "6802021",
       "address": "49 Shearstown Rd",
-      "currentTournaments": "A1 Greengrass, Tely Tour Provincial",
+      "currentTournaments": [3, 4],
       "pastTournaments": null,
-      "upcomingTournaments": "A2 Greengrass"
+      "upcomingTournaments": [5]
     }
   }
 ]
