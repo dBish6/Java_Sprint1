@@ -30,17 +30,20 @@ public class Write {
 //
 //        JSONObject objBody = new JSONObject();
 //
-//        objBody.put("memberID",member.getID());
+//        objBody.put("memberID",member.getId());
+                    // Missing from Members Class
 //        objBody.put("membershipType", member.getMemberType());
-//        objBody.put("membershipStartDate",member.getMemberStartDate());
+//        objBody.put("membershipStartDate",member.getMembershipStartDate());
+                    // Needs to be calculated using membershipDuration
 //        objBody.put("membershipExpireDate", member.getMemberExpDate());
+//                  // Need to concatenate with firstName and lastName
 //        objBody.put("name", member.getName());
 //        objBody.put("address", member.getAddress());
 //        objBody.put("email", member.getEmail());
-//        objBody.put("phone", member.getPhone());
-//        objBody.put("currentTournaments", member.getCurrentTour());
-//        objBody.put("pastTournaments",member.getPastTour());
-//        objBody.put("upcomingTournaments",member.getUpcomingTour());
+//        objBody.put("phone", member.getPhoneNumber());
+//        objBody.put("currentTournaments", member.getCurrentTournaments());
+//        objBody.put("pastTournaments",member.getPastTournaments());
+//        objBody.put("upcomingTournaments",member.getUpcomingTournaments());
 //
 //        JSONObject memberObj = new JSONObject();
 //
