@@ -82,7 +82,7 @@ public class CLI {
                     System.out.println("Enter the memberID for the record you wish to delete:");
                     int userInputId3 = input.nextInt();
                     System.out.println("Deleting...");
-                    Delete.deleteMemberJSONRecord(userInputId3);
+                    Delete.deleteMemberJSONRecordByMembershipID(userInputId3);
                     System.out.println("JSON Record was successfully deleted.\n");
                     break;
                 case "10":
@@ -90,7 +90,7 @@ public class CLI {
                     System.out.println("Enter the tournamentID for the record you wish to delete:");
                     int userInputId4 = input.nextInt();
                     System.out.println("Deleting...");
-                    Delete.deleteTournamentJSONRecord(userInputId4);
+                    Delete.deleteTournamentJSONRecordById(userInputId4);
                     System.out.println("JSON Record was successfully deleted.\n");
                     break;
                 case "q":
