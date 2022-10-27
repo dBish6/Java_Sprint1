@@ -1,7 +1,7 @@
 package com.keyin.golf.json_data;
 
 /* Delete.java
-   Class for members of the tournament...
+   Class to Delete records from the two JSON files; members.json & tournaments.json.
 
    Author: David Bishop
    Contributors: Dominic Whelan, Chris Doucette and Blake Waddleton
@@ -21,8 +21,9 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
 public class Delete {
-// <===========================================/ members.json Delete Start \===========================================>
-    public static void deleteMemberJSONRecord(int Id) {
+    // <===========================================/ members.json Delete Start \===========================================>
+
+    public static void deleteMemberJSONRecordByMembershipID(int Id) {
 
         JSONParser jsonParser = new JSONParser();
         try (FileReader reader = new FileReader("src/main/golf.club.json/members.json")) {
@@ -30,98 +31,70 @@ public class Delete {
             Object obj = jsonParser.parse(reader);
             // To Json array.
             JSONArray memberArray = (JSONArray) obj;
+            JSONArray newMemberArray = new JSONArray();
+            Long storedID = null;
             // Iterate though the objects in the JSONArray.
             for (Object objects : memberArray) {
                 // Then creates the JSONObject out of the objects.
                 JSONObject jsonObjects = (JSONObject) objects;
                 // Gets the member objects, so we can get the memberID.
                 JSONObject memberObj = (JSONObject) jsonObjects.get("member");
-                String membershipType = (String) memberObj.get("membershipType");
-                // If membershipType does not equal Family Plan.
-                if (!Objects.equals(membershipType, "Family Plan")) {
-                    Long memberID = (Long) memberObj.get("memberID");
-                    // Converts the inputted Id to Long because memberID is Long data type.
-                    Long userInputId = Long.valueOf(Id);
-                    if (Objects.equals(memberID, userInputId)) {
-                        jsonObjects.remove("member");
-                        break;
-                    }
-                } else {
-                    // Else when membershipType equals Family Plan.
-                    JSONArray familyMembers = (JSONArray) memberObj.get("familyMembers");
-                    // Iterate though each familyMember object in the familyMembers JSONArray.
-                    for (Object familyMember : familyMembers) {
-                        // Then create the JSONObject out of the family members.
-                        JSONObject members = (JSONObject) familyMember;
-                        Long memberID = (Long) members.get("memberID");
-                        Long userInputId = Long.valueOf(Id);
-                        if (Objects.equals(memberID, userInputId)) {
-                            jsonObjects.remove("member");
-                            break;
-                        }
-                    }
+                Long membershipID = (Long) memberObj.get("membershipID");
+                // Converts the inputted Id to Long because membershipID is Long data type.
+                Long userInputId = Long.valueOf(Id);
+                // For error checking; when the loop reaches the Id, store it in a variable.
+                if (Objects.equals(membershipID, userInputId)) {
+                    storedID = membershipID;
                 }
-//                if (((JSONObject) jsonObjects.get("member")).size() == 0) {
-//                    json.remove(key);
-//                } else {
-//                    removeEmptyAndNullFields(json.get(key));
-//                }
+                // When the loop reaches the inputted membershipID, skip it and don't add it to the newArray.
+                // Tried to use continue for skipping, wouldn't let me.
+                if (!Objects.equals(membershipID, userInputId)) {
+                    newMemberArray.add(jsonObjects);
+                }
             }
-            try (FileWriter writer = new FileWriter("src/main/golf.club.json/members.json")) {
-                writer.write(memberArray.toJSONString());
+            if (storedID != Long.valueOf(Id)) {
+                System.err.println("ERROR: No member matches given ID.");
+            } else {
+                try (FileWriter writer = new FileWriter("src/main/golf.club.json/members.json")) {
+                    writer.write(newMemberArray.toJSONString());
+                }
             }
-        }
-        catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        catch (ParseException e) {
+        } catch (ParseException | IOException e) {
             e.printStackTrace();
         }
     }
 
 // <=========================================/ tournaments.json Reader Start \=========================================>
 
-    public static void deleteTournamentJSONRecord(int Id) {
+    public static void deleteTournamentJSONRecordById(int Id) {
 
         JSONParser jsonParser = new JSONParser();
-        try(FileReader reader = new FileReader("src/main/golf.club.json/tournaments.json")) {
-            // Reads JSON File above and then parses it to object form.
+        try (FileReader reader = new FileReader("src/main/golf.club.json/tournaments.json")) {
             Object obj = jsonParser.parse(reader);
-            // To Json array.
             JSONArray tournamentArray = (JSONArray) obj;
-            // Iterate though the objects in the JSONArray.
+            JSONArray newTournamentArray = new JSONArray();
+            Long storedID = null;
             for (Object objects : tournamentArray) {
-                // Then creates the JSONObject out of the objects.
                 JSONObject jsonObjects = (JSONObject) objects;
-                // Gets the member objects, so we can get the memberID.
                 JSONObject tournamentObj = (JSONObject) jsonObjects.get("tournament");
                 Long tournamentID = (Long) tournamentObj.get("tournamentID");
-                // Converts the inputted Id to Long because memberID is Long data type.
                 Long userInputId = Long.valueOf(Id);
                 if (Objects.equals(tournamentID, userInputId)) {
-                    jsonObjects.remove("tournament");
+                    storedID = tournamentID;
                 }
-                if (jsonObjects.size() == 0) {
-                    jsonObjects.remove("tournament");
+                if (!Objects.equals(tournamentID, userInputId)) {
+                    newTournamentArray.add(jsonObjects);
                 }
             }
-            try(FileWriter writer = new FileWriter("src/main/golf.club.json/tournaments.json")) {
-                writer.write(tournamentArray.toJSONString());
+            if (storedID != Long.valueOf(Id)) {
+                System.err.println("ERROR: No tournament matches given ID.");
+            } else {
+                try (FileWriter writer = new FileWriter("src/main/golf.club.json/tournaments.json")) {
+                    writer.write(newTournamentArray.toJSONString());
+                }
             }
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
+        } catch (IOException | ParseException e) {
             e.printStackTrace();
         }
-        catch (ParseException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public static void main(String[] args) {
-//        deleteMemberJSONRecord(125);
-//        deleteTournamentJSONRecord(2);
     }
 }

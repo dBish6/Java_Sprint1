@@ -40,17 +40,12 @@ public class Read {
 
     // Helper Function...
     protected static void parseMemberObj(JSONObject member) {
-        String memberName;
-        String email;
-        String phone;
-        String address;
-        JSONArray currentTournaments;
-        JSONArray pastTournaments;
-        JSONArray upcomingTournaments;
+        String memberName; String email; String phone; String address;
+        JSONArray currentTournaments; JSONArray pastTournaments; JSONArray upcomingTournaments;
 
         // First get the whole JSONObject to get specified values.
         JSONObject memberObj = (JSONObject) member.get("member");
-        // Get member memberID, membershipType, membershipStartDate, membershipExpireDate, etc.
+        // Get member memberID, membershipID, membershipType, membershipStartDate, membershipExpireDate, etc.
         Long memberID = (Long) memberObj.get("memberID");
         Long membershipID = (Long) memberObj.get("membershipID");
         String membershipType = (String) memberObj.get("membershipType");
@@ -121,8 +116,8 @@ public class Read {
             Object obj = jsonParser.parse(reader);
             // To Json array.
             JSONArray memberArray = (JSONArray) obj;
-            // Iterate though the objects in the JSONArray.
             Long storedID = null;
+            // Iterate though the objects in the JSONArray.
             for (Object objects : memberArray) {
                 // Then creates the JSONObject out of the objects.
                 JSONObject jsonObjects = (JSONObject) objects;
@@ -143,7 +138,7 @@ public class Read {
                 JSONArray pastTournaments = (JSONArray) memberObj.get("pastTournaments");
                 JSONArray upcomingTournaments = (JSONArray) memberObj.get("upcomingTournaments");
 
-                // Converts the inputted Id to Long because memberID is Long data type.
+                // Converts the inputted Id to Long because membershipID is Long data type.
                 Long userInputId = Long.valueOf(Id);
 
                 // If membershipType does not equal Family Plan.
@@ -338,8 +333,8 @@ public class Read {
             Object obj = jsonParser.parse(reader);
             // To Json array.
             JSONArray tournamentArray = (JSONArray) obj;
-            // Iterate though the objects in the JSONArray.
             Long storedID = null;
+            // Iterate though the objects in the JSONArray.
             for (Object objects : tournamentArray) {
                 // Then creates the JSONObject out of the objects.
                 JSONObject jsonObjects = (JSONObject) objects;
@@ -420,14 +415,5 @@ public class Read {
             e.printStackTrace();
         }
         return null;
-    }
-
-    public static void main(String[] args) {
-//        Read.readMembersJSON();
-//        Read.readTournamentsJSON();
-//        System.out.println(Read.getMemberJSONRecordById(125));
-//        System.out.println(Read.getTournamentJSONRecordById(2));
-        Read.displayJSONMemberByMembershipID(9);
-//        Read.displayJSONTournamentById(8);
     }
 }
