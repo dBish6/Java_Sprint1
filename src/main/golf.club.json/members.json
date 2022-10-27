@@ -10,20 +10,22 @@
           "name": "Bobby Joe",
           "email": "bobbyJoe9@gmail.com",
           "phone": "6092345",
-          "address": "19 Kingpin Dr"
+          "address": "19 Kingpin Dr",
+          "currentTournaments": "A1 Greengrass, Tely Tour Provincial",
+          "pastTournaments": "Yellow-belly Open, Pippy Park Tely Tour",
+          "upcomingTournaments": "A2 Greengrass"
         },
         {
           "memberID": 124,
           "name": "Jamie Joe",
           "email": "jamieJoe12@gmail.com",
           "phone": "6093124",
-          "address": "19 Kingpin Dr"
+          "address": "19 Kingpin Dr",
+          "currentTournaments": null,
+          "pastTournaments": null,
+          "upcomingTournaments": null
         }
-      ],
-      "familyPlayer(s)": "Bobby Joe",
-      "currentTournaments": "A1 Greengrass, Tely Tour Provincial",
-      "pastTournaments": "Yellow-belly Open, Pippy Park Tely Tour",
-      "upcomingTournaments": "A2 Greengrass"
+      ]
     }
   },
   {
