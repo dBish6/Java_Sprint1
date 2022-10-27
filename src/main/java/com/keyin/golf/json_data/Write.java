@@ -13,6 +13,7 @@ package com.keyin.golf.json_data;
  */
 
 // imports
+import com.keyin.golf.Members;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -26,31 +27,31 @@ import java.io.IOException;
 public class Write {
 
     // leave commented until Members Class methods required are completed
-//    public static JSONObject createMemberObj(Members member){
-//
-//        JSONObject objBody = new JSONObject();
-//
-//        objBody.put("memberID",member.getId());
-                    // Missing from Members Class
+    public static JSONObject createMemberObj(Members member){
+
+        JSONObject objBody = new JSONObject();
+
+        objBody.put("memberID",member.getId());
+//                     Missing from Members Class
 //        objBody.put("membershipType", member.getMemberType());
-//        objBody.put("membershipStartDate",member.getMembershipStartDate());
-                    // Needs to be calculated using membershipDuration
+        objBody.put("membershipStartDate",member.getMembershipStartDate());
+//                     Needs to be calculated using membershipDuration
 //        objBody.put("membershipExpireDate", member.getMemberExpDate());
-//                  // Need to concatenate with firstName and lastName
-//        objBody.put("name", member.getName());
-//        objBody.put("address", member.getAddress());
-//        objBody.put("email", member.getEmail());
-//        objBody.put("phone", member.getPhoneNumber());
-//        objBody.put("currentTournaments", member.getCurrentTournaments());
-//        objBody.put("pastTournaments",member.getPastTournaments());
-//        objBody.put("upcomingTournaments",member.getUpcomingTournaments());
-//
-//        JSONObject memberObj = new JSONObject();
-//
-//        memberObj.put("member",objBody);
-//
-//        return memberObj;
-//    }
+                  // Need to concatenate with firstName and lastName
+        objBody.put("name", (member.getFirstName() + " " + member.getLastName()));
+        objBody.put("address", member.getAddress());
+        objBody.put("email", member.getEmail());
+        objBody.put("phone", member.getPhoneNumber());
+        objBody.put("currentTournaments", member.getCurrentTournaments());
+        objBody.put("pastTournaments",member.getPastTournaments());
+        objBody.put("upcomingTournaments",member.getUpcomingTournaments());
+
+        JSONObject memberObj = new JSONObject();
+
+        memberObj.put("member",objBody);
+
+        return memberObj;
+    }
 
     public static void addToFile(JSONObject objectToAdd, String filename){
 
