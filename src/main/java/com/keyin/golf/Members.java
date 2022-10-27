@@ -13,6 +13,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import java.util.ArrayList;
 import java.util.Date;
 
 @Entity
@@ -29,13 +30,44 @@ public class Members {
 
     private int phoneNumber;
     private Date membershipStartDate;
-    private double membershipDuration;
+    private Date membershipEndDate;
 
-    private String currentTournaments;
+    private ArrayList<String> membershipType;
 
-    private String pastTournaments;
+    private ArrayList<String> currentTournaments;
 
-    private String upcomingTournaments;
+    private ArrayList<String> pastTournaments;
+
+    private ArrayList<String> upcomingTournaments;
+
+
+    public Members() {
+        this.firstName = "";
+        this.lastName = "";
+        this.address = "";
+        this.email = "";
+        this.phoneNumber = 0;
+        this.membershipStartDate = null;
+        this.membershipEndDate = null;
+        this.membershipType = new ArrayList<String>();
+        this.currentTournaments = new ArrayList<String>();
+        this.pastTournaments = new ArrayList<String>();
+        this.upcomingTournaments = new ArrayList<String>();
+    }
+
+    public Members(String firstName, String lastName, String address, String email, int phoneNumber, Date membershipStartDate, Date membershipEndDate,ArrayList membershipType, ArrayList currentTournaments, ArrayList upcomingTournaments, ArrayList pastTournaments) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.address = address;
+        this.email = email;
+        this.phoneNumber = phoneNumber;
+        this.membershipStartDate = membershipStartDate;
+        this.membershipEndDate = membershipEndDate;
+        this.membershipType = membershipType;
+        this.currentTournaments = currentTournaments;
+        this.pastTournaments = pastTournaments;
+        this.upcomingTournaments = upcomingTournaments;
+    }
 
 
     public Long getId() {
@@ -82,7 +114,7 @@ public class Members {
         return phoneNumber;
     }
 
-    public int setPhoneNumber(int phoneNumber){
+    public int setPhoneNumber(int phoneNumber) {
         return phoneNumber;
     }
 
@@ -94,40 +126,46 @@ public class Members {
         this.membershipStartDate = membershipStartDate;
     }
 
-    public double getMembershipDuration() {
-        return membershipDuration;
+    public Date getMembershipEndDate() {
+        return membershipEndDate;
     }
 
-    public void setMembershipDuration(double membershipDuration) {
-        this.membershipDuration = membershipDuration;
+    public void setMembershipEndDate(Date membershipEndDate) {
+        this.membershipEndDate = membershipEndDate;
     }
 
-    public String getCurrentTournaments() {
+    public void setMembershipType(ArrayList<String> membershipType) {
+        this.membershipType = membershipType;
+    }
+
+    public ArrayList<String> getMembershipType() {
+        return membershipType;
+    }
+
+    public ArrayList<String> getCurrentTournaments() {
         return currentTournaments;
     }
 
-    public void setCurrentTournaments(String currentTournaments) {
+    public void setCurrentTournaments(ArrayList<String> currentTournaments) {
         this.currentTournaments = currentTournaments;
     }
 
-    public String getPastTournaments() {
+    public ArrayList<String> getPastTournaments() {
         return pastTournaments;
     }
 
-    public void setPastTournaments(String pastTournaments) {
+    public void setPastTournaments(ArrayList<String> pastTournaments) {
         this.pastTournaments = pastTournaments;
     }
 
-    public String getUpcomingTournaments() {
+    public ArrayList<String> getUpcomingTournaments() {
         return upcomingTournaments;
     }
 
-    public void setUpcomingTournaments(String upcomingTournaments) {
+    public void setUpcomingTournaments(ArrayList<String> upcomingTournaments) {
         this.upcomingTournaments = upcomingTournaments;
     }
-    public static void main(String[] args) {
 
-    }
 }
 
 
