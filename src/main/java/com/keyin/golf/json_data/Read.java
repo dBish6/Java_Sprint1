@@ -9,7 +9,6 @@ package com.keyin.golf.json_data;
 
  */
 
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.Objects;
@@ -23,7 +22,7 @@ public class Read {
 // <===========================================/ members.json Reader Start \===========================================>
 
     // Read All Members
-    public static void readMembersJSON() {
+    public static void readAllJSONMembers() {
 
         JSONParser jsonParser = new JSONParser();
         try (FileReader reader = new FileReader("src/main/golf.club.json/members.json")) {
@@ -34,38 +33,41 @@ public class Read {
 //            System.out.println(memberArray);
             // Iterate over memberArray, one record at a time from the parseMemberObj function.
             memberArray.forEach(member -> parseMemberObj((JSONObject) member));
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        catch (ParseException e) {
+        } catch (ParseException | IOException e) {
             e.printStackTrace();
         }
     }
+
+    // Helper Function...
     protected static void parseMemberObj(JSONObject member) {
-        String memberName; String email; String phone; String address;
+        String memberName;
+        String email;
+        String phone;
+        String address;
+        JSONArray currentTournaments;
+        JSONArray pastTournaments;
+        JSONArray upcomingTournaments;
 
         // First get the whole JSONObject to get specified values.
         JSONObject memberObj = (JSONObject) member.get("member");
         // Get member memberID, membershipType, membershipStartDate, membershipExpireDate, etc.
         Long memberID = (Long) memberObj.get("memberID");
+        Long membershipID = (Long) memberObj.get("membershipID");
         String membershipType = (String) memberObj.get("membershipType");
         String membershipStartDate = (String) memberObj.get("membershipStartDate");
         String membershipExpireDate = (String) memberObj.get("membershipExpireDate");
-        String currentTournaments = (String) memberObj.get("currentTournaments");
-        String pastTournaments = (String) memberObj.get("pastTournaments");
-        String upcomingTournaments = (String) memberObj.get("upcomingTournaments");
-        String familyPlayer = (String) memberObj.get("familyPlayer");
+        Long monthlyMembershipCost = (Long) memberObj.get("monthlyMembershipCost");
 
         if (Objects.equals(membershipType, "Standard") ||
-            Objects.equals(membershipType, "Trail") ||
-            Objects.equals(membershipType, "Special Offer")) {
+                Objects.equals(membershipType, "Trail") ||
+                Objects.equals(membershipType, "Special Offer")) {
             System.out.println("MemberID: " + memberID);
         }
+        System.out.println("membershipID: " + membershipID);
         System.out.println("Membership Type: " + membershipType);
         System.out.println("Membership Start Date: " + membershipStartDate);
         System.out.println("Membership Expire Date: " + membershipExpireDate);
+        System.out.println("Monthly Membership Cost: $" + monthlyMembershipCost);
         // If membershipType equals Family Plan.
         if (Objects.equals(membershipType, "Family Plan")) {
             JSONArray familyMembers = (JSONArray) memberObj.get("familyMembers");
@@ -80,30 +82,39 @@ public class Read {
                 email = (String) members.get("email");
                 phone = (String) members.get("phone");
                 address = (String) members.get("address");
+                currentTournaments = (JSONArray) members.get("currentTournaments");
+                pastTournaments = (JSONArray) members.get("pastTournaments");
+                upcomingTournaments = (JSONArray) members.get("upcomingTournaments");
                 System.out.println("MemberID: " + memberID);
                 System.out.println("Name: " + memberName);
                 System.out.println("Email: " + email);
                 System.out.println("Phone: " + phone);
                 System.out.println("Address: " + address);
+                System.out.println("Current Tournaments: " + currentTournaments);
+                System.out.println("Past Tournaments: " + pastTournaments);
+                System.out.println("Upcoming Tournaments: " + upcomingTournaments);
             }
-            System.out.println("Family Player(s): " + familyPlayer);
+            System.out.println();
         } else {
             memberName = (String) memberObj.get("name");
             email = (String) memberObj.get("email");
             phone = (String) memberObj.get("phone");
             address = (String) memberObj.get("address");
+            currentTournaments = (JSONArray) memberObj.get("currentTournaments");
+            pastTournaments = (JSONArray) memberObj.get("pastTournaments");
+            upcomingTournaments = (JSONArray) memberObj.get("upcomingTournaments");
             System.out.println("Name: " + memberName);
             System.out.println("Email: " + email);
             System.out.println("Phone: " + phone);
             System.out.println("Address: " + address);
+            System.out.println("Current Tournaments: " + currentTournaments);
+            System.out.println("Past Tournaments: " + pastTournaments);
+            System.out.println("Upcoming Tournaments: " + upcomingTournaments + "\n");
         }
-        System.out.println("Current Tournaments: " + currentTournaments);
-        System.out.println("Past Tournaments: " + pastTournaments);
-        System.out.println("Upcoming Tournaments: " + upcomingTournaments + "\n");
     }
 
     // Method to DISPLAY a member's JSON record by Id.
-    public static void displayJSONMemberById(int Id) {
+    public static void displayJSONMemberByMembershipID(int Id) {
         JSONParser jsonParser = new JSONParser();
         try (FileReader reader = new FileReader("src/main/golf.club.json/members.json")) {
             // Reads JSON File above and then parses it to object form.
@@ -111,6 +122,7 @@ public class Read {
             // To Json array.
             JSONArray memberArray = (JSONArray) obj;
             // Iterate though the objects in the JSONArray.
+            Long storedID = null;
             for (Object objects : memberArray) {
                 // Then creates the JSONObject out of the objects.
                 JSONObject jsonObjects = (JSONObject) objects;
@@ -118,28 +130,33 @@ public class Read {
                 JSONObject memberObj = (JSONObject) jsonObjects.get("member");
 
                 Long memberID = (Long) memberObj.get("memberID");
+                Long membershipID = (Long) memberObj.get("membershipID");
                 String membershipType = (String) memberObj.get("membershipType");
                 String membershipStartDate = (String) memberObj.get("membershipStartDate");
                 String membershipExpireDate = (String) memberObj.get("membershipExpireDate");
+                Long monthlyMembershipCost = (Long) memberObj.get("monthlyMembershipCost");
                 String memberName = (String) memberObj.get("name");
                 String address = (String) memberObj.get("address");
                 String email = (String) memberObj.get("email");
                 String phone = (String) memberObj.get("phone");
-                String currentTournaments = (String) memberObj.get("currentTournaments");
-                String pastTournaments = (String) memberObj.get("pastTournaments");
-                String upcomingTournaments = (String) memberObj.get("upcomingTournaments");
-                String familyPlayer = (String) memberObj.get("familyPlayer");
+                JSONArray currentTournaments = (JSONArray) memberObj.get("currentTournaments");
+                JSONArray pastTournaments = (JSONArray) memberObj.get("pastTournaments");
+                JSONArray upcomingTournaments = (JSONArray) memberObj.get("upcomingTournaments");
 
                 // Converts the inputted Id to Long because memberID is Long data type.
                 Long userInputId = Long.valueOf(Id);
 
                 // If membershipType does not equal Family Plan.
                 if (!Objects.equals(membershipType, "Family Plan")) {
-                    if (Objects.equals(memberID, userInputId)) {
+                    if (Objects.equals(membershipID, userInputId)) {
+                        // For error checking.
+                        storedID = membershipID;
                         System.out.println("MemberID: " + memberID);
+                        System.out.println("membershipID: " + membershipID);
                         System.out.println("Membership Type: " + membershipType);
                         System.out.println("Membership Start Date: " + membershipStartDate);
                         System.out.println("Membership Expire Date: " + membershipExpireDate);
+                        System.out.println("Monthly Membership Cost: $" + monthlyMembershipCost);
                         System.out.println("Name: " + memberName);
                         System.out.println("Address: " + address);
                         System.out.println("Email: " + email);
@@ -148,49 +165,52 @@ public class Read {
                         System.out.println("Past Tournaments: " + pastTournaments);
                         System.out.println("Upcoming Tournaments: " + upcomingTournaments + "\n");
                     }
-                } else {
+                } else if (Objects.equals(membershipID, userInputId)) {
                     // Else when membershipType equals Family Plan.
                     JSONArray familyMembers = (JSONArray) memberObj.get("familyMembers");
                     // Iterate though each familyMember object in the familyMembers JSONArray.
+                    System.out.println("membershipID: " + membershipID);
+                    System.out.println("Membership Type: " + membershipType);
+                    System.out.println("Membership Start Date: " + membershipStartDate);
+                    System.out.println("Membership Expire Date: " + membershipExpireDate);
+                    System.out.println("Monthly Membership Cost: $" + monthlyMembershipCost);
+                    storedID = membershipID;
+                    int count = 1;
                     for (Object familyMember : familyMembers) {
                         // Then create the JSONObject out of the family members.
                         JSONObject members = (JSONObject) familyMember;
-                            memberID = (Long) members.get("memberID");
-                            memberName = (String) members.get("name");
-                            address = (String) members.get("address");
-                            email = (String) members.get("email");
-                            phone = (String) members.get("phone");
-                        if (Objects.equals(memberID, userInputId)) {
-                            System.out.println("Membership Type: " + membershipType);
-                            System.out.println("Membership Start Date: " + membershipStartDate);
-                            System.out.println("Membership Expire Date: " + membershipExpireDate);
-                            System.out.println("*Family Member*");
-                            System.out.println("MemberID: " + memberID);
-                            System.out.println("Name: " + memberName);
-                            System.out.println("Email: " + email);
-                            System.out.println("Phone: " + phone);
-                            System.out.println("Address: " + address);
-                            System.out.println("Family Player(s): " + familyPlayer);
-                            System.out.println("Current Tournaments: " + currentTournaments);
-                            System.out.println("Past Tournaments: " + pastTournaments);
-                            System.out.println("Upcoming Tournaments: " + upcomingTournaments + "\n");
-                        }
+                        memberID = (Long) members.get("memberID");
+                        memberName = (String) members.get("name");
+                        address = (String) members.get("address");
+                        email = (String) members.get("email");
+                        phone = (String) members.get("phone");
+                        currentTournaments = (JSONArray) members.get("currentTournaments");
+                        pastTournaments = (JSONArray) members.get("pastTournaments");
+                        upcomingTournaments = (JSONArray) members.get("upcomingTournaments");
+
+                        System.out.println("*Family Member " + count++ + "*");
+                        System.out.println("MemberID: " + memberID);
+                        System.out.println("Name: " + memberName);
+                        System.out.println("Email: " + email);
+                        System.out.println("Phone: " + phone);
+                        System.out.println("Address: " + address);
+                        System.out.println("Current Tournaments: " + currentTournaments);
+                        System.out.println("Past Tournaments: " + pastTournaments);
+                        System.out.println("Upcoming Tournaments: " + upcomingTournaments);
                     }
+                    System.out.println();
                 }
             }
-        }
-        catch(FileNotFoundException e){
-            e.printStackTrace();
-        } catch(IOException e){
-            e.printStackTrace();
-        }
-        catch(ParseException e){
+            if (storedID != Long.valueOf(Id)) {
+                System.err.println("ERROR: No member matches given ID.");
+            }
+        } catch (ParseException | IOException e) {
             e.printStackTrace();
         }
     }
 
     // Method to GET a member's JSON record by Id.
-    public static JSONObject getMemberJSONRecordById(int Id) {
+    public static JSONObject getMemberJSONRecordByMemberID(int Id) {
         JSONParser jsonParser = new JSONParser();
         try (FileReader reader = new FileReader("src/main/golf.club.json/members.json")) {
             // Reads JSON File above and then parses it to object form.
@@ -228,13 +248,7 @@ public class Read {
                     }
                 }
             }
-        }
-        catch(FileNotFoundException e){
-            e.printStackTrace();
-        } catch(IOException e){
-            e.printStackTrace();
-        }
-        catch(ParseException e){
+        } catch (IOException | ParseException e) {
             e.printStackTrace();
         }
         return null;
@@ -243,24 +257,22 @@ public class Read {
 // <=========================================/ tournaments.json Reader Start \=========================================>
 
     // Read all Tournaments
-    public static void readTournamentsJSON() {
+    public static void readAllJSONTournaments() {
 
         JSONParser jsonParser = new JSONParser();
-        try(FileReader reader = new FileReader("src/main/golf.club.json/tournaments.json")) {
+        try (FileReader reader = new FileReader("src/main/golf.club.json/tournaments.json")) {
             // Reads the JSON File above and then parses it to object form.
             Object obj = jsonParser.parse(reader);
             // To Json array.
             JSONArray tournamentArray = (JSONArray) obj;
             // Iterate over tournamentArray, one record at a time from the parseTournamentObj function.
             tournamentArray.forEach(tournament -> parseTournamentObj((JSONObject) tournament));
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (ParseException e) {
+        } catch (ParseException | IOException e) {
             e.printStackTrace();
         }
     }
+
+    // Helper Function...
     protected static void parseTournamentObj(JSONObject tournament) {
         // First get the whole JSONObject to get specified values.
         JSONObject tournamentObj = (JSONObject) tournament.get("tournament");
@@ -327,6 +339,7 @@ public class Read {
             // To Json array.
             JSONArray tournamentArray = (JSONArray) obj;
             // Iterate though the objects in the JSONArray.
+            Long storedID = null;
             for (Object objects : tournamentArray) {
                 // Then creates the JSONObject out of the objects.
                 JSONObject jsonObjects = (JSONObject) objects;
@@ -342,6 +355,8 @@ public class Read {
 
                 Long userInputId = Long.valueOf(Id);
                 if (Objects.equals(tournamentID, userInputId)) {
+                    // For error checking.
+                    storedID = tournamentID;
                     System.out.println("tournamentID: " + tournamentID);
                     System.out.println("tournamentStartDate: " + tournamentStartDate);
                     System.out.println("tournamentEndDate: " + tournamentEndDate);
@@ -378,13 +393,10 @@ public class Read {
                     }
                 }
             }
-        }
-        catch(FileNotFoundException e){
-            e.printStackTrace();
-        } catch(IOException e){
-            e.printStackTrace();
-        }
-        catch(ParseException e){
+            if (storedID != Long.valueOf(Id)) {
+                System.err.println("ERROR: No tournament matches given ID.");
+            }
+        } catch (ParseException | IOException e) {
             e.printStackTrace();
         }
     }
@@ -404,13 +416,7 @@ public class Read {
                     return jsonObjects;
                 }
             }
-        }
-        catch(FileNotFoundException e){
-            e.printStackTrace();
-        } catch(IOException e){
-            e.printStackTrace();
-        }
-        catch(ParseException e){
+        } catch (ParseException | IOException e) {
             e.printStackTrace();
         }
         return null;
@@ -419,9 +425,9 @@ public class Read {
     public static void main(String[] args) {
 //        Read.readMembersJSON();
 //        Read.readTournamentsJSON();
-//        System.out.println(Read.getMemberJSONRecordById(124));
+//        System.out.println(Read.getMemberJSONRecordById(125));
 //        System.out.println(Read.getTournamentJSONRecordById(2));
-//        Read.displayJSONMemberById(124);
-        Read.displayJSONTournamentById(3);
+        Read.displayJSONMemberByMembershipID(9);
+//        Read.displayJSONTournamentById(8);
     }
 }
