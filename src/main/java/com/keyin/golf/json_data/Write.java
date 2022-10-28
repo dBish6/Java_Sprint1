@@ -23,6 +23,9 @@ import java.io.FileWriter;
 // imports for Error handling
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Objects;
+import java.util.Date;
 
 public class Write {
 
@@ -30,27 +33,78 @@ public class Write {
     public static JSONObject createMemberObj(Members member){
 
         JSONObject objBody = new JSONObject();
+        Long membershipID = member.getMembershipID();
+        String membershipType = member.getMembershipType();
+        Date membershipStartDate = member.getMembershipStartDate();
+        Date membershipEndDate = member.getMembershipEndDate();
 
-        objBody.put("memberID",member.getId());
-//                     Missing from Members Class
-//        objBody.put("membershipType", member.getMemberType());
-        objBody.put("membershipStartDate",member.getMembershipStartDate());
-//                     Needs to be calculated using membershipDuration
-//        objBody.put("membershipExpireDate", member.getMemberExpDate());
-                  // Need to concatenate with firstName and lastName
-        objBody.put("name", (member.getFirstName() + " " + member.getLastName()));
-        objBody.put("address", member.getAddress());
-        objBody.put("email", member.getEmail());
-        objBody.put("phone", member.getPhoneNumber());
-        objBody.put("currentTournaments", member.getCurrentTournaments());
-        objBody.put("pastTournaments",member.getPastTournaments());
-        objBody.put("upcomingTournaments",member.getUpcomingTournaments());
+        objBody.put("membershipID",membershipID);
+        objBody.put("membershipType",membershipType);
+        objBody.put("membershipStartDate",membershipStartDate);
+        objBody.put("membershipExpireDate",membershipEndDate);
 
-        JSONObject memberObj = new JSONObject();
+        if(Objects.equals(membershipType, "Family Plan")) {
+            JSONArray familyMembers = new JSONArray();
+            member.personList.forEach(person -> {
+                int memberCount = member.personList.size();
+                int monthlyMembershipCost = memberCount * 100;
+                objBody.put("monthlyMembershipCost",monthlyMembershipCost);
 
-        memberObj.put("member",objBody);
+                JSONObject personObject = new JSONObject();
+                Long id = person.getId();
+                String name = person.getFirstName() + " " + person.getLastName();
+                String email = person.getEmail();
+                String phone = person.getPhoneNumber();
+                String address = person.getAddress();
+                ArrayList<String> pastTournaments = person.getPastTournaments();
+                ArrayList<String> currentTournaments = person.getCurrentTournaments();
+                ArrayList<String> upcomingTournaments = person.getUpcomingTournaments();
+                personObject.put("memberID",id);
+                personObject.put("name",name);
+                personObject.put("email",email);
+                personObject.put("phone",phone);
+                personObject.put("address",address);
+                personObject.put("currentTournaments",currentTournaments);
+                personObject.put("pastTournaments",pastTournaments);
+                personObject.put("upcomingTournaments",upcomingTournaments);
 
-        return memberObj;
+                objBody.put("familyMembers",personObject);
+            });
+        } else {
+            if(Objects.equals(membershipType, "Standard")){
+            int monthlyMembershipCost = 125;
+            objBody.put("monthlyMembershipCost",monthlyMembershipCost);
+        } else if(Objects.equals(membershipType, "Trial")){
+            int monthlyMembershipCost = 0;
+            objBody.put("monthlyMembershipCost",monthlyMembershipCost);
+        } else if(Objects.equals(membershipType, "Special Offer")){
+            int monthlyMembershipCost = 115;
+            objBody.put("monthlyMembershipCost",monthlyMembershipCost);
+        }
+            member.personList.forEach(person -> {
+
+                Long id = person.getId();
+                String name = person.getFirstName() + " " + person.getLastName();
+                String email = person.getEmail();
+                String phone = person.getPhoneNumber();
+                String address = person.getAddress();
+                ArrayList<String> pastTournaments = person.getPastTournaments();
+                ArrayList<String> currentTournaments = person.getCurrentTournaments();
+                ArrayList<String> upcomingTournaments = person.getUpcomingTournaments();
+                objBody.put("memberID", id);
+                objBody.put("name", name);
+                objBody.put("email", email);
+                objBody.put("phone", phone);
+                objBody.put("address", address);
+                objBody.put("currentTournaments", currentTournaments);
+                objBody.put("pastTournaments", pastTournaments);
+                objBody.put("upcomingTournaments", upcomingTournaments);
+            });
+        }
+        JSONObject memberObject = new JSONObject();
+        memberObject.put("member",objBody);
+
+        return memberObject;
     }
 
     public static void addToFile(JSONObject objectToAdd, String filename){
