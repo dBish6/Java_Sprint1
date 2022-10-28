@@ -288,18 +288,26 @@ public class Tournaments {
     public void updateMemberTournamentsStatus(Member members){
         System.out.println("Before Updates");
         System.out.println("Upcoming Tournaments: " + members.getUpcomingTournaments());
+        System.out.println("Current Tournaments: " + members.getCurrentTournaments());
+        System.out.println("Past Tournaments: " + members.getPastTournaments());
+        System.out.println();
+
+        // Check Tournaments in the Future List
+        updateMemberUpcomingTournaments(members);
+
+        System.out.println("In Between Updates:");
+        System.out.println("Upcoming Tournaments: " + members.getUpcomingTournaments());
         System.out.println("Current Tournaments" + members.getCurrentTournaments());
+        System.out.println("Past Tournaments: " + members.getPastTournaments());
         System.out.println();
 
         // Checking all tournaments in Current List
         updateMemberCurrentTournaments(members);
 
-        // Check Tournaments in the Future List
-        updateMemberUpcomingTournaments(members);
-
         System.out.println("After Updates");
         System.out.println("Upcoming Tournaments: " + members.getUpcomingTournaments());
         System.out.println("Current Tournaments" + members.getCurrentTournaments());
+        System.out.println("Past Tournaments: " + members.getPastTournaments());
         System.out.println();
     }
 
@@ -367,7 +375,8 @@ public class Tournaments {
     }
 
     public void updateMemberUpcomingTournaments(Member member) {
-        // Getting Members Upcoming Tournaments Array from Members Object
+
+        // Getting Members Current Tournaments Array from Members Object
         ArrayList<Long> upcomingTournamentsArray = member.getUpcomingTournaments();
 
         // Size of array for counter
@@ -385,38 +394,35 @@ public class Tournaments {
 
         while(counterForLoop < sizeOfArray){
 
-            // Getting the upcoming tourneyId
+            // Getting the current tourneyId
             tourneyId = upcomingTournamentsArray.get(counterForIndex);
 
-            // Finding the upcoming tournament and getting Start / End dates
-            upcomingTournament = tourney.getTournamentByIdForJson(tourneyId);
+            // Finding the current tournament and getting Start / End dates
+            upcomingTournament = tourney.getTournamentByIdForJson((tourneyId));
 
             // Creating Date Objects
+//            Date currentTournamentTournamentStartDate = currentTournament.getTournamentStartDate();
             Date upcomingTournamentTournamentStartDate = upcomingTournament.getTournamentStartDate();
-
             Date today = new Date();
             today.getDate();
 
-            // Checking if upcoming tournaments should now be current tournaments.
+            // Checking if current tournaments are still current.
             if(today.compareTo(upcomingTournamentTournamentStartDate) > 0){
 
                 // Creating new ArrayList to receive current tourneys ArrayList from Members
-                ArrayList<Long> updateCurrentTournament = new ArrayList<>();
-                updateCurrentTournament = member.getCurrentTournaments();
+                ArrayList<Long> updateUpcomingTournament = new ArrayList<>();
+                updateUpcomingTournament = member.getUpcomingTournaments();
 
-                // Saving tournament to variable and adding to Current Tournaments ArrayList
-                if(updateCurrentTournament.size() != 0){
-                    Long changeTournamentToCurrent = updateCurrentTournament.get(counterForIndex);
-                    ArrayList<Long> currentTournamentsToUpdate = member.getCurrentTournaments();
-                    currentTournamentsToUpdate.add(changeTournamentToCurrent);
-                    member.setPastTournaments(currentTournamentsToUpdate);
-                } else {
+                // Saving tournament to variable and adding to current Tournaments array
+                Long changeTournamentToCurrent = updateUpcomingTournament.get(counterForIndex);
 
-                }
+                ArrayList<Long> currentTournamentsToUpdate = member.getCurrentTournaments();
+                currentTournamentsToUpdate.add(changeTournamentToCurrent);
+                member.setCurrentTournaments(currentTournamentsToUpdate);
 
                 // Delete tournament from Upcoming tournaments & update Upcoming tournaments in Member Obj
-                updateCurrentTournament.remove(counterForIndex);
-                member.setCurrentTournaments(updateCurrentTournament);
+                updateUpcomingTournament.remove(counterForIndex);
+                member.setUpcomingTournaments(updateUpcomingTournament);
 
                 // Subtract one for counterForIndex
                 counterForIndex--;
@@ -426,9 +432,6 @@ public class Tournaments {
             counterForLoop++;
             counterForIndex++;
         }
-
-        System.out.println("Current Tournaments: " + member.getCurrentTournaments());
-        System.out.println("Past Tournaments: "  + member.getPastTournaments());
     }
 
 
