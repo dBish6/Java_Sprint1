@@ -19,7 +19,7 @@ public class Membership {
     private Date membershipStartDate;
     private Date membershipEndDate;
     private String membershipType;
-    public ArrayList<Member> memberList = new ArrayList<>();
+    private ArrayList<Member> memberList = new ArrayList<>();
     public void addMember(Member member){
         memberList.add(member);
     }
@@ -33,6 +33,10 @@ public class Membership {
         this.membershipStartDate = membershipStartDate;
         this.membershipEndDate = membershipEndDate;
         this.membershipType = membershipType;
+    }
+
+    public ArrayList<Member> getMemberList(){
+        return memberList;
     }
     public Long getMembershipID() {
         return membershipID;

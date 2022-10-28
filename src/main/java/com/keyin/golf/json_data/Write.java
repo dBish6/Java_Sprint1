@@ -13,6 +13,7 @@ package com.keyin.golf.json_data;
  */
 
 // imports
+import com.keyin.golf.Member;
 import com.keyin.golf.Membership;
 import com.keyin.golf.Tournaments;
 import org.json.simple.JSONArray;
@@ -45,8 +46,9 @@ public class Write {
 
         if(Objects.equals(membershipType, "Family Plan")) {
             JSONArray familyMembers = new JSONArray();
-            membership.memberList.forEach(member -> {
-                int memberCount = membership.memberList.size();
+            ArrayList<Member> memberList = membership.getMemberList();
+            memberList.forEach(member -> {
+                int memberCount = memberList.size();
                 int monthlyMembershipCost = memberCount * 100;
                 memberBody.put("monthlyMembershipCost",monthlyMembershipCost);
 
@@ -81,7 +83,8 @@ public class Write {
             int monthlyMembershipCost = 115;
             memberBody.put("monthlyMembershipCost",monthlyMembershipCost);
         }
-            membership.memberList.forEach(person -> {
+            ArrayList<Member> memberList = membership.getMemberList();
+            memberList.forEach(person -> {
 
                 Long id = person.getId();
                 String name = person.getFirstName() + " " + person.getLastName();

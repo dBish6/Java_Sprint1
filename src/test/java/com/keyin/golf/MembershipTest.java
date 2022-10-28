@@ -17,6 +17,6 @@ public class MembershipTest {
         membership.setMembershipID(23L);
         Assertions.assertEquals(expectedMembershipID, membership.getMembershipID());
         membership.addMember(mockMember);
-        Assertions.assertNotNull(membership.memberList);
+        Assertions.assertNotNull(membership.getMemberList());
     }
 }
