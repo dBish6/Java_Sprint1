@@ -3,8 +3,8 @@
     "member": {
       "membershipID": 1,
       "membershipType": "Family Plan",
-      "membershipStartDate": "Feb 18, 2022",
-      "membershipExpireDate": "Feb 18, 2023",
+      "membershipStartDate": "February 18, 2022",
+      "membershipExpireDate": "February 18, 2023",
       "monthlyMembershipCost": 200,
       "familyMembers": [
         {
@@ -103,8 +103,8 @@
       "memberID": 129,
       "membershipID": 6,
       "membershipType": "Standard",
-      "membershipStartDate": "Oct 18, 2022",
-      "membershipExpireDate": "Oct 18, 2023",
+      "membershipStartDate": "October 18, 2022",
+      "membershipExpireDate": "October 18, 2023",
       "monthlyMembershipCost": 150,
       "name": "David Bishop",
       "email": "davidbish2002@hotmail.com",
