@@ -11,7 +11,7 @@ package com.keyin.golf.json_data;
 
  */
 
-import com.keyin.golf.Members;
+import com.keyin.golf.Membership;
 import org.json.simple.JSONObject;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -24,7 +24,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 public class WriteTest {
 
     @Mock
-    private Members member;
+    private Membership member;
 
     @Test
     public void testCreateMemberObject(){
