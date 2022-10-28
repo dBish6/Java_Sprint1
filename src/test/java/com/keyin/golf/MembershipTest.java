@@ -4,21 +4,19 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
-import java.util.ArrayList;
-import java.util.List;
+
 @ExtendWith(MockitoExtension.class)
-public class MembersTest {
+public class MembershipTest {
     @Mock
-    private Person mockMember;
+    private Member mockMember;
     @Test
     public void testAddPerson(){
-        Members members = new Members();
+        Membership membership = new Membership();
         Long expectedMembershipID = 23L;
-        members.setMembershipID(23L);
-        Assertions.assertEquals(expectedMembershipID,members.getMembershipID());
-        members.addMember(mockMember);
-        Assertions.assertNotNull(members.personList);
+        membership.setMembershipID(23L);
+        Assertions.assertEquals(expectedMembershipID, membership.getMembershipID());
+        membership.addMember(mockMember);
+        Assertions.assertNotNull(membership.memberList);
     }
 }

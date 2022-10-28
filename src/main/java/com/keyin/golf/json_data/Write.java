@@ -13,7 +13,7 @@ package com.keyin.golf.json_data;
  */
 
 // imports
-import com.keyin.golf.Members;
+import com.keyin.golf.Membership;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -21,7 +21,6 @@ import org.json.simple.parser.ParseException;
 import java.io.FileReader;
 import java.io.FileWriter;
 // imports for Error handling
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Objects;
@@ -30,7 +29,7 @@ import java.util.Date;
 public class Write {
 
     // leave commented until Members Class methods required are completed
-    public static JSONObject createMemberObj(Members member){
+    public static JSONObject createMemberObj(Membership member){
 
         JSONObject objBody = new JSONObject();
         Long membershipID = member.getMembershipID();
@@ -45,8 +44,8 @@ public class Write {
 
         if(Objects.equals(membershipType, "Family Plan")) {
             JSONArray familyMembers = new JSONArray();
-            member.personList.forEach(person -> {
-                int memberCount = member.personList.size();
+            member.memberList.forEach(person -> {
+                int memberCount = member.memberList.size();
                 int monthlyMembershipCost = memberCount * 100;
                 objBody.put("monthlyMembershipCost",monthlyMembershipCost);
 
@@ -81,7 +80,7 @@ public class Write {
             int monthlyMembershipCost = 115;
             objBody.put("monthlyMembershipCost",monthlyMembershipCost);
         }
-            member.personList.forEach(person -> {
+            member.memberList.forEach(person -> {
 
                 Long id = person.getId();
                 String name = person.getFirstName() + " " + person.getLastName();

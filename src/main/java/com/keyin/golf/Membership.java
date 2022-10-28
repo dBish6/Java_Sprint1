@@ -12,23 +12,23 @@ import javax.persistence.Id;
 import java.util.ArrayList;
 import java.util.Date;
 @Entity
-public class Members {
+public class Membership {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long membershipID;
     private Date membershipStartDate;
     private Date membershipEndDate;
     private String membershipType;
-    public ArrayList<Person> personList = new ArrayList<>();
-    public void addMember(Person person){
-        personList.add(person);
+    public ArrayList<Member> memberList = new ArrayList<>();
+    public void addMember(Member member){
+        memberList.add(member);
     }
-    public Members() {
+    public Membership() {
         this.membershipStartDate = null;
         this.membershipEndDate = null;
         this.membershipType = "";
     }
-    public Members(Long membershipID, Date membershipStartDate, Date membershipEndDate,String membershipType) {
+    public Membership(Long membershipID, Date membershipStartDate, Date membershipEndDate, String membershipType) {
         this.membershipID = membershipID;
         this.membershipStartDate = membershipStartDate;
         this.membershipEndDate = membershipEndDate;

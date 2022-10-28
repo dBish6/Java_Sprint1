@@ -13,7 +13,7 @@ package com.keyin.golf;
 
 import java.util.ArrayList;
 
-public class Person {
+public class Member {
 
     private Long id;
     private String firstName;
@@ -28,14 +28,14 @@ public class Person {
 
     private ArrayList<String> upcomingTournaments;
 
-    public Person(){
+    public Member(){
         lastName = "";
         address = "";
         email = "";
         phoneNumber = "";
     }
 
-    public Person(Long id, String firstName, String lastName, String email, String address, String phoneNumber ){
+    public Member(Long id, String firstName, String lastName, String email, String address, String phoneNumber ){
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
