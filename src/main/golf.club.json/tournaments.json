@@ -54,8 +54,8 @@
   {
     "tournament": {
       "tournamentID": 3,
-      "tournamentStartDate": "Oct 20, 2022",
-      "tournamentEndDate": "Oct 24, 2022",
+      "tournamentStartDate": "October 20, 2022",
+      "tournamentEndDate": "October 24, 2022",
       "name": "A1 Greengrass",
       "location": "St.John's",
       "entryFee": 150,
@@ -83,8 +83,8 @@
   {
     "tournament": {
       "tournamentID": 4,
-      "tournamentStartDate": "Oct 26, 2022",
-      "tournamentEndDate": "Oct 31, 2022",
+      "tournamentStartDate": "October 26, 2022",
+      "tournamentEndDate": "October 31, 2022",
       "name": "Tely Tour Provincial",
       "location": "Hampton",
       "entryFee": 250,
@@ -112,8 +112,8 @@
   {
     "tournament": {
       "tournamentID": 5,
-      "tournamentStartDate": "Nov 10, 2022",
-      "tournamentEndDate": "Nov 14, 2022",
+      "tournamentStartDate": "November 10, 2022",
+      "tournamentEndDate": "November 14, 2022",
       "name": "A2 Greengrass",
       "location": "St.John's",
       "entryFee": 150,
