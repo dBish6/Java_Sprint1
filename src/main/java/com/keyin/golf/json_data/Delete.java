@@ -37,7 +37,7 @@ public class Delete {
             for (Object objects : memberArray) {
                 // Then creates the JSONObject out of the objects.
                 JSONObject jsonObjects = (JSONObject) objects;
-                // Gets the member objects, so we can get the memberID.
+                // Gets the member object, so we can get the memberID.
                 JSONObject memberObj = (JSONObject) jsonObjects.get("member");
                 Long membershipID = (Long) memberObj.get("membershipID");
                 // Converts the inputted Id to Long because membershipID is Long data type.
