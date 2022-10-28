@@ -22,11 +22,11 @@ public class Member {
     private String email;
     private String phoneNumber;
 
-    private ArrayList<String> currentTournaments;
+    private ArrayList<Long> currentTournaments;
 
-    private ArrayList<String> pastTournaments;
+    private ArrayList<Long> pastTournaments;
 
-    private ArrayList<String> upcomingTournaments;
+    private ArrayList<Long> upcomingTournaments;
 
     public Member(){
         lastName = "";
@@ -89,27 +89,27 @@ public class Member {
     public void setEmail(String email) {
         this.email = email;
     }
-    public ArrayList<String> getCurrentTournaments() {
+    public ArrayList<Long> getCurrentTournaments() {
         return currentTournaments;
     }
 
-    public void setCurrentTournaments(ArrayList<String> currentTournaments) {
+    public void setCurrentTournaments(ArrayList<Long> currentTournaments) {
         this.currentTournaments = currentTournaments;
     }
 
-    public ArrayList<String> getPastTournaments() {
+    public ArrayList<Long> getPastTournaments() {
         return pastTournaments;
     }
 
-    public void setPastTournaments(ArrayList<String> pastTournaments) {
+    public void setPastTournaments(ArrayList<Long> pastTournaments) {
         this.pastTournaments = pastTournaments;
     }
 
-    public ArrayList<String> getUpcomingTournaments() {
+    public ArrayList<Long> getUpcomingTournaments() {
         return upcomingTournaments;
     }
 
-    public void setUpcomingTournaments(ArrayList<String> upcomingTournaments) {
+    public void setUpcomingTournaments(ArrayList<Long> upcomingTournaments) {
         this.upcomingTournaments = upcomingTournaments;
     }
 }
