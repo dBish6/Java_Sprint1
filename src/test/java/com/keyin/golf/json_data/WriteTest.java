@@ -11,7 +11,9 @@ package com.keyin.golf.json_data;
 
  */
 
+import com.keyin.golf.Member;
 import com.keyin.golf.Membership;
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -20,25 +22,32 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.ArrayList;
+
 @ExtendWith(MockitoExtension.class)
 public class WriteTest {
 
     @Mock
-    private Membership member;
-
+    private Membership mockMembership;
     @Test
-    public void testCreateMemberObject(){
+    public void testCreateMembershipObject(){
 
-        long mockEntry = 127;
-        Mockito.when(member.getId()).thenReturn(mockEntry);
 
-        JSONObject testObject = Write.createMemberObj(member);
 
+        Member testMember = new Member(127L,"Bob","Marley","some.email@hotmail.com","123 Main","277-5673");
+        ArrayList<Member> memberList = new ArrayList<>();
+        memberList.add(testMember);
+
+        long mockMembershipID = 32;
+        Mockito.when(mockMembership.getMembershipID()).thenReturn(mockMembershipID);
+        Mockito.when(mockMembership.getMemberList()).thenReturn(memberList);
+
+
+        JSONObject testObject = Write.createMemberObj(mockMembership);
         JSONObject memberObj = (JSONObject) testObject.get("member");
-        Long memberID = (Long) memberObj.get("memberID");
+        Long membershipID = (Long) memberObj.get("membershipID");
 
-        Long mockID = member.getId();
+        Assertions.assertEquals(membershipID,mockMembership.getMembershipID());
 
-        Assertions.assertEquals(memberID,mockID);
     }
 }
