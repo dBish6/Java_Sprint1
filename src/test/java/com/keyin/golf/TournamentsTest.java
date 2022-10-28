@@ -3,8 +3,6 @@ package com.keyin.golf;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.text.ParseException;
@@ -17,8 +15,8 @@ import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 @ExtendWith(MockitoExtension.class)
 public class TournamentsTest {
-    @Mock
-    private Tournaments mockTournament;
+    //    @Mock
+    //    private Tournaments mockTournament;
 
     @Test
     public void testCreateNewTournament() {
@@ -46,14 +44,14 @@ public class TournamentsTest {
         Tournaments test2 = new Tournaments(456L, startDate, endDate, "PEI Fall Invitational", "Anderson Greek Golf Course", 100L, 2000L, membersInTourney);
 
         // Testing the creation of Tournament
-        Mockito.when(mockTournament.createNewTournament()).thenReturn(test1);
-        assertEquals(test1, mockTournament.createNewTournament());
-        assertNotEquals(test2, mockTournament.createNewTournament());
-
-        // Testing the get Tournament by ID
-        Mockito.when(mockTournament.getTournamentId()).thenReturn(test1.getTournamentId());
-        assertEquals(test1.getTournamentId(), mockTournament.getTournamentId());
-        assertNotEquals(test2.getTournamentId(), mockTournament.getTournamentId());
+//        Mockito.when(mockTournament.createNewTournament()).thenReturn(test1);
+//        assertEquals(test1, mockTournament.createNewTournament());
+//        assertNotEquals(test2, mockTournament.createNewTournament());
+//
+//        // Testing the get Tournament by ID
+//        Mockito.when(mockTournament.getTournamentId()).thenReturn(test1.getTournamentId());
+//        assertEquals(test1.getTournamentId(), mockTournament.getTournamentId());
+//        assertNotEquals(test2.getTournamentId(), mockTournament.getTournamentId());
     }
 
      @Test
@@ -62,20 +60,75 @@ public class TournamentsTest {
         Tournaments test1 = new Tournaments();
         Tournaments test2 = new Tournaments();
 
-        test2 = test1.getTournamentByIdForJson(1L);
+        test2 = test1.getTournamentByIdForJson(Long.valueOf(String.valueOf(1)));
 
-        Assertions.assertEquals(1L, test2.getTournamentId());
+        assertEquals(1L, test2.getTournamentId());
         Assertions.assertNotEquals(2L, test2.getTournamentId());
     }
 
-    @Mock
-    private Members mockMember;
-    private Tournaments mockTournamentsForMembers;
+    // This method checks Current tournaments for member and moves them current if they are now current
     @Test
-    public void testUpdateMemberTournamentsStatus(){
+    public void testUpdateMemberCurrentTournaments(){
 
+        // Tournaments for Member 1 at beginning of Test
+        ArrayList<Long> currentTournamentsBeginning = new ArrayList<>();
+        currentTournamentsBeginning.add(2L);
+        currentTournamentsBeginning.add(3L);
 
-        Assertions.assertEquals(new SimpleDateFormat("March 2, 2022"), mockTournamentsForMembers.getTournamentStartDate());
+        ArrayList<Long> pastTournamentsBegninning = new ArrayList<>();
+        pastTournamentsBegninning.add(1L);
+
+        // Tournaments for Member 1 at end of Test
+        ArrayList<Long> currentTournamentsEndTest = new ArrayList<>();
+        ArrayList<Long> pastTournamentsEndTest = new ArrayList<>();
+        pastTournamentsEndTest.add(1L);
+        pastTournamentsEndTest.add(2L);
+        pastTournamentsEndTest.add(3L);
+
+        // Creating person object and adding tests to Person Object
+        Member member1 = new Member(2L, "Jimmy", "Rodgers", "Jimmy1_1@hotmail.com", "19 Kingpin Dr", "8670666");
+        member1.setCurrentTournaments(currentTournamentsBeginning);
+        member1.setPastTournaments(pastTournamentsBegninning);
+
+        Tournaments tourney = new Tournaments();
+
+        Assertions.assertEquals(currentTournamentsBeginning, member1.getCurrentTournaments());
+
+        tourney.updateMemberCurrentTournaments(member1);
+
+        Assertions.assertEquals(currentTournamentsEndTest, member1.getCurrentTournaments());
+
+    }
+
+    // This method checks Upcoming tournaments for Member and moves them to Current if they are now current.
+    @Test
+    public void testMemberUpcomingTournaments(){
+        // Creating ArrayLists for what Beginning of tests
+        ArrayList<Long> currentTournamentsBeginning = new ArrayList<>();
+
+        ArrayList<Long> upcomingTournamentsBeginning = new ArrayList<>();
+        upcomingTournamentsBeginning.add(4L);
+        upcomingTournamentsBeginning.add(5L);
+
+        // Creating Array Lists for what Test should equal at end
+        ArrayList<Long> currentTournamentsEndTest = new ArrayList<>();
+        upcomingTournamentsBeginning.add(4L);
+
+        ArrayList<Long> upcomingTournamentsEndTest = new ArrayList<>();
+        currentTournamentsEndTest.add(5L);
+
+        Member member2 = new Member(2L, "Jimmy", "Rodgers", "Jimmy1_1@hotmail.com", "19 Kingpin Dr", "8670666");
+        member2.setCurrentTournaments(currentTournamentsBeginning);
+        member2.setUpcomingTournaments(upcomingTournamentsBeginning);
+
+        Tournaments tourney = new Tournaments();
+
+        Assertions.assertEquals(currentTournamentsBeginning, member2.getCurrentTournaments());
+
+        tourney.updateMemberUpcomingTournaments(member2);
+
+        Assertions.assertEquals(currentTournamentsEndTest, member2.getCurrentTournaments());
+
     }
 
      }
