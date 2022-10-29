@@ -12,44 +12,62 @@ package com.keyin.golf;
  */
 
 import java.util.ArrayList;
+import java.util.Date;
 
 public class Member {
 
-    private Long id;
+    // Instance Variables
+    private Long memberID;
     private String firstName;
     private String lastName;
-    private String address;
     private String email;
     private String phoneNumber;
+    private String address;
 
     private ArrayList<Long> currentTournaments;
-
     private ArrayList<Long> pastTournaments;
-
     private ArrayList<Long> upcomingTournaments;
 
+    // Constructors
     public Member(){
-        lastName = "";
-        address = "";
-        email = "";
-        phoneNumber = "";
+        super();
+        this.memberID = null;
+        this.firstName = null;
+        this.lastName = null;
+        this.address = null;
+        this.email = null;
+        this.phoneNumber = null;
+        this.currentTournaments = new ArrayList<Long>();
+        this.pastTournaments = new ArrayList<Long>();
+        this.upcomingTournaments = new ArrayList<Long>();
     }
 
-    public Member(Long id, String firstName, String lastName, String email, String address, String phoneNumber ){
-        this.id = id;
+    public Member(Long memberID, String firstName, String lastName, String email,  String phoneNumber, String address ) {
+        super();
+        this.memberID = memberID;
         this.firstName = firstName;
         this.lastName = lastName;
-        this.address = address;
         this.email = email;
         this.phoneNumber = phoneNumber;
+        this.address = address;
     }
 
-    public Long getId() {
-        return id;
+    public Member(Long memberID, String firstName, String lastName, String email,  String phoneNumber, String address ) {
+        this.memberID = memberID;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.phoneNumber = phoneNumber;
+        this.address = address;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    // Getters and Setters
+    public Long getMemberID() {
+        return memberID;
+    }
+
+    public void setMemberID(Long memberID) {
+        this.memberID = memberID;
     }
 
     public String getFirstName() {
@@ -83,6 +101,7 @@ public class Member {
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
     }
+
     public String getEmail() {
         return email;
     }
@@ -111,5 +130,25 @@ public class Member {
 
     public void setUpcomingTournaments(ArrayList<Long> upcomingTournaments) {
         this.upcomingTournaments = upcomingTournaments;
+    }
+
+    // Custom Methods
+    @Override
+    public String toString() {
+        return "Member: {" +
+                "memberId=" + this.memberID +
+                ", name=" + this.firstName + " " + this.lastName +
+                ", email=" + this.email +
+                ", phone='" + this.phoneNumber +
+                ", address=" + this.address +
+                ", currentTournaments=" + this.currentTournaments +
+                ", pastTournaments=" + this.pastTournaments +
+                ", upcomingTournaments=" + this.upcomingTournaments +
+                "}";
+    }
+
+    public static void main(String[] args) {
+        Member m1 = new Member();
+        System.out.println(m1);
     }
 }
