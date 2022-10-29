@@ -9,6 +9,7 @@ package com.keyin.golf;
 
  */
 
+import com.keyin.golf.exceptions.InvalidDateTimeException;
 import com.keyin.golf.json_data.Read;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -166,7 +167,7 @@ public class Tournaments {
 
     // Custom Methods
     // Gathering user input & creating a new Tournament to be written to JSON
-    public Tournaments createNewTournament(){
+    public Tournaments createNewTournament() throws InvalidDateTimeException {
         // Scanner to receiver user input
         Scanner userInput = new Scanner(System.in);
 
@@ -186,7 +187,7 @@ public class Tournaments {
         try {
             tourneyStartDate = new SimpleDateFormat("MMMMM dd, yyyy").parse(tourneyStartDateString);
         } catch (ParseException e) {
-            throw new RuntimeException(e);
+            throw new InvalidDateTimeException("Tournament Start Date has an invalid date format.");
         }
 
         userInput.nextLine();
@@ -196,7 +197,7 @@ public class Tournaments {
         try {
             tourneyEndDate = new SimpleDateFormat("MMMMM dd, yyyy").parse(tourneyEndDateString);
         } catch (ParseException e) {
-            throw new RuntimeException(e);
+            throw new InvalidDateTimeException("Tournament End date has an invalid date format.");
         }
 
         userInput.nextLine();
@@ -235,7 +236,7 @@ public class Tournaments {
     }
 
     // Searching for tournament by tournamentId in tournaments.json
-    public Tournaments getTournamentByIdForJson(Long tournamentId){
+    public Tournaments getTournamentByIdForJson(Long tournamentId) throws InvalidDateTimeException {
         // Date formatter
         SimpleDateFormat dateFormatter = new SimpleDateFormat("MMMMM dd, yyyy");
 
@@ -256,7 +257,7 @@ public class Tournaments {
         try {
             tournamentStartDate = dateFormatter.parse(tournamentStartDateString);
         } catch (ParseException e) {
-            throw new RuntimeException(e);
+            throw new InvalidDateTimeException("Tournament Start Date is not in a valid format.");
         }
 
         // Updating end date to a date object
@@ -265,7 +266,7 @@ public class Tournaments {
         try {
             tournamentEndDate = dateFormatter.parse(tournamentEndDateString);
         } catch (ParseException e) {
-            throw new RuntimeException(e);
+            throw new InvalidDateTimeException("Tournament End Date is not in a valid format.");
         }
 
         String tournamentName = (String) tournamentObj.get("name");
@@ -295,7 +296,7 @@ public class Tournaments {
     }
 
     // Runs the methods updateMemberCurrentTournaments & updateMemberUpcomingTournaments to update their Tournament Statuses
-    public void updateMemberTournamentsStatus(Member members){
+    public void updateMemberTournamentsStatus(Member members) throws InvalidDateTimeException {
         // Check Tournaments in the Future List
         updateMemberUpcomingTournaments(members);
 
@@ -304,7 +305,7 @@ public class Tournaments {
     }
 
     // Checks the dates of passed in members Current Tournaments & changes to pastTournaments if no longer current
-    public void updateMemberCurrentTournaments(Member member) {
+    public void updateMemberCurrentTournaments(Member member) throws InvalidDateTimeException {
 
         // Getting Members Current Tournaments Array from Members Object
         ArrayList<Long> currentTournamentsArray = member.getCurrentTournaments();
@@ -328,7 +329,11 @@ public class Tournaments {
             tourneyId = currentTournamentsArray.get(counterForIndex);
 
             // Finding the current tournament and getting Start / End dates
-            currentTournament = tourney.getTournamentByIdForJson((tourneyId));
+            try {
+                currentTournament = tourney.getTournamentByIdForJson((tourneyId));
+            } catch (InvalidDateTimeException e) {
+                throw new InvalidDateTimeException("Tournament found doesn't have a correct Start or End Date.");
+            }
 
             // Creating Date Objects
 //            Date currentTournamentTournamentStartDate = currentTournament.getTournamentStartDate();
@@ -368,7 +373,7 @@ public class Tournaments {
     }
 
     // Checks the dates of passed in members Upcoming Tournaments and changes to currentTournaments if no longer upcoming
-    public void updateMemberUpcomingTournaments(Member member) {
+    public void updateMemberUpcomingTournaments(Member member) throws InvalidDateTimeException {
 
         // Getting Members Current Tournaments Array from Members Object
         ArrayList<Long> upcomingTournamentsArray = member.getUpcomingTournaments();
@@ -392,7 +397,11 @@ public class Tournaments {
             tourneyId = upcomingTournamentsArray.get(counterForIndex);
 
             // Finding the current tournament and getting Start / End dates
-            upcomingTournament = tourney.getTournamentByIdForJson((tourneyId));
+            try {
+                upcomingTournament = tourney.getTournamentByIdForJson((tourneyId));
+            } catch (InvalidDateTimeException e) {
+                throw new InvalidDateTimeException("Requested Tournament ID has an error with Start or End Date.");
+            }
 
             // Creating Date Objects
 //            Date currentTournamentTournamentStartDate = currentTournament.getTournamentStartDate();

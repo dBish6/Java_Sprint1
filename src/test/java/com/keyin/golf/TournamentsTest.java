@@ -1,5 +1,6 @@
 package com.keyin.golf;
 
+import com.keyin.golf.exceptions.InvalidDateTimeException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -57,7 +58,7 @@ public class TournamentsTest {
     }
 
     @Test
-    public void testGetTournamentById() throws ParseException {
+    public void testGetTournamentById() throws InvalidDateTimeException {
         // Using tournaments.json for testing
         Tournaments test1 = new Tournaments();
         Tournaments test2 = new Tournaments();
@@ -70,7 +71,7 @@ public class TournamentsTest {
 
     // This method checks Current tournaments for member and moves them current if they are now current
     @Test
-    public void testUpdateMemberCurrentTournaments() {
+    public void testUpdateMemberCurrentTournaments() throws InvalidDateTimeException {
 
         // Tournaments for Member 1 at beginning of Test
         ArrayList<Long> currentTournamentsBeginning = new ArrayList<>();
@@ -106,7 +107,7 @@ public class TournamentsTest {
 
     // This method checks Upcoming tournaments for Member and moves them to Current if they are now current.
     @Test
-    public void testMemberUpcomingTournaments() {
+    public void testMemberUpcomingTournaments() throws InvalidDateTimeException {
         // Creating ArrayLists for what Beginning of tests
         ArrayList<Long> currentTournamentsBeginning = new ArrayList<>();
 
@@ -142,7 +143,7 @@ public class TournamentsTest {
     }
 
     @Test
-    public void testUpdateMemberTournamentsStatus() {
+    public void testUpdateMemberTournamentsStatus() throws InvalidDateTimeException {
         // Creating ArrayLists for what Beginning of tests
         ArrayList<Long> currentTournamentsBeginning = new ArrayList<>();
         currentTournamentsBeginning.add(2L);
