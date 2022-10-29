@@ -60,5 +60,4 @@ public class MembershipTest {
         Assertions.assertEquals(new Date(2022, 11, 28), testMembership.getMembershipEndDate());
         Assertions.assertEquals("Premium", testMembership.getMembershipType());
     }
-
 }
