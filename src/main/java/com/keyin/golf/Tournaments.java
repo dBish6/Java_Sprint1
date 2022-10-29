@@ -10,16 +10,15 @@ package com.keyin.golf;
  */
 
 import com.keyin.golf.json_data.Read;
-
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
-
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
 public class Tournaments {
     // Instance Variables
+
     private Long tournamentId;
     private Date tournamentStartDate;
     private Date tournamentEndDate;
@@ -28,7 +27,7 @@ public class Tournaments {
     private Long tournamentEntryFee;
     private Long tournamentCashPrize;
     private ArrayList<Long> membersParticipating = new ArrayList<Long>();
-    private ArrayList<Long> finalStandings;
+    private ArrayList<String> finalStandings;
 
     // Constructors
     public Tournaments(){
@@ -40,9 +39,10 @@ public class Tournaments {
         this.tournamentEntryFee = null;
         this.tournamentCashPrize = null;
         this.membersParticipating = new ArrayList<Long>();
-        this.finalStandings = new ArrayList<Long>();
+        this.finalStandings = new ArrayList<String>();
     }
 
+    // All inputs except final standings as parameters
     public Tournaments(Long tournamentId, Date tournamentStartDate, Date tournamentEndDate, String tournamentName, String tournamentLocation, Long tournamentEntryFee, Long tournamentCashPrize, ArrayList membersParticipating) {
         this.tournamentId = tournamentId;
         this.tournamentStartDate = tournamentStartDate;
@@ -52,7 +52,20 @@ public class Tournaments {
         this.tournamentEntryFee = tournamentEntryFee;
         this.tournamentCashPrize = tournamentCashPrize;
         this.membersParticipating = membersParticipating;
-        this.finalStandings = new ArrayList<Long>();
+        this.finalStandings = new ArrayList<String>();
+    }
+
+    // Constructor with all inputs as parameters
+    public Tournaments(Long tournamentId, Date tournamentStartDate, Date tournamentEndDate, String tournamentName, String tournamentLocation, Long tournamentEntryFee, Long tournamentCashPrize, ArrayList membersParticipating, ArrayList finalStandings){
+        this.tournamentId = tournamentId;
+        this.tournamentStartDate = tournamentStartDate;
+        this.tournamentEndDate = tournamentEndDate;
+        this.tournamentName = tournamentName;
+        this.tournamentLocation = tournamentLocation;
+        this.tournamentEntryFee = tournamentEntryFee;
+        this.tournamentCashPrize = tournamentCashPrize;
+        this.membersParticipating = membersParticipating;
+        this.finalStandings = finalStandings;
     }
 
     public Tournaments(Tournaments tournament){
@@ -64,6 +77,7 @@ public class Tournaments {
         this.tournamentEntryFee = tournament.tournamentEntryFee;
         this.tournamentCashPrize = tournament.tournamentCashPrize;
         this.membersParticipating = tournament.membersParticipating;
+        this.finalStandings = tournament.finalStandings;
     }
 
     // Getters / Setters
@@ -129,11 +143,11 @@ public class Tournaments {
         this.membersParticipating = membersParticipating;
     }
 
-    public ArrayList<Long> getFinalStandings() {
+    public ArrayList<String> getFinalStandings() {
         return finalStandings;
     }
 
-    public void setFinalStandings(ArrayList<Long> finalStandings) {
+    public void setFinalStandings(ArrayList<String> finalStandings) {
         this.finalStandings = finalStandings;
     }
 
@@ -220,7 +234,7 @@ public class Tournaments {
         return newTourney;
     }
 
-    // Changed to private for now, will re-assess needs in Thursday morning's meeting
+    // Searching for tournament by tournamentId in tournaments.json
     public Tournaments getTournamentByIdForJson(Long tournamentId){
         // Date formatter
         SimpleDateFormat dateFormatter = new SimpleDateFormat("MMMMM dd, yyyy");
@@ -280,37 +294,16 @@ public class Tournaments {
         return membersTournament;
     }
 
-    // To do if Not updating Scores here
-    // Create Tournament Object
-    // Find All Members in the Tournament
-    // Update this Tournament eg(Current to Past / Future to Current) by dates
-
+    // Runs the methods updateMemberCurrentTournaments & updateMemberUpcomingTournaments to update their Tournament Statuses
     public void updateMemberTournamentsStatus(Member members){
-        System.out.println("Before Updates");
-        System.out.println("Upcoming Tournaments: " + members.getUpcomingTournaments());
-        System.out.println("Current Tournaments: " + members.getCurrentTournaments());
-        System.out.println("Past Tournaments: " + members.getPastTournaments());
-        System.out.println();
-
         // Check Tournaments in the Future List
         updateMemberUpcomingTournaments(members);
 
-        System.out.println("In Between Updates:");
-        System.out.println("Upcoming Tournaments: " + members.getUpcomingTournaments());
-        System.out.println("Current Tournaments" + members.getCurrentTournaments());
-        System.out.println("Past Tournaments: " + members.getPastTournaments());
-        System.out.println();
-
         // Checking all tournaments in Current List
         updateMemberCurrentTournaments(members);
-
-        System.out.println("After Updates");
-        System.out.println("Upcoming Tournaments: " + members.getUpcomingTournaments());
-        System.out.println("Current Tournaments" + members.getCurrentTournaments());
-        System.out.println("Past Tournaments: " + members.getPastTournaments());
-        System.out.println();
     }
 
+    // Checks the dates of passed in members Current Tournaments & changes to pastTournaments if no longer current
     public void updateMemberCurrentTournaments(Member member) {
 
         // Getting Members Current Tournaments Array from Members Object
@@ -374,6 +367,7 @@ public class Tournaments {
 //        System.out.println("Past Tournaments: "  + members.getPastTournaments());
     }
 
+    // Checks the dates of passed in members Upcoming Tournaments and changes to currentTournaments if no longer upcoming
     public void updateMemberUpcomingTournaments(Member member) {
 
         // Getting Members Current Tournaments Array from Members Object
@@ -437,43 +431,6 @@ public class Tournaments {
 
     public static void main(String[] args) throws Exception{
 
-//        // Creating ArrayLists for what Beginning of tests
-//        ArrayList<String> currentTournamentsBeginning = new ArrayList<>();
-//
-//        ArrayList<String> upcomingTournamentsBeginning = new ArrayList<>();
-//        upcomingTournamentsBeginning.add("5");
-//
-//        // Creating Array Lists for what Test should equal at end
-//        ArrayList<String> currentTournamentsEndTest = new ArrayList<>();
-//        currentTournamentsEndTest.add("5");
-//
-//        ArrayList<String> upcomingTournamentsEndTest = new ArrayList<>();
-//
-//        Member member1 = new Member(2L, "Jimmy", "Rodgers", "Jimmy1_1@hotmail.com", "19 Kingpin Dr", "8670666");
-//        member1.setCurrentTournaments(currentTournamentsBeginning);
-//        member1.setPastTournaments(upcomingTournamentsBeginning);
-//
-//        Tournaments tourney = new Tournaments();
-//
-//        System.out.println("Test 1 - Currents");
-//        System.out.println("Expected: " + currentTournamentsBeginning);
-//        System.out.println("Actual: " + member1.getCurrentTournaments());
-//        System.out.println("Test 1 - Upcoming");
-//        System.out.println("Expected: " + upcomingTournamentsBeginning);
-//        System.out.println("Actual: " + member1.getUpcomingTournaments());
-//
-////        Assertions.assertEquals(currentTournamentsBeginning, member1.getCurrentTournaments());
-//
-//        tourney.updateMemberCurrentTournaments(member1);
-//        System.out.println();
-//
-////        Assertions.assertEquals(currentTournamentsEndTest, member1.getCurrentTournaments());
-//        System.out.println("Test 2 - Currents");
-//        System.out.println("Expected: " + currentTournamentsEndTest);
-//        System.out.println("Actual: " + member1.getCurrentTournaments());
-//        System.out.println("Test 2 - End");
-//        System.out.println("Expected: " + currentTournamentsEndTest);
-//        System.out.println("Actual: " + member1.getUpcomingTournaments());
 
     }
 
