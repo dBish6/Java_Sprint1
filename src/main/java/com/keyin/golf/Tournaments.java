@@ -367,9 +367,6 @@ public class Tournaments {
             counterForLoop++;
             counterForIndex++;
         }
-
-//        System.out.println("Current Tournaments: " + members.getCurrentTournaments());
-//        System.out.println("Past Tournaments: "  + members.getPastTournaments());
     }
 
     // Checks the dates of passed in members Upcoming Tournaments and changes to currentTournaments if no longer upcoming
@@ -435,6 +432,67 @@ public class Tournaments {
             counterForLoop++;
             counterForIndex++;
         }
+    }
+
+    public Member getMemberFromJsonToUpdateTournaments(int userInputedMemberId){
+
+        JSONObject jsonObj = Read.getMemberJSONRecordByMemberID(userInputedMemberId);
+
+        if(jsonObj != null){
+            JSONObject membershipObj = (JSONObject) jsonObj.get("member");
+            String membershipType = (String) membershipObj.get("membershipType");
+
+            // Creating Member Object
+            JSONObject memberObj = new JSONObject();
+
+
+            if(membershipType.equals("Family Plan")){
+                // Finding the correct member id
+                JSONArray familyMembers = (JSONArray) membershipObj.get("familyMembers");
+
+                for(Object familyMember : familyMembers){
+                    JSONObject members = (JSONObject) familyMember;
+                    Long memberId = null;
+                    memberId = (Long) members.get("memberID");
+
+                    if(memberId.equals((Long.valueOf(userInputedMemberId)))){
+                        memberObj = (JSONObject) familyMember;
+//                    System.out.println(memberObj);
+                        break;
+                    }
+                }
+            } else {
+                // This member is not Family Plan Member
+                memberObj = (JSONObject) jsonObj.get("member");
+//            System.out.println(memberObj);
+            }
+
+            // Create the Member Object
+            Member foundMember = new Member();
+            foundMember.setMemberID((Long) memberObj.get("memberID"));
+            foundMember.setName((String) memberObj.get("name"));
+            foundMember.setEmail((String) memberObj.get("email"));
+            foundMember.setAddress((String) memberObj.get("address"));
+            foundMember.setCurrentTournaments((ArrayList<Long>) memberObj.get("currentTournaments"));
+            foundMember.setPastTournaments((ArrayList<Long>) memberObj.get("pastTournaments"));
+            foundMember.setUpcomingTournaments((ArrayList<Long>) memberObj.get("upcomingTournaments"));
+
+            System.out.println(foundMember);
+
+            return foundMember;
+        } else {
+            System.out.println("No Member found with that Member ID");
+
+            return null;
+        }
+    }
+
+    private static int getUserInputedMemberId() {
+        Scanner userInput = new Scanner(System.in);
+
+        System.out.println("Enter the memberId that you want to Update Tournament Status for: ");
+        int userInputedMemberId = userInput.nextInt();
+        return userInputedMemberId;
     }
 
 
