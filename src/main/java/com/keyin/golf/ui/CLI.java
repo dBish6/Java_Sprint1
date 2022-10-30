@@ -55,7 +55,7 @@ public class CLI {
             System.out.println(TEXT_GREEN + "\t8. " + TEXT_YELLOW + "Add/Edit a Value to Tournaments");
             System.out.println(TEXT_GREEN + "\t9. " + TEXT_YELLOW + "Delete a Member Record");
             System.out.println(TEXT_GREEN + "\t10. " + TEXT_YELLOW + "Delete a Tournament Record");
-            System.out.println(TEXT_GREEN + "\t11. " + TEXT_YELLOW + "Update a Members Tournament Statuses");
+            System.out.println(TEXT_GREEN + "\t11. " + TEXT_YELLOW + "Update a Members Tournament Status");
             System.out.println(TEXT_GREEN + "\t- " + TEXT_YELLOW +  "\"q\" to Quit");
             System.out.println(TEXT_GREEN + "\n\tEnter your desired choice below:" + TEXT_RESET);
             switch (input.next()) {
