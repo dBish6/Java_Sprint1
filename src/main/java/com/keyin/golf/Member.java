@@ -1,7 +1,7 @@
 package com.keyin.golf;
 
-/* Person.java
-   Class for Person Object
+/* Member.java
+   Class for Member Object
    set/get personal details
    set/get tournament information
 
@@ -12,61 +12,65 @@ package com.keyin.golf;
  */
 
 import java.util.ArrayList;
+import java.util.Date;
 
 public class Member {
 
-    private Long id;
-    private String firstName;
-    private String lastName;
-    private String address;
+    // Instance Variables
+    private Long memberID;
+    private String name;
     private String email;
     private String phoneNumber;
+    private String address;
 
     private ArrayList<Long> currentTournaments;
-
     private ArrayList<Long> pastTournaments;
-
     private ArrayList<Long> upcomingTournaments;
 
+    // Constructors
     public Member(){
-        lastName = "";
-        address = "";
-        email = "";
-        phoneNumber = "";
+        this.memberID = null;
+        this.name = null;
+        this.address = null;
+        this.email = null;
+        this.phoneNumber = null;
+        this.currentTournaments = new ArrayList<Long>();
+        this.pastTournaments = new ArrayList<Long>();
+        this.upcomingTournaments = new ArrayList<Long>();
     }
 
-    public Member(Long id, String firstName, String lastName, String email, String address, String phoneNumber ){
-        this.id = id;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.address = address;
+    public Member(Long memberID, String name, String email,  String phoneNumber, String address ) {
+        this.memberID = memberID;
+        this.name = name;
         this.email = email;
         this.phoneNumber = phoneNumber;
+        this.address = address;
     }
 
-    public Long getId() {
-        return id;
+    // Getters and Setters
+    public Long getMemberID() {
+        return memberID;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setMemberID(Long memberID) {
+        this.memberID = memberID;
     }
 
-    public String getFirstName() {
-        return firstName;
+    public String getName() {
+        return name;
     }
 
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
+    public void setName(String fullName) {
+        this.name = fullName;
     }
 
-    public String getLastName() {
-        return lastName;
-    }
+//    public String getLastName() {
+//        return lastName;
+//    }
 
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
+//    public void setLastName(String lastName) {
+//        this.lastName = lastName;
+//    }
 
     public String getAddress() {
         return address;
@@ -83,6 +87,7 @@ public class Member {
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
     }
+
     public String getEmail() {
         return email;
     }
@@ -111,5 +116,25 @@ public class Member {
 
     public void setUpcomingTournaments(ArrayList<Long> upcomingTournaments) {
         this.upcomingTournaments = upcomingTournaments;
+    }
+
+    // Custom Methods
+    @Override
+    public String toString() {
+        return "Member: {" +
+                "memberId=" + this.memberID +
+                ", name=" + this.name +
+                ", email=" + this.email +
+                ", phone='" + this.phoneNumber +
+                ", address=" + this.address +
+                ", currentTournaments=" + this.currentTournaments +
+                ", pastTournaments=" + this.pastTournaments +
+                ", upcomingTournaments=" + this.upcomingTournaments +
+                "}";
+    }
+
+    public static void main(String[] args) {
+        Member m1 = new Member();
+        System.out.println(m1);
     }
 }

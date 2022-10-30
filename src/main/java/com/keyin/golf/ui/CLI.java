@@ -10,8 +10,12 @@ package com.keyin.golf.ui;
 
  */
 
+import com.keyin.golf.Member;
+import com.keyin.golf.Membership;
+import com.keyin.golf.json_data.Add;
 import com.keyin.golf.json_data.Delete;
 import com.keyin.golf.json_data.Read;
+import com.keyin.golf.json_data.Write;
 
 import java.util.Scanner;
 
@@ -44,10 +48,10 @@ public class CLI {
             System.out.println(TEXT_GREEN + "\t2. " + TEXT_YELLOW + "Display Tournaments");
             System.out.println(TEXT_GREEN + "\t3. " + TEXT_YELLOW + "Display a Specific Member");
             System.out.println(TEXT_GREEN + "\t4. " + TEXT_YELLOW + "Display a Specific Tournament");
-            System.out.println(TEXT_GREEN + "\t5. " + TEXT_YELLOW + "Create New Member");
+            System.out.println(TEXT_GREEN + "\t5. " + TEXT_YELLOW + "Create New Member/Membership");
             System.out.println(TEXT_GREEN + "\t6. " + TEXT_YELLOW + "Create New Tournament");
-            System.out.println(TEXT_GREEN + "\t7. " + TEXT_YELLOW + "Add a Value to Members");
-            System.out.println(TEXT_GREEN + "\t8. " + TEXT_YELLOW + "Add a Value to Tournaments");
+            System.out.println(TEXT_GREEN + "\t7. " + TEXT_YELLOW + "Add/Edit a Value to Members");
+            System.out.println(TEXT_GREEN + "\t8. " + TEXT_YELLOW + "Add/Edit a Value to Tournaments");
             System.out.println(TEXT_GREEN + "\t9. " + TEXT_YELLOW + "Delete a Member Record");
             System.out.println(TEXT_GREEN + "\t10. " + TEXT_YELLOW + "Delete a Tournament Record");
             System.out.println(TEXT_GREEN + "\t- " + TEXT_YELLOW +  "\"q\" to Quit");
@@ -62,7 +66,7 @@ public class CLI {
                     Read.readAllJSONTournaments();
                     break;
                 case "3":
-                    System.out.println(TEXT_YELLOW + "\n*Members*");
+                    System.out.println(TEXT_YELLOW + "\n*Memberships/Member*");
                     System.out.println(TEXT_GREEN + "Enter the membershipID for the record you wish to display:"
                             + TEXT_RESET);
                     int userInputId1 = input.nextInt();
@@ -79,10 +83,34 @@ public class CLI {
                     break;
                 case "5":
                     System.out.println(TEXT_YELLOW + "\n*Members*");
-                    System.out.println(TEXT_GREEN + "Enter the <whatever> for the member you wish to create:"
+                    System.out.println(TEXT_GREEN + """
+                            Enter choice:
+                                1. Add a Member to an existing Membership
+                                2. Create Member and Membership
+                            """
                             + TEXT_RESET);
-                    int userInputId3 = input.nextInt();
+                    int choice = 0;
+                    while(choice == 0) {
+                        int userInputId3 = input.nextInt();
+                        if(userInputId3 == 1){
+                            choice = 1;
+                        } else if (userInputId3 == 2) {
+                            choice = 2;
+                        }else{
+                            System.err.println("Invalid Entry, Please Try Again");
+                        }
+                    }
                     System.out.println();
+                    if(choice == 1){
+                        System.out.println("Enter Membership ID to add member");
+                        Long membershipID = input.nextLong();
+                        Member newMember = Membership.createNewMember();
+                        Write writer = new Write();
+                        writer.addMemberToMembership(newMember,membershipID);
+                    }else{
+                        Member newMember = Membership.createNewMember();
+                        Membership.createNewMembership(newMember);
+                    }
                     break;
                 case "6":
                     System.out.println(TEXT_YELLOW + "\n*Tournaments*");
@@ -93,11 +121,15 @@ public class CLI {
                     break;
                 case "7":
                     System.out.println(TEXT_YELLOW + "\n*Members*");
-                    System.out.println(TEXT_GREEN + "Enter the ID, key and value you intend to change:"
+                    System.out.println(TEXT_GREEN + "Enter Member ID, field to add/edit and value to set:"
                             + TEXT_RESET);
+                    System.out.println("Enter Member ID: ");
                     int userInputId5 = input.nextInt();
+                    System.out.println("Enter field to Add/Change (name,email,phone, etc.): ");
                     String userInputKey1 = input.next();
+                    System.out.println("Enter value to be set to the field: ");
                     String userInputValue1 = input.next();
+                    Add.setMemberDetailValue(userInputId5, userInputKey1,userInputValue1);
                     break;
                 case "8":
                     System.out.println(TEXT_YELLOW + "\n*Tournaments*");
@@ -109,7 +141,7 @@ public class CLI {
                     break;
                 case "9":
                     System.out.println(TEXT_YELLOW + "\n*Members*");
-                    System.out.println(TEXT_GREEN + "Enter the memberID for the record you wish to delete:"
+                    System.out.println(TEXT_GREEN + "Enter the membershipID for the record you wish to delete:"
                             + TEXT_RESET);
                     int userInputId7 = input.nextInt();
                     System.out.println(TEXT_GREEN + "\nDeleting...");

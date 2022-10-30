@@ -29,15 +29,107 @@ import java.util.Objects;
 import java.util.Date;
 
 public class Write {
+    public JSONObject createMemberObj(Member member){
+        Long memberID = member.getMemberID();
+        String name = member.getName();
+        String email = member.getEmail();
+        String phone = member.getPhoneNumber();
+        String address = member.getAddress();
+        ArrayList<Long> pastTournaments = member.getPastTournaments();
+        ArrayList<Long> currentTournaments = member.getCurrentTournaments();
+        ArrayList<Long> upcomingTournaments = member.getUpcomingTournaments();
 
-    // leave commented until Members Class methods required are completed
-    public static JSONObject createMemberObj(Membership membership){
+        JSONObject memberObject = new JSONObject();
+        memberObject.put("memberID",memberID);
+        memberObject.put("name",name);
+        memberObject.put("email",email);
+        memberObject.put("phone",phone);
+        memberObject.put("address",address);
+        memberObject.put("currentTournaments",currentTournaments);
+        memberObject.put("pastTournaments",pastTournaments);
+        memberObject.put("upcomingTournaments",upcomingTournaments);
+
+        return memberObject;
+    }
+
+    public void addMemberToMembership(Member memberToAdd, Long membershipID){
+
+        JSONParser jsonParser = new JSONParser();
+        try(FileReader reader = new FileReader("src/main/golf.club.json/members.json")) {
+            // Reads JSON File above and then parses it to object form.
+            Object obj = jsonParser.parse(reader);
+            // To Json array.
+            JSONArray memberList = (JSONArray) obj;
+
+            JSONObject newMember = new JSONObject();
+            newMember.put("memberID",memberToAdd.getMemberID());
+            newMember.put("name",memberToAdd.getName());
+            newMember.put("email",memberToAdd.getEmail());
+            newMember.put("phone",memberToAdd.getPhoneNumber());
+            newMember.put("address",memberToAdd.getAddress());
+            newMember.put("currentTournaments",memberToAdd.getCurrentTournaments());
+            newMember.put("pastTournaments",memberToAdd.getPastTournaments());
+            newMember.put("upcomingTournaments",memberToAdd.getUpcomingTournaments());
+
+            memberList.forEach(member->{
+
+                JSONObject memberObject = (JSONObject) member;
+                if(memberObject.get("membershipID") == membershipID) {
+                    if (memberObject.get("membershipType") != "Family Plan") {
+                        memberObject.put("membershipType", "Family Plan");
+                        JSONObject firstMember = new JSONObject();
+                        firstMember.put("memberID", memberObject.get("memberID"));
+                        firstMember.put("name", memberObject.get("name"));
+                        firstMember.put("email", memberObject.get("email"));
+                        firstMember.put("phone", memberObject.get("phone"));
+                        firstMember.put("address", memberObject.get("address"));
+                        firstMember.put("currentTournaments", memberObject.get("currentTournaments"));
+                        firstMember.put("pastTournaments", memberObject.get("pastTournaments"));
+                        firstMember.put("upcomingTournaments", memberObject.get("upcomingTournaments"));
+
+                        memberObject.remove("memberID");
+                        memberObject.remove("name");
+                        memberObject.remove("email");
+                        memberObject.remove("phone");
+                        memberObject.remove("address");
+                        memberObject.remove("currentTournaments");
+                        memberObject.remove("pastTournaments");
+                        memberObject.remove("upcomingTournaments");
+
+                        JSONArray familyMembers = new JSONArray();
+                        familyMembers.add(firstMember);
+                        familyMembers.add(newMember);
+                        memberObject.put("familyMembers", familyMembers);
+                        memberObject.put("monthlyMembershipCost",200L);
+
+                    } else{
+                        JSONArray familyMembers = (JSONArray) memberObject.get("familyMembers");
+                        familyMembers.add(newMember);
+                        int memberCount = familyMembers.size();
+                        int newMembershipCost = memberCount * 100;
+                        memberObject.put("monthlyMembershipCost",newMembershipCost);
+                    }
+                }
+            });
+
+            try(FileWriter writer = new FileWriter("src/main/golf.club.json/members.json")){
+                writer.write(memberList.toJSONString());
+            }
+
+        }  catch (IOException | ParseException e) {
+            e.printStackTrace();
+        }
+
+
+
+    }
+    public JSONObject createMembershipObj(Membership membership){
 
         JSONObject memberBody = new JSONObject();
         Long membershipID = membership.getMembershipID();
         String membershipType = membership.getMembershipType();
         Date membershipStartDate = membership.getMembershipStartDate();
-        Date membershipEndDate = membership.getMembershipEndDate();
+        Date membershipEndDate = membership.getMembershipExpireDate();
 
         memberBody.put("membershipID",membershipID);
         memberBody.put("membershipType",membershipType);
@@ -45,7 +137,6 @@ public class Write {
         memberBody.put("membershipExpireDate",membershipEndDate);
 
         if(Objects.equals(membershipType, "Family Plan")) {
-            JSONArray familyMembers = new JSONArray();
             ArrayList<Member> memberList = membership.getMemberList();
             memberList.forEach(member -> {
                 int memberCount = memberList.size();
@@ -53,8 +144,8 @@ public class Write {
                 memberBody.put("monthlyMembershipCost",monthlyMembershipCost);
 
                 JSONObject memberObject = new JSONObject();
-                Long id = member.getId();
-                String name = member.getFirstName() + " " + member.getLastName();
+                Long id = member.getMemberID();
+                String name = member.getName();
                 String email = member.getEmail();
                 String phone = member.getPhoneNumber();
                 String address = member.getAddress();
@@ -84,16 +175,16 @@ public class Write {
             memberBody.put("monthlyMembershipCost",monthlyMembershipCost);
         }
             ArrayList<Member> memberList = membership.getMemberList();
-            memberList.forEach(person -> {
+            memberList.forEach(member -> {
 
-                Long id = person.getId();
-                String name = person.getFirstName() + " " + person.getLastName();
-                String email = person.getEmail();
-                String phone = person.getPhoneNumber();
-                String address = person.getAddress();
-                ArrayList<Long> pastTournaments = person.getPastTournaments();
-                ArrayList<Long> currentTournaments = person.getCurrentTournaments();
-                ArrayList<Long> upcomingTournaments = person.getUpcomingTournaments();
+                Long id = member.getMemberID();
+                String name = member.getName();
+                String email = member.getEmail();
+                String phone = member.getPhoneNumber();
+                String address = member.getAddress();
+                ArrayList<Long> pastTournaments = member.getPastTournaments();
+                ArrayList<Long> currentTournaments = member.getCurrentTournaments();
+                ArrayList<Long> upcomingTournaments = member.getUpcomingTournaments();
                 memberBody.put("memberID", id);
                 memberBody.put("name", name);
                 memberBody.put("email", email);
@@ -111,7 +202,7 @@ public class Write {
         return memberObject;
     }
 
-    public static JSONObject createTournamentObj(Tournaments tournament){
+    public JSONObject createTournamentObj(Tournaments tournament){
         JSONObject tournamentObject = new JSONObject();
         Long tournamentID = tournament.getTournamentId();
         Date tournamentStartDate = tournament.getTournamentStartDate();
@@ -147,7 +238,7 @@ public class Write {
         return completeObject;
     }
 
-    public static void addToFile(JSONObject objectToAdd, String filename){
+    public void addToFile(JSONObject objectToAdd, String filename){
 
         JSONParser jsonParser = new JSONParser();
         try(FileReader reader = new FileReader(filename)) {
@@ -166,18 +257,4 @@ public class Write {
         }
     }
 
-
-
-    public static void main(String[] args) {
-
-        JSONObject testMember = new JSONObject();
-
-        JSONObject obj = new JSONObject();
-        obj.put("name","dominic");
-        obj.put("email","some.email.email.com");
-
-        testMember.put("member", obj);
-
-        addToFile(testMember,"src/main/golf.club.json/members.json");
-    }
 }
