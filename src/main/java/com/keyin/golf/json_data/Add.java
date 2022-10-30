@@ -72,48 +72,51 @@ public class Add {
         }
     }
 
-//    public static void setMemberTournamentDetails(int ID, String keyToChange, String valueToSet){
-//        ArrayList<String> allowableKeys = new ArrayList<>();
-//        allowableKeys.add("currentTournaments");
-//        allowableKeys.add("pastTournaments");
-//        allowableKeys.add("upcomingTournaments");
-//        if(!allowableKeys.contains(keyToChange)){
-//            System.out.println("ERROR - Invalid Entry for Key");
-//        }else {
-//            JSONParser jsonParser = new JSONParser();
-//            try (FileReader reader = new FileReader("src/main/golf.club.json/members.json")) {
-//                Object obj = jsonParser.parse(reader);
-//                JSONArray memberList = (JSONArray) obj;
-//                memberList.forEach(member -> {
-//                    JSONObject memberObj = (JSONObject) member;
-//                    JSONObject objDetails = (JSONObject) memberObj.get("member");
-//                    String membershipType = (String) objDetails.get("membershipType");
-//                    if (Objects.equals(membershipType, "Family Plan")) {
-//                        JSONArray familyMembers = (JSONArray) objDetails.get("familyMembers");
-//                        familyMembers.forEach(fMember -> {
-//                            JSONObject fmObj = (JSONObject) fMember;
-//                            Long memberID = (Long) fmObj.get("memberID");
-//                            if (memberID == ID) {
-//                                fmObj.put(keyToChange, valueToSet);
-//                                try (FileWriter writer = new FileWriter("src/main/golf.club.json/members.json")) {
-//                                    writer.write(memberList.toJSONString());
-//                                } catch (IOException e) {
-//                                    e.printStackTrace();
-//                                }
-//                            }
-//                        });
-//                    } else {
-//                    Long memberID = (Long) objDetails.get("memberID");
-//                    if (memberID == ID) {
-//                        objDetails.put(keyToChange, valueToSet);
-//                        writeFile(memberList,"src/main/golf.club.json/members.json");
-//                    }
-//                });
-//            } catch (IOException | ParseException e) {
-//                e.printStackTrace();
-//            }
-//        }
-//    }
+    public static void setMemberTournamentDetails(int ID, String keyToChange, String valueToSet){
+        ArrayList<String> allowableKeys = new ArrayList<>();
+        allowableKeys.add("currentTournaments");
+        allowableKeys.add("pastTournaments");
+        allowableKeys.add("upcomingTournaments");
+        if(!allowableKeys.contains(keyToChange)){
+            System.out.println("ERROR - Invalid Entry for Key");
+        }else {
+            JSONParser jsonParser = new JSONParser();
+            try (FileReader reader = new FileReader("src/main/golf.club.json/members.json")) {
+                Object obj = jsonParser.parse(reader);
+                JSONArray memberList = (JSONArray) obj;
+                memberList.forEach(member -> {
+                    JSONObject memberObj = (JSONObject) member;
+                    JSONObject objDetails = (JSONObject) memberObj.get("member");
+                    String membershipType = (String) objDetails.get("membershipType");
+                    if (Objects.equals(membershipType, "Family Plan")) {
+                        JSONArray familyMembers = (JSONArray) objDetails.get("familyMembers");
+                        familyMembers.forEach(fMember -> {
+                            JSONObject fmObj = (JSONObject) fMember;
+                            Long memberID = (Long) fmObj.get("memberID");
+                            if (memberID == ID) {
+                                fmObj.put(keyToChange, valueToSet);
+                                try (FileWriter writer = new FileWriter("src/main/golf.club.json/members.json")) {
+                                    writer.write(memberList.toJSONString());
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+
+                        });
+                    } else {
+                        Long memberID = (Long) objDetails.get("memberID");
+                        if (memberID == ID) {
+                            objDetails.put(keyToChange, valueToSet);
+                            writeFile(memberList, "src/main/golf.club.json/members.json");
+                        }
+                    }
+                });
+
+            } catch (IOException | ParseException e) {
+                e.printStackTrace();
+            }
+        }
+    }
 
     public static void writeFile(JSONArray jsonArray, String fileName){
         try (FileWriter writer = new FileWriter(fileName)) {

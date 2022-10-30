@@ -74,8 +74,9 @@ public class Write {
             memberList.forEach(member->{
 
                 JSONObject memberObject = (JSONObject) member;
-                if(memberObject.get("membershipID") == membershipID) {
-                    if (memberObject.get("membershipType") != "Family Plan") {
+                JSONObject memberBodyObject = (JSONObject) memberObject.get("member");
+                if(Objects.equals(memberBodyObject.get("membershipID"),membershipID)) {
+                    if (!Objects.equals(memberObject.get("membershipType"),"Family Plan")) {
                         memberObject.put("membershipType", "Family Plan");
                         JSONObject firstMember = new JSONObject();
                         firstMember.put("memberID", memberObject.get("memberID"));
@@ -102,19 +103,30 @@ public class Write {
                         memberObject.put("familyMembers", familyMembers);
                         memberObject.put("monthlyMembershipCost",200L);
 
+                        try(FileWriter writer = new FileWriter("src/main/golf.club.json/members.json")){
+                            writer.write(memberList.toJSONString());
+                        } catch (IOException e){
+                            e.printStackTrace();
+                        }
+
                     } else{
                         JSONArray familyMembers = (JSONArray) memberObject.get("familyMembers");
                         familyMembers.add(newMember);
                         int memberCount = familyMembers.size();
                         int newMembershipCost = memberCount * 100;
                         memberObject.put("monthlyMembershipCost",newMembershipCost);
+
+                        try(FileWriter writer = new FileWriter("src/main/golf.club.json/members.json")){
+                            writer.write(memberList.toJSONString());
+                        } catch (IOException e){
+                            e.printStackTrace();
+                        }
                     }
                 }
+
             });
 
-            try(FileWriter writer = new FileWriter("src/main/golf.club.json/members.json")){
-                writer.write(memberList.toJSONString());
-            }
+
 
         }  catch (IOException | ParseException e) {
             e.printStackTrace();
