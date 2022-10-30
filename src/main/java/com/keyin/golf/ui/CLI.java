@@ -89,27 +89,20 @@ public class CLI {
                                 2. Create Member and Membership
                             """
                             + TEXT_RESET);
-                    int choice = 0;
-                    while(choice == 0) {
                         int userInputId3 = input.nextInt();
-                        if(userInputId3 == 1){
-                            choice = 1;
-                        } else if (userInputId3 == 2) {
-                            choice = 2;
-                        }else{
-                            System.err.println("Invalid Entry, Please Try Again");
-                        }
-                    }
+
                     System.out.println();
-                    if(choice == 1){
+                    if(userInputId3 == 1){
                         System.out.println("Enter Membership ID to add member");
                         Long membershipID = input.nextLong();
                         Member newMember = Membership.createNewMember();
                         Write writer = new Write();
                         writer.addMemberToMembership(newMember,membershipID);
-                    }else{
+                    }else if(userInputId3 == 2){
                         Member newMember = Membership.createNewMember();
                         Membership.createNewMembership(newMember);
+                    } else {
+                        System.err.println("ERROR: Invalid Entry");
                     }
                     break;
                 case "6":
