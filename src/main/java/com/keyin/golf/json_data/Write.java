@@ -24,6 +24,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 // imports for Error handling
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Objects;
 import java.util.Date;
@@ -147,8 +148,10 @@ public class Write {
 
         memberBody.put("membershipID",membershipID);
         memberBody.put("membershipType",membershipType);
-        memberBody.put("membershipStartDate",membershipStartDate);
-        memberBody.put("membershipExpireDate",membershipEndDate);
+        String membershipStartString = new SimpleDateFormat("MMMMM dd, yyyy").format(membershipStartDate);
+        String membershipEndString = new SimpleDateFormat("MMMMM dd, yyyy").format(membershipEndDate);
+        memberBody.put("membershipStartDate",membershipStartString);
+        memberBody.put("membershipExpireDate",membershipEndString);
 
         if(Objects.equals(membershipType, "Family Plan")) {
             ArrayList<Member> memberList = membership.getMemberList();
