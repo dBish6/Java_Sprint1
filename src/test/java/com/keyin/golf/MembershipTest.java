@@ -4,7 +4,6 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 
@@ -29,24 +28,8 @@ public class MembershipTest {
         membership.addMember(mockMember);
         Assertions.assertNotNull(membership.getMemberList());
     }
-    //Test to test the membership id
-
-    @Test
-    public void testMembershipId() {
-
-        Membership membership = new Membership ();
-
-        String result = String.valueOf(membership.getMembershipID());
-
-
-        Assertions.assertSame(23, result);
-
-
-        System.out.println("The membership id is suppose to be " + membership.getMembershipID());
-    }
 
     //Test to find a certain person
-
     @Test
     public void testMembershipConstructor() {
         ArrayList<Member> mockMemberList = new ArrayList<Member>();
@@ -55,7 +38,7 @@ public class MembershipTest {
         testMembership.setMembershipID(1L);
 
         testMembership.setMembershipStartDate(new Date(2022, 11, 28));
-        testMembership.setMembershipEndDate(new Date(2022, 11, 28));
+        testMembership.setMembershipExpireDate(new Date(2022, 11, 28));
 
         testMembership.setMembershipType("Premium");
 
@@ -64,7 +47,7 @@ public class MembershipTest {
         Assertions.assertEquals(1L, testMembership.getMembershipID());
 
         Assertions.assertEquals(new Date(2022, 11, 28), testMembership.getMembershipStartDate());
-        Assertions.assertEquals(new Date(2022, 11, 28), testMembership.getMembershipEndDate());
+        Assertions.assertEquals(new Date(2022, 11, 28), testMembership.getMembershipExpireDate());
         Assertions.assertEquals("Premium", testMembership.getMembershipType());
     }
 }
