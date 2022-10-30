@@ -60,6 +60,18 @@ public class Tournaments {
         this.finalStandings = new ArrayList<String>();
     }
 
+    public Tournaments(Long tournamentId, Date tournamentStartDate, Date tournamentEndDate, String tournamentName, String tournamentLocation, Long tournamentEntryFee, Long tournamentCashPrize, ArrayList membersParticipating, ArrayList finalStandings) {
+        this.tournamentId = tournamentId;
+        this.tournamentStartDate = tournamentStartDate;
+        this.tournamentEndDate = tournamentEndDate;
+        this.tournamentName = tournamentName;
+        this.tournamentLocation = tournamentLocation;
+        this.tournamentEntryFee = tournamentEntryFee;
+        this.tournamentCashPrize = tournamentCashPrize;
+        this.membersParticipating = membersParticipating;
+        this.finalStandings = finalStandings;
+    }
+
     // Getters / Setters
     public String getTournamentLocation() { return tournamentLocation;}
 
