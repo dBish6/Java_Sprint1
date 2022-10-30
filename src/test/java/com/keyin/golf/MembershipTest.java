@@ -64,14 +64,4 @@ public class MembershipTest {
         Assertions.assertEquals("Premium", testMembership.getMembershipType());
     }
 
-    @Before
-    public void setUp() {
-        MockitoAnnotations.initMocks(this);
-
-        when(mockMember.getFirstName()).thenReturn( "Dominic" );
-        when(mockMember.getLastName()).thenReturn( "Whelan" );
-        when(mockMember.getId()).thenReturn(1L);
-
-    }
-
 }

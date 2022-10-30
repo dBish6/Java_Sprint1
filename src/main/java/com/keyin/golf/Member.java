@@ -1,7 +1,7 @@
 package com.keyin.golf;
 
-/* Person.java
-   Class for Person Object
+/* Member.java
+   Class for Member Object
    set/get personal details
    set/get tournament information
 
@@ -18,8 +18,7 @@ public class Member {
 
     // Instance Variables
     private Long memberID;
-    private String firstName;
-    private String lastName;
+    private String name;
     private String email;
     private String phoneNumber;
     private String address;
@@ -30,10 +29,8 @@ public class Member {
 
     // Constructors
     public Member(){
-        super();
         this.memberID = null;
-        this.firstName = null;
-        this.lastName = null;
+        this.name = null;
         this.address = null;
         this.email = null;
         this.phoneNumber = null;
@@ -42,20 +39,9 @@ public class Member {
         this.upcomingTournaments = new ArrayList<Long>();
     }
 
-    public Member(Long memberID, String firstName, String lastName, String email,  String phoneNumber, String address ) {
-        super();
+    public Member(Long memberID, String name, String email,  String phoneNumber, String address ) {
         this.memberID = memberID;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.email = email;
-        this.phoneNumber = phoneNumber;
-        this.address = address;
-    }
-
-    public Member(Long memberID, String firstName, String lastName, String email,  String phoneNumber, String address ) {
-        this.memberID = memberID;
-        this.firstName = firstName;
-        this.lastName = lastName;
+        this.name = name;
         this.email = email;
         this.phoneNumber = phoneNumber;
         this.address = address;
@@ -70,21 +56,21 @@ public class Member {
         this.memberID = memberID;
     }
 
-    public String getFirstName() {
-        return firstName;
+    public String getName() {
+        return name;
     }
 
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
+    public void setName(String fullName) {
+        this.name = fullName;
     }
 
-    public String getLastName() {
-        return lastName;
-    }
+//    public String getLastName() {
+//        return lastName;
+//    }
 
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
+//    public void setLastName(String lastName) {
+//        this.lastName = lastName;
+//    }
 
     public String getAddress() {
         return address;
@@ -137,7 +123,7 @@ public class Member {
     public String toString() {
         return "Member: {" +
                 "memberId=" + this.memberID +
-                ", name=" + this.firstName + " " + this.lastName +
+                ", name=" + this.name +
                 ", email=" + this.email +
                 ", phone='" + this.phoneNumber +
                 ", address=" + this.address +

@@ -16,6 +16,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Objects;
 import java.util.Scanner;
 
 @Entity
@@ -27,8 +28,9 @@ public class Membership {
     private String membershipType;
     private Date membershipStartDate;
     private Date membershipExpireDate;
-    private Long monthlyMembershipCost;
     private ArrayList<Member> memberList = new ArrayList<>();
+
+    private Long monthlyMembershipCost;
 
     // Constructors
     public Membership() {
@@ -39,18 +41,24 @@ public class Membership {
         this.monthlyMembershipCost = null;
     }
 
-    public Membership(Long membershipID, String membershipType, Date membershipStartDate, Date membershipExpireDate,
-                       Long monthlyMembershipCost)
-    {
+    public Membership(Long membershipID, String membershipType, Date membershipStartDate, Date membershipExpireDate) {
         this.membershipID = membershipID;
         this.membershipType = membershipType;
         this.membershipStartDate = membershipStartDate;
         this.membershipExpireDate = membershipExpireDate;
-        this.monthlyMembershipCost = monthlyMembershipCost;
+        if (Objects.equals(membershipType, "Standard")) {
+            this.monthlyMembershipCost = 125L;
+        } else if (Objects.equals(membershipType, "Special Offer")) {
+            this.monthlyMembershipCost = 115L;
+        } else if (Objects.equals(membershipType, "Premium")) {
+            this.monthlyMembershipCost = 150L;
+        } else if (Objects.equals(membershipType, "Trial")) {
+            this.monthlyMembershipCost = 0L;
+        }
     }
 
     // Getters and Setters
-    public ArrayList<Member> getMemberList(){
+    public ArrayList<Member> getMemberList() {
         return memberList;
     }
 
@@ -87,8 +95,11 @@ public class Membership {
     }
 
     // Custom Methods
-    public void addMember(Member member){
+    public void addMember(Member member) {
         memberList.add(member);
+        if (Objects.equals(this.membershipType, "Family Plan")) {
+            this.monthlyMembershipCost = memberList.size() * 100L;
+        }
     }
 
     @Override
@@ -102,111 +113,95 @@ public class Membership {
                 "}";
     }
 
-    // Gathering user input & creating a new Tournament to be written to JSON
-    public Membership createNewMemberAndMembership(){
+    // Gathering user input & creating a new Member/Membership to be written to JSON
+    public static Member createNewMember(){
+        Scanner userInput = new Scanner(System.in);
+        // Prompt user to enter all information that is needed to create a Member
+        // Save all user information to instance variables
+        System.out.println("Enter the memberID: ");
+        Long memberID = userInput.nextLong();
+
+        userInput.nextLine();
+        System.out.println("Enter the member's full name:");
+        String fullName = userInput.next();
+
+        userInput.nextLine();
+        System.out.println("Enter the member's email:");
+        String email = userInput.next();
+
+        userInput.nextLine();
+        System.out.println("Enter the member's phone number:");
+        String phone = userInput.next();
+
+        userInput.nextLine();
+        System.out.println("Enter the member's address:");
+        String address = userInput.next();
+
+        Member newMember = new Member(memberID, fullName, email, phone, address);
+
+        return newMember;
+    }
+    public static Membership createNewMembership(Member member) {
         // Scanner to receiver user input
         Scanner userInput = new Scanner(System.in);
 
-        // Prompt user to enter all information that is needed to create a tournament
-        // Save all user information to instance variables
-        System.out.println("Enter the memberID: ");
-        int memberID = userInput.nextInt();
-
-        userInput.nextLine();
         System.out.println("Enter the membershipID: ");
-        int membershipID = userInput.nextInt();
+        Long membershipID = userInput.nextLong();
 
         userInput.nextLine();
-        System.out.println("Enter the tournament name: ");
-        String tourneyName = userInput.next();
+        System.out.println("""
+                Enter choice (1-4) for membership type
+                 1. Standard @ $125/month
+                 2. Family Plan @ $100/month per member
+                 3. Special Offer @ $115/month
+                 4. Premium @ $150/month
+                 5. Trial Free(1 week)
+                """);
+        int membershipTypeChoice = 0;
+        while (membershipTypeChoice == 0) {
+            int choice = userInput.nextInt();
+            if (choice < 1 || choice > 5) {
+                System.err.println("Invalid Entry, Please Try Again");
+            } else {
+                membershipTypeChoice = choice;
+            }
+        }
+        String membershipType;
+        if (membershipTypeChoice == 1) {
+            membershipType = "Standard";
+        } else if (membershipTypeChoice == 2) {
+            membershipType = "Family Plan";
+        } else if (membershipTypeChoice == 3) {
+            membershipType = "Special Offer";
+        } else if (membershipTypeChoice == 4) {
+            membershipType = "Premium";
+        } else {
+            membershipType = "Trial";
+        }
 
         userInput.nextLine();
-        System.out.println("Enter the membership start date (Format: March 2, 2022):");
-        String membershipStartDateString = userInput.next();
-        Date membershipStartDate = new Date();
+        System.out.println("Enter the Membership start date (Format: March 2, 2022):");
+        String membershipStartDateString = userInput.nextLine();
+        Date membershipStartDate = null;
         try {
             membershipStartDate = new SimpleDateFormat("MMMMM dd, yyyy").parse(membershipStartDateString);
         } catch (ParseException e) {
             throw new RuntimeException(e);
         }
 
-        userInput.nextLine();
-        System.out.println("Enter the membership expiry date (Format: March 2, 2022):");
-        String membershipExpireDateString = userInput.next();
-        Date membershipExpireDate = new Date();
+        System.out.println("Enter the Membership end date (Format: March 2, 2022):");
+        String membershipExpireDateString = userInput.nextLine();
+        Date membershipExpireDate = null;
         try {
             membershipExpireDate = new SimpleDateFormat("MMMMM dd, yyyy").parse(membershipExpireDateString);
         } catch (ParseException e) {
             throw new RuntimeException(e);
         }
 
-        userInput.nextLine();
-        System.out.println("Enter the monthly cost of the membership: ");
-        int monthlyMembershipCost = userInput.nextInt();
+        Membership newMembership = new Membership(membershipID, membershipType, membershipStartDate, membershipExpireDate);
 
-        userInput.nextLine();
-        System.out.println("Enter the member's first and last name:");
-        String name = userInput.next();
+        newMembership.addMember(member);
 
-        userInput.nextLine();
-        System.out.println("Enter the member's email:");
-        Long email = userInput.nextLong();
-
-        userInput.nextLine();
-        System.out.println("Enter the member's phone:");
-        Long phone = userInput.nextLong();
-
-        userInput.nextLine();
-        System.out.println("Enter the member's address:");
-        Long address = userInput.nextLong();
-
-        userInput.nextLine();
-        System.out.println("Enter the tournamentID(s) of the Current Tournaments this member is in, separated by a comma(,): ");
-        int membersCurrentTournaments = userInput.nextInt();
-        ArrayList<Long> membersForTournamentInteger = new ArrayList<>();
-
-        membersCurrentTournaments = Math.toIntExact(Long.valueOf(membersCurrentTournaments));
-
-        // Changing String array into Int array
-        for(int i = 0; i < membersCurrentTournaments.length; i++){
-            membersForTournamentInteger.add(Integer.parseInt(membersCurrentTournaments[i]));
-        }
-
-        userInput.nextLine();
-        System.out.println("Enter the tournamentID(s) of the Current Tournaments this member is in, separated by a comma(,): ");
-        int membersForTourney = userInput.nextInt();
-        ArrayList<Integer> membersForTournamentInteger = new ArrayList<>();
-
-        // Separating String into String array
-        String[] membersForTournamentString = membersForTourney.split("\\s*,\\s*");
-
-        // Changing String array into Int array
-        for(int i = 0; i < membersForTournamentString.length; i++){
-            membersForTournamentInteger.add(Integer.parseInt(membersForTournamentString[i]));
-        }
-
-        userInput.nextLine();
-        System.out.println("Enter the tournamentID(s) of the Current Tournaments this member is in, separated by a comma(,): ");
-        int membersForTourney = userInput.nextInt();
-        ArrayList<Integer> membersForTournamentInteger = new ArrayList<>();
-
-        // Separating String into String array
-        String[] membersForTournamentString = membersForTourney.split("\\s*,\\s*");
-
-        // Changing String array into Int array
-        for(int i = 0; i < membersForTournamentString.length; i++){
-            membersForTournamentInteger.add(Integer.parseInt(membersForTournamentString[i]));
-        }
-
-        // Close the scanner
-        userInput.close();
-
-        // Call the constructor to create new Tournament Instance
-        Tournaments newTourney = new Tournaments(tourneyId, tourneyStartDate, tourneyEndDate, tourneyName, tourneyLocation, tourneyEntryFee, tourneyCashPrize, membersForTournamentInteger );
-
-
-        // Write data to JSON Tournament file
-
-        return newTourney;
+        return newMembership;
     }
 }
