@@ -15,7 +15,7 @@ import org.junit.jupiter.api.BeforeAll;
 
 public class ReadTestDemo {
 
-    public static final String TEXT_RESET = "\u001B[0m";
+    private static final String TEXT_RESET = "\u001B[0m";
     private static final String TEXT_YELLOW = "\u001B[33m";
 
     private static int testStandardMembershipId;
