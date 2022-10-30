@@ -75,33 +75,35 @@ public class Write {
 
                 JSONObject memberObject = (JSONObject) member;
                 JSONObject memberBodyObject = (JSONObject) memberObject.get("member");
-                if(Objects.equals(memberBodyObject.get("membershipID"),membershipID)) {
-                    if (!Objects.equals(memberObject.get("membershipType"),"Family Plan")) {
-                        memberObject.put("membershipType", "Family Plan");
+                Long membership_ID = (Long) memberBodyObject.get("membershipID");
+                if(Objects.equals(membership_ID,membershipID)) {
+                    String membershipType = (String) memberBodyObject.get("membershipType");
+                    if (!Objects.equals(membershipType,"Family Plan")) {
+                        memberBodyObject.put("membershipType", "Family Plan");
                         JSONObject firstMember = new JSONObject();
-                        firstMember.put("memberID", memberObject.get("memberID"));
-                        firstMember.put("name", memberObject.get("name"));
-                        firstMember.put("email", memberObject.get("email"));
-                        firstMember.put("phone", memberObject.get("phone"));
-                        firstMember.put("address", memberObject.get("address"));
-                        firstMember.put("currentTournaments", memberObject.get("currentTournaments"));
-                        firstMember.put("pastTournaments", memberObject.get("pastTournaments"));
-                        firstMember.put("upcomingTournaments", memberObject.get("upcomingTournaments"));
+                        firstMember.put("memberID", memberBodyObject.get("memberID"));
+                        firstMember.put("name", memberBodyObject.get("name"));
+                        firstMember.put("email", memberBodyObject.get("email"));
+                        firstMember.put("phone", memberBodyObject.get("phone"));
+                        firstMember.put("address", memberBodyObject.get("address"));
+                        firstMember.put("currentTournaments", memberBodyObject.get("currentTournaments"));
+                        firstMember.put("pastTournaments", memberBodyObject.get("pastTournaments"));
+                        firstMember.put("upcomingTournaments", memberBodyObject.get("upcomingTournaments"));
 
-                        memberObject.remove("memberID");
-                        memberObject.remove("name");
-                        memberObject.remove("email");
-                        memberObject.remove("phone");
-                        memberObject.remove("address");
-                        memberObject.remove("currentTournaments");
-                        memberObject.remove("pastTournaments");
-                        memberObject.remove("upcomingTournaments");
+                        memberBodyObject.remove("memberID");
+                        memberBodyObject.remove("name");
+                        memberBodyObject.remove("email");
+                        memberBodyObject.remove("phone");
+                        memberBodyObject.remove("address");
+                        memberBodyObject.remove("currentTournaments");
+                        memberBodyObject.remove("pastTournaments");
+                        memberBodyObject.remove("upcomingTournaments");
 
                         JSONArray familyMembers = new JSONArray();
                         familyMembers.add(firstMember);
                         familyMembers.add(newMember);
-                        memberObject.put("familyMembers", familyMembers);
-                        memberObject.put("monthlyMembershipCost",200L);
+                        memberBodyObject.put("familyMembers", familyMembers);
+                        memberBodyObject.put("monthlyMembershipCost",200L);
 
                         try(FileWriter writer = new FileWriter("src/main/golf.club.json/members.json")){
                             writer.write(memberList.toJSONString());
@@ -110,11 +112,11 @@ public class Write {
                         }
 
                     } else{
-                        JSONArray familyMembers = (JSONArray) memberObject.get("familyMembers");
+                        JSONArray familyMembers = (JSONArray) memberBodyObject.get("familyMembers");
                         familyMembers.add(newMember);
                         int memberCount = familyMembers.size();
                         int newMembershipCost = memberCount * 100;
-                        memberObject.put("monthlyMembershipCost",newMembershipCost);
+                        memberBodyObject.put("monthlyMembershipCost",newMembershipCost);
 
                         try(FileWriter writer = new FileWriter("src/main/golf.club.json/members.json")){
                             writer.write(memberList.toJSONString());
