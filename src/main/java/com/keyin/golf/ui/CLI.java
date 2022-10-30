@@ -24,11 +24,9 @@ import java.util.Scanner;
 
 public class CLI {
 
-    public static final String TEXT_GREEN = "\u001B[32m";
-    public static final String TEXT_YELLOW = "\u001B[33m";
-    public static final String TEXT_RESET = "\u001B[0m";
-    public static final String TEXT_CYAN = "\u001B[36m";
-    public static final String TEXT_WHITE = "\u001B[37m";
+    private static final String TEXT_GREEN = "\u001B[32m";
+    private static final String TEXT_YELLOW = "\u001B[33m";
+    private static final String TEXT_RESET = "\u001B[0m";
 
     public static void main(String[] args) {
 

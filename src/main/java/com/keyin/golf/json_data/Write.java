@@ -240,8 +240,10 @@ public class Write {
 //
 //        });
         tournamentObject.put("tournamentID",tournamentID);
-        tournamentObject.put("tournamentStartDate",tournamentStartDate);
-        tournamentObject.put("tournamentEndDate",tournamentEndDate);
+        String tournamentStartString = new SimpleDateFormat("MMMMM dd, yyyy").format(tournamentStartDate);
+        String tournamentEndString = new SimpleDateFormat("MMMMM dd, yyyy").format(tournamentEndDate);
+        tournamentObject.put("tournamentStartDate",tournamentStartString);
+        tournamentObject.put("tournamentEndDate",tournamentEndString);
         tournamentObject.put("name",tournamentName);
         tournamentObject.put("location",location);
         tournamentObject.put("entryFee",entryFee);
