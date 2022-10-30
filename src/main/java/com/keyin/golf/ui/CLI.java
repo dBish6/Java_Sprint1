@@ -110,7 +110,7 @@ public class CLI {
                     }
                     break;
                 case "6":
-                    System.out.println(TEXT_YELLOW + "\n*Tournaments*");
+                    System.out.println(TEXT_YELLOW + "\n*Create Tournaments*");
 //                    System.out.println(TEXT_GREEN + "Enter the <whatever> for the tournament you wish to create:"
 //                            + TEXT_RESET);
 //                    int userInputId4 = input.nextInt();
@@ -122,6 +122,7 @@ public class CLI {
                     } catch (InvalidDateTimeException e) {
                         throw new RuntimeException(e);
                     }
+
                     break;
                 case "7":
                     System.out.println(TEXT_YELLOW + "\n*Members*");

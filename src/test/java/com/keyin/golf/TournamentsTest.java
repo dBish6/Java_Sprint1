@@ -48,14 +48,20 @@ public class TournamentsTest {
         Tournaments test2 = new Tournaments(456L, startDate, endDate, "PEI Fall Invitational", "Anderson Greek Golf Course", 100L, 2000L, membersInTourney);
 
         // Testing the creation of Tournament
-        Mockito.when(mockTournament.createNewTournament()).thenReturn(test1);
-        assertEquals(test1, mockTournament.createNewTournament());
-        assertNotEquals(test2, mockTournament.createNewTournament());
+//        Mockito.when(mockTournament.createNewTournament()).thenReturn(test1);
+        assertEquals(123L, test1.getTournamentId());
+        assertEquals("Summerside Open", test1.getTournamentName());
+
+        assertNotEquals(144L, test1.getTournamentId());
+        assertNotEquals("Andersons Creek", test1.getTournamentName());
 
         // Testing the get Tournament by ID
-        Mockito.when(mockTournament.getTournamentId()).thenReturn(test1.getTournamentId());
-        assertEquals(test1.getTournamentId(), mockTournament.getTournamentId());
-        assertNotEquals(test2.getTournamentId(), mockTournament.getTournamentId());
+//        Mockito.when(mockTournament.getTournamentId()).thenReturn(test1.getTournamentId());
+        assertEquals(456L, test2.getTournamentId());
+        assertEquals("Anderson Greek Golf Course", test2.getTournamentLocation());
+
+        assertNotEquals(5L, test2.getTournamentId());
+        assertNotEquals(50L, test2.getTournamentEntryFee());
     }
 
     // Searches for a Tournament Id in the Tournaments.json file

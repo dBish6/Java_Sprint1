@@ -17,6 +17,7 @@ import com.keyin.golf.ui.CLI;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
+import javax.swing.*;
 import java.lang.reflect.Array;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -172,7 +173,7 @@ public class Tournaments {
 
     // Custom Methods
     // Gathering user input & creating a new Tournament to be written to JSON
-    public Tournaments createNewTournament() throws InvalidDateTimeException {
+    public void createNewTournament() throws InvalidDateTimeException {
         // Scanner to receiver user input
         Scanner userInput = new Scanner(System.in);
 
@@ -238,8 +239,6 @@ public class Tournaments {
         // Write data to JSON Tournament file
         Write write = new Write();
         write.createTournamentObj(newTourney);
-
-        return newTourney;
     }
 
     // Searching for tournament by tournamentId in tournaments.json
@@ -633,16 +632,27 @@ public class Tournaments {
             System.out.println("Enter the player's Members Id that you want to add to the tournament, seperated by a comma(,)");
             String update = userInput.nextLine();
 
-            // Separating String into String array
-            String[] membersForTournamentString = update.split("\\s*,\\s*");
+            // Searching for at least one comma and if none adding only one add
+            int indexComma = update.indexOf(",");
 
-            // Changing String array into Long array
-            for(int i = 0; i < membersForTournamentString.length; i++){
-                currentMemberList.add(Long.parseLong(membersForTournamentString[i]));
+            if(indexComma > 0) {
+                // Separating String into String array
+                String[] membersForTournamentString = update.split("\\s*,\\s*");
+
+                // Changing String array into Long array
+                for(int i = 0; i < membersForTournamentString.length; i++){
+                    currentMemberList.add(Long.parseLong(membersForTournamentString[i]));
+                }
+            }   else {
+                currentMemberList.add(Long.parseLong(update));
             }
 
             // Adding complete tournament member id's back to tournament
             tourney.setMembersParticipating(currentMemberList);
+
+            System.out.println("Tournament members participating has been updated!");
+            System.out.println();
+
             CLI.userInterface();
         } else if(userSelection == 9){
             System.out.println("Enter the 1st place finisher for Tournament (Format: Name, Score)");
@@ -677,7 +687,6 @@ public class Tournaments {
 
     public static void main(String[] args) throws InvalidDateTimeException {
 
-        CLI.userInterface();
 
     }
 }
