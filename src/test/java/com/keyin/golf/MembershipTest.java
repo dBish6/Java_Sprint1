@@ -55,7 +55,7 @@ public class MembershipTest {
         testMembership.setMembershipID(1L);
 
         testMembership.setMembershipStartDate(new Date(2022, 11, 28));
-        testMembership.setMembershipEndDate(new Date(2022, 11, 28));
+        testMembership.setMembershipExpireDate(new Date(2022, 11, 28));
 
         testMembership.setMembershipType("Premium");
 
@@ -64,7 +64,7 @@ public class MembershipTest {
         Assertions.assertEquals(1L, testMembership.getMembershipID());
 
         Assertions.assertEquals(new Date(2022, 11, 28), testMembership.getMembershipStartDate());
-        Assertions.assertEquals(new Date(2022, 11, 28), testMembership.getMembershipEndDate());
+        Assertions.assertEquals(new Date(2022, 11, 28), testMembership.getMembershipExpireDate());
         Assertions.assertEquals("Premium", testMembership.getMembershipType());
     }
 }
