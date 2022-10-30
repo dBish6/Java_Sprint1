@@ -10,8 +10,12 @@ package com.keyin.golf.ui;
 
  */
 
+import com.keyin.golf.Member;
+import com.keyin.golf.Membership;
+import com.keyin.golf.json_data.Add;
 import com.keyin.golf.json_data.Delete;
 import com.keyin.golf.json_data.Read;
+import com.keyin.golf.json_data.Write;
 
 import java.util.Scanner;
 
@@ -44,7 +48,7 @@ public class CLI {
             System.out.println(TEXT_GREEN + "\t2. " + TEXT_YELLOW + "Display Tournaments");
             System.out.println(TEXT_GREEN + "\t3. " + TEXT_YELLOW + "Display a Specific Member");
             System.out.println(TEXT_GREEN + "\t4. " + TEXT_YELLOW + "Display a Specific Tournament");
-            System.out.println(TEXT_GREEN + "\t5. " + TEXT_YELLOW + "Create New Member");
+            System.out.println(TEXT_GREEN + "\t5. " + TEXT_YELLOW + "Create New Member/Membership");
             System.out.println(TEXT_GREEN + "\t6. " + TEXT_YELLOW + "Create New Tournament");
             System.out.println(TEXT_GREEN + "\t7. " + TEXT_YELLOW + "Add a Value to Members");
             System.out.println(TEXT_GREEN + "\t8. " + TEXT_YELLOW + "Add a Value to Tournaments");
@@ -62,7 +66,7 @@ public class CLI {
                     Read.readAllJSONTournaments();
                     break;
                 case "3":
-                    System.out.println(TEXT_YELLOW + "\n*Members*");
+                    System.out.println(TEXT_YELLOW + "\n*Memberships/Member*");
                     System.out.println(TEXT_GREEN + "Enter the membershipID for the record you wish to display:"
                             + TEXT_RESET);
                     int userInputId1 = input.nextInt();
@@ -79,10 +83,34 @@ public class CLI {
                     break;
                 case "5":
                     System.out.println(TEXT_YELLOW + "\n*Members*");
-                    System.out.println(TEXT_GREEN + "Enter the <whatever> for the member you wish to create:"
+                    System.out.println(TEXT_GREEN + """
+                            Enter choice:
+                                1. Add a Member to an existing Membership
+                                2. Create Member and Membership
+                            """
                             + TEXT_RESET);
-                    int userInputId3 = input.nextInt();
+                    int choice = 0;
+                    while(choice == 0) {
+                        int userInputId3 = input.nextInt();
+                        if(userInputId3 == 1){
+                            choice = 1;
+                        } else if (userInputId3 == 2) {
+                            choice = 2;
+                        }else{
+                            System.err.println("Invalid Entry, Please Try Again");
+                        }
+                    }
                     System.out.println();
+                    if(choice == 1){
+                        System.out.println("Enter Membership ID to add member");
+                        Long membershipID = input.nextLong();
+                        Member newMember = Membership.createNewMember();
+                        Write writer = new Write();
+                        writer.addMemberToMembership(newMember,membershipID);
+                    }else{
+                        Member newMember = Membership.createNewMember();
+                        Membership.createNewMembership(newMember);
+                    }
                     break;
                 case "6":
                     System.out.println(TEXT_YELLOW + "\n*Tournaments*");
@@ -95,9 +123,35 @@ public class CLI {
                     System.out.println(TEXT_YELLOW + "\n*Members*");
                     System.out.println(TEXT_GREEN + "Enter the ID, key and value you intend to change:"
                             + TEXT_RESET);
+                    System.out.println("Enter Member ID: ");
                     int userInputId5 = input.nextInt();
-                    String userInputKey1 = input.next();
+                    System.out.println("""
+                            Input field to change:
+                             1. Name
+                             2. Email
+                             3. Phone Number
+                             4. Address
+                            """);
+                    int userInputKey1 = input.nextInt();
+                    String key = null;
+                    while(key == null) {
+                        if (userInputKey1 < 1 || userInputKey1 > 4) {
+                            System.err.println("ERROR: Invalid Entry");
+                        } else{
+                            if(userInputKey1 == 1){
+                                key = "name";
+
+                            } else if(userInputKey1 == 2){
+                                key = "email";
+                            } else if(userInputKey1 == 3){
+                                key = "phone";
+                            }else{
+                                key = "address";
+                            }
+                        }
+                    }
                     String userInputValue1 = input.next();
+                    Add.setMemberDetailValue(userInputId5, key,userInputValue1);
                     break;
                 case "8":
                     System.out.println(TEXT_YELLOW + "\n*Tournaments*");

@@ -13,7 +13,6 @@ package com.keyin.golf.json_data;
 
 import com.keyin.golf.Member;
 import com.keyin.golf.Membership;
-import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -33,8 +32,9 @@ public class WriteTest {
     public void testCreateMembershipObject(){
 
 
+        Write writer = new Write();
 
-        Member testMember = new Member(127L,"Bob","Marley","some.email@hotmail.com","123 Main","277-5673");
+        Member testMember = new Member(127L,"Bob Marley","some.email@hotmail.com","123 Main","277-5673");
         ArrayList<Member> memberList = new ArrayList<>();
         memberList.add(testMember);
 
@@ -43,7 +43,7 @@ public class WriteTest {
         Mockito.when(mockMembership.getMemberList()).thenReturn(memberList);
 
 
-        JSONObject testObject = Write.createMemberObj(mockMembership);
+        JSONObject testObject = writer.createMembershipObj(mockMembership);
         JSONObject memberObj = (JSONObject) testObject.get("member");
         Long membershipID = (Long) memberObj.get("membershipID");
 

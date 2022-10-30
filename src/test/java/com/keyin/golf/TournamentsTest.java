@@ -88,7 +88,7 @@ public class TournamentsTest {
         pastTournamentsEndTest.add(3L);
 
         // Creating person object and adding tests to Person Object
-        Member member1 = new Member(2L, "Jimmy", "Rodgers", "Jimmy1_1@hotmail.com", "19 Kingpin Dr", "8670666");
+        Member member1 = new Member(2L, "Jimmy Rodgers", "Jimmy1_1@hotmail.com", "19 Kingpin Dr", "8670666");
         member1.setCurrentTournaments(currentTournamentsBeginning);
         member1.setPastTournaments(pastTournamentsBegninning);
 
@@ -120,7 +120,7 @@ public class TournamentsTest {
         ArrayList<Long> upcomingTournamentsEndTest = new ArrayList<>();
         upcomingTournamentsEndTest.add(5L);
 
-        Member member2 = new Member(2L, "Jimmy", "Rodgers", "Jimmy1_1@hotmail.com", "19 Kingpin Dr", "8670666");
+        Member member2 = new Member(2L, "Jimmy Rodgers", "Jimmy1_1@hotmail.com", "19 Kingpin Dr", "8670666");
         member2.setCurrentTournaments(currentTournamentsBeginning);
         member2.setUpcomingTournaments(upcomingTournamentsBeginning);
 
@@ -167,7 +167,7 @@ public class TournamentsTest {
         pastTournamentsEndTest.add(2L);
         pastTournamentsEndTest.add(3L);
 
-        Member member2 = new Member(2L, "Jimmy", "Rodgers", "Jimmy1_1@hotmail.com", "19 Kingpin Dr", "8670666");
+        Member member2 = new Member(2L, "Jimmy Rodgers", "Jimmy1_1@hotmail.com", "19 Kingpin Dr", "8670666");
         member2.setCurrentTournaments(currentTournamentsBeginning);
         member2.setUpcomingTournaments(upcomingTournamentsBeginning);
         member2.setPastTournaments(pastTournamentsBeginning);
