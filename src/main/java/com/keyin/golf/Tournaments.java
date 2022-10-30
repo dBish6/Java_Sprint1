@@ -17,8 +17,6 @@ import com.keyin.golf.ui.CLI;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
-import javax.swing.*;
-import java.lang.reflect.Array;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -60,31 +58,6 @@ public class Tournaments {
         this.tournamentCashPrize = tournamentCashPrize;
         this.membersParticipating = membersParticipating;
         this.finalStandings = new ArrayList<String>();
-    }
-
-    // Constructor with all inputs as parameters
-    public Tournaments(Long tournamentId, Date tournamentStartDate, Date tournamentEndDate, String tournamentName, String tournamentLocation, Long tournamentEntryFee, Long tournamentCashPrize, ArrayList membersParticipating, ArrayList finalStandings){
-        this.tournamentId = tournamentId;
-        this.tournamentStartDate = tournamentStartDate;
-        this.tournamentEndDate = tournamentEndDate;
-        this.tournamentName = tournamentName;
-        this.tournamentLocation = tournamentLocation;
-        this.tournamentEntryFee = tournamentEntryFee;
-        this.tournamentCashPrize = tournamentCashPrize;
-        this.membersParticipating = membersParticipating;
-        this.finalStandings = finalStandings;
-    }
-
-    public Tournaments(Tournaments tournament){
-        this.tournamentId = tournament.tournamentId;
-        this.tournamentStartDate = tournament.tournamentStartDate;
-        this.tournamentEndDate = tournament.tournamentEndDate;
-        this.tournamentName = tournament.tournamentName;
-        this.tournamentLocation = tournament.tournamentLocation;
-        this.tournamentEntryFee = tournament.tournamentEntryFee;
-        this.tournamentCashPrize = tournament.tournamentCashPrize;
-        this.membersParticipating = tournament.membersParticipating;
-        this.finalStandings = tournament.finalStandings;
     }
 
     // Getters / Setters
@@ -150,10 +123,6 @@ public class Tournaments {
         this.membersParticipating = membersParticipating;
     }
 
-    public ArrayList<String> getFinalStandings() {
-        return finalStandings;
-    }
-
     public void setFinalStandings(ArrayList<String> finalStandings) {
         this.finalStandings = finalStandings;
     }
@@ -173,7 +142,7 @@ public class Tournaments {
 
     // Custom Methods
     // Gathering user input & creating a new Tournament to be written to JSON
-    public void createNewTournament() throws InvalidDateTimeException {
+    public void createNewTournament() throws InvalidDateTimeException, ParseException {
         // Scanner to receiver user input
         Scanner userInput = new Scanner(System.in);
 
@@ -186,28 +155,17 @@ public class Tournaments {
         System.out.println("Enter the tournament name: ");
         String tourneyName = userInput.nextLine();
 
-//        userInput.nextLine();
         System.out.println("Enter the tournament start date (Format: March 2, 2022):");
         String tourneyStartDateString = userInput.nextLine();
         Date tourneyStartDate = null;
-        try {
-            tourneyStartDate = new SimpleDateFormat("MMMMM dd, yyyy").parse(tourneyStartDateString);
-        } catch (ParseException e) {
-            throw new InvalidDateTimeException("Tournament Start Date has an invalid date format.");
-        }
+        tourneyStartDate = new SimpleDateFormat("MMMMM dd, yyyy").parse(tourneyStartDateString);
 
-//        userInput.nextLine();
         System.out.println("Enter the tournament end date (Format: March 2, 2022):");
         String tourneyEndDateString = userInput.nextLine();
         Date tourneyEndDate = null;
-        try {
-            tourneyEndDate = new SimpleDateFormat("MMMMM dd, yyyy").parse(tourneyEndDateString);
-        } catch (ParseException e) {
-            throw new InvalidDateTimeException("Tournament End date has an invalid date format.");
-        }
+        tourneyEndDate = new SimpleDateFormat("MMMMM dd, yyyy").parse(tourneyEndDateString);
 
-//        userInput.nextLine();
-        System.out.println("Enter the tournament golf club");
+        System.out.println("Enter the tournament location");
         String tourneyLocation = userInput.nextLine();
 
         System.out.println("Enter the tournament entry fee:");
@@ -680,13 +638,5 @@ public class Tournaments {
             tourney.setFinalStandings(finalStandingsArray);
             CLI.userInterface();
         }
-
-
-        // Send updated Tournament Object to be written
-    }
-
-    public static void main(String[] args) throws InvalidDateTimeException {
-
-
     }
 }

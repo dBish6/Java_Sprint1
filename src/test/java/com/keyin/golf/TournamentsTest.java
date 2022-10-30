@@ -5,7 +5,6 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.text.ParseException;
@@ -16,14 +15,10 @@ import java.util.Date;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
-@ExtendWith(MockitoExtension.class)
 public class TournamentsTest {
 
-        @Mock
-        private Tournaments mockTournament;
-
     @Test
-    public void testCreateNewTournament() throws InvalidDateTimeException {
+    public void testCreateNewTournament() throws ParseException {
 
         ArrayList<Long> membersInTourney = new ArrayList<>();
         membersInTourney.add(123L);
@@ -31,24 +26,15 @@ public class TournamentsTest {
         membersInTourney.add(789L);
 
         Date startDate;
-        try {
-            startDate = new SimpleDateFormat("MMMMM dd, yyyy").parse("October 28, 2022");
-        } catch (ParseException e) {
-            throw new RuntimeException(e);
-        }
+        startDate = new SimpleDateFormat("MMMMM dd, yyyy").parse("October 28, 2022");
 
         Date endDate;
-        try {
-            endDate = new SimpleDateFormat("MMMMM dd, yyyy").parse("October 31, 2022");
-        } catch (ParseException e) {
-            throw new RuntimeException(e);
-        }
+        endDate = new SimpleDateFormat("MMMMM dd, yyyy").parse("October 31, 2022");
 
         Tournaments test1 = new Tournaments(123L, startDate, endDate, "Summerside Open", "Summerside Golf Club", 50L, 1000L, membersInTourney);
         Tournaments test2 = new Tournaments(456L, startDate, endDate, "PEI Fall Invitational", "Anderson Greek Golf Course", 100L, 2000L, membersInTourney);
 
         // Testing the creation of Tournament
-//        Mockito.when(mockTournament.createNewTournament()).thenReturn(test1);
         assertEquals(123L, test1.getTournamentId());
         assertEquals("Summerside Open", test1.getTournamentName());
 
@@ -56,7 +42,6 @@ public class TournamentsTest {
         assertNotEquals("Andersons Creek", test1.getTournamentName());
 
         // Testing the get Tournament by ID
-//        Mockito.when(mockTournament.getTournamentId()).thenReturn(test1.getTournamentId());
         assertEquals(456L, test2.getTournamentId());
         assertEquals("Anderson Greek Golf Course", test2.getTournamentLocation());
 
@@ -177,7 +162,7 @@ public class TournamentsTest {
 
     }
 
-    // Test doesn't work because I added the CLI function call at end of method - But both methods within this method work
+    // Test doesn't work because I added the CLI function call at end of method - But both methods within this method pass tests
 //    @Test
 //    public void testUpdateMemberTournamentsStatus() throws InvalidDateTimeException {
 //        // Creating ArrayLists for what Beginning of tests

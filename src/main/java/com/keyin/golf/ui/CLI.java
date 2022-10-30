@@ -109,17 +109,16 @@ public class CLI {
                     break;
                 case "6":
                     System.out.println(TEXT_YELLOW + "\n*Create Tournaments*");
-//                    System.out.println(TEXT_GREEN + "Enter the <whatever> for the tournament you wish to create:"
-//                            + TEXT_RESET);
-//                    int userInputId4 = input.nextInt();
-//                    System.out.println();
                     quit = true;
                     Tournaments tournaments = new Tournaments();
                     try {
                         tournaments.createNewTournament();
                     } catch (InvalidDateTimeException e) {
                         throw new RuntimeException(e);
+                    } catch (ParseException e) {
+                        throw new RuntimeException(e);
                     }
+
 
                     break;
                 case "7":
@@ -136,11 +135,6 @@ public class CLI {
                     break;
                 case "8":
                     System.out.println(TEXT_YELLOW + "\n*Tournaments*");
-//                    System.out.println(TEXT_GREEN + "Enter the ID, key and value you intend to change:"
-//                            + TEXT_RESET);
-//                    int userInputId6 = input.nextInt();
-//                    String userInputKey2 = input.next();
-//                    String userInputValue2 = input.next();
                     quit = true;
                     Tournaments tournamentsChange = new Tournaments();
                     try {
