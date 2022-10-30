@@ -50,8 +50,8 @@ public class CLI {
             System.out.println(TEXT_GREEN + "\t4. " + TEXT_YELLOW + "Display a Specific Tournament");
             System.out.println(TEXT_GREEN + "\t5. " + TEXT_YELLOW + "Create New Member/Membership");
             System.out.println(TEXT_GREEN + "\t6. " + TEXT_YELLOW + "Create New Tournament");
-            System.out.println(TEXT_GREEN + "\t7. " + TEXT_YELLOW + "Add a Value to Members");
-            System.out.println(TEXT_GREEN + "\t8. " + TEXT_YELLOW + "Add a Value to Tournaments");
+            System.out.println(TEXT_GREEN + "\t7. " + TEXT_YELLOW + "Add/Edit a Value to Members");
+            System.out.println(TEXT_GREEN + "\t8. " + TEXT_YELLOW + "Add/Edit a Value to Tournaments");
             System.out.println(TEXT_GREEN + "\t9. " + TEXT_YELLOW + "Delete a Member Record");
             System.out.println(TEXT_GREEN + "\t10. " + TEXT_YELLOW + "Delete a Tournament Record");
             System.out.println(TEXT_GREEN + "\t- " + TEXT_YELLOW +  "\"q\" to Quit");
@@ -121,37 +121,15 @@ public class CLI {
                     break;
                 case "7":
                     System.out.println(TEXT_YELLOW + "\n*Members*");
-                    System.out.println(TEXT_GREEN + "Enter the ID, key and value you intend to change:"
+                    System.out.println(TEXT_GREEN + "Enter Member ID, field to add/edit and value to set:"
                             + TEXT_RESET);
                     System.out.println("Enter Member ID: ");
                     int userInputId5 = input.nextInt();
-                    System.out.println("""
-                            Input field to change:
-                             1. Name
-                             2. Email
-                             3. Phone Number
-                             4. Address
-                            """);
-                    int userInputKey1 = input.nextInt();
-                    String key = null;
-                    while(key == null) {
-                        if (userInputKey1 < 1 || userInputKey1 > 4) {
-                            System.err.println("ERROR: Invalid Entry");
-                        } else{
-                            if(userInputKey1 == 1){
-                                key = "name";
-
-                            } else if(userInputKey1 == 2){
-                                key = "email";
-                            } else if(userInputKey1 == 3){
-                                key = "phone";
-                            }else{
-                                key = "address";
-                            }
-                        }
-                    }
+                    System.out.println("Enter field to Add/Change (name,email,phone, etc.): ");
+                    String userInputKey1 = input.next();
+                    System.out.println("Enter value to be set to the field: ");
                     String userInputValue1 = input.next();
-                    Add.setMemberDetailValue(userInputId5, key,userInputValue1);
+                    Add.setMemberDetailValue(userInputId5, userInputKey1,userInputValue1);
                     break;
                 case "8":
                     System.out.println(TEXT_YELLOW + "\n*Tournaments*");
@@ -163,7 +141,7 @@ public class CLI {
                     break;
                 case "9":
                     System.out.println(TEXT_YELLOW + "\n*Members*");
-                    System.out.println(TEXT_GREEN + "Enter the memberID for the record you wish to delete:"
+                    System.out.println(TEXT_GREEN + "Enter the membershipID for the record you wish to delete:"
                             + TEXT_RESET);
                     int userInputId7 = input.nextInt();
                     System.out.println(TEXT_GREEN + "\nDeleting...");
