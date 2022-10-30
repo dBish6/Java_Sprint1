@@ -13,6 +13,8 @@ import com.keyin.golf.exceptions.InvalidDateTimeException;
 import com.keyin.golf.json_data.Read;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
+
+import java.lang.reflect.Array;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -213,21 +215,21 @@ public class Tournaments {
         userInput.nextLine();
         System.out.println("Enter the members memberId that are entered for tournament, separated by a comma(,):  ");
         String membersForTourney = userInput.nextLine();
-        ArrayList<Integer> membersForTournamentInteger = new ArrayList<>();
+        ArrayList<Long> membersForTournamentLong = new ArrayList<>();
 
         // Separating String into String array
         String[] membersForTournamentString = membersForTourney.split("\\s*,\\s*");
 
-        // Changing String array into Int array
+        // Changing String array into Long array
         for(int i = 0; i < membersForTournamentString.length; i++){
-            membersForTournamentInteger.add(Integer.parseInt(membersForTournamentString[i]));
+            membersForTournamentLong.add(Long.parseLong(membersForTournamentString[i]));
         }
 
         // Close the scanner
         userInput.close();
 
         // Call the constructor to create new Tournament Instance
-        Tournaments newTourney = new Tournaments(tourneyId, tourneyStartDate, tourneyEndDate, tourneyName, tourneyLocation, tourneyEntryFee, tourneyCashPrize, membersForTournamentInteger );
+        Tournaments newTourney = new Tournaments(tourneyId, tourneyStartDate, tourneyEndDate, tourneyName, tourneyLocation, tourneyEntryFee, tourneyCashPrize, membersForTournamentLong );
 
 
         // Write data to JSON Tournament file
@@ -504,9 +506,133 @@ public class Tournaments {
 
     }
 
+    public void getUserInputToUpdateTournaments() throws InvalidDateTimeException, ParseException {
+        Scanner input = new Scanner(System.in);
+        System.out.println("Enter the Tournament ID");
+        Long tourneyId = input.nextLong();
+
+        // Finding the Tournament by ID in tournaments.json File
+        Tournaments thisTourney = new Tournaments();
+        thisTourney = thisTourney.getTournamentByIdForJson(tourneyId);
+
+        // Options for User Input
+        System.out.println("1. Change the Tournament ID");
+        System.out.println("2. Change the Tournament Start Date");
+        System.out.println("3. Change the Tournament End Date");
+        System.out.println("4. Change the Tournament Name");
+        System.out.println("5. Change the Tournament Location");
+        System.out.println("6. Change the Tournament Entry Fee");
+        System.out.println("7. Change the Tournament Cash Prize");
+        System.out.println("8. Add Members that are Participating in Tournament");
+        System.out.println("9. Add the Final Standings to Tournament");
+
+        // Retrieving user input
+        int userSelection = input.nextInt();
+
+        if(userSelection <1 || userSelection > 10){
+            System.out.println("Please enter a selection between 1 and 8");
+            thisTourney.getUserInputToUpdateTournaments();
+        }
+
+        // Call next function here
+        Tournaments caller = new Tournaments();
+        caller.updateTournaments(thisTourney, userSelection);
+
+    }
+
+    public void updateTournaments(Tournaments tourney, int userSelection) throws ParseException {
+        Scanner userInput = new Scanner(System.in);
+
+        // Determine which actions to complete
+        if(userSelection == 1){
+            System.out.println("Enter the updated Tournament ID");
+            Long update = userInput.nextLong();
+            tourney.setTournamentId(update);
+        } else if(userSelection == 2){
+            System.out.println("Enter the updated Tournament Start Date (Format: March 2, 2022)");
+            String update = userInput.nextLine();
+
+            Date newDate = null;
+            newDate = new SimpleDateFormat("MMMMM dd, yyyy").parse(update);
+            tourney.setTournamentStartDate(newDate);
+        } else if (userSelection == 3) {
+            System.out.println("Enter the updated Tournament End Date (Format: March 2, 2022)");
+            String update = userInput.nextLine();
+
+            Date newDate = null;
+            newDate = new SimpleDateFormat("MMMMM dd, yyyy").parse(update);
+            tourney.setTournamentEndDate(newDate);
+        } else if(userSelection == 4){
+            System.out.println("Enter the updated Tournament Name");
+            String update = userInput.nextLine();
+            tourney.setTournamentName(update);
+        } else if(userSelection == 5){
+            System.out.println("Enter the updated Tournament Location");
+            String update = userInput.nextLine();
+            tourney.setTournamentLocation(update);
+        } else if(userSelection == 6){
+            System.out.println("Enter the updated Tournament Fee");
+            Long update = userInput.nextLong();
+            tourney.setTournamentEntryFee(update);
+        } else if(userSelection == 7){
+            System.out.println("Enter the updated Tournament Cash Prize");
+            Long update = userInput.nextLong();
+            tourney.setTournamentCashPrize(update);
+        } else if(userSelection == 8){
+
+            // Retrieving members current in tourney
+            ArrayList<Long> currentMemberList = new ArrayList<>();
+            currentMemberList = tourney.getMembersParticipating();
+
+            // Retrieving new members id
+            System.out.println("Enter the player's Members Id that you want to add to the tournament, seperated by a comma(,)");
+            String update = userInput.nextLine();
+
+            // Separating String into String array
+            String[] membersForTournamentString = update.split("\\s*,\\s*");
+
+            // Changing String array into Long array
+            for(int i = 0; i < membersForTournamentString.length; i++){
+                currentMemberList.add(Long.parseLong(membersForTournamentString[i]));
+            }
+
+            // Adding complete tournament member id's back to tournament
+            tourney.setMembersParticipating(currentMemberList);
+        } else if(userSelection == 9){
+            System.out.println("Enter the 1st place finisher for Tournament (Format: Name, Score)");
+            String update1 = userInput.nextLine();
+            userInput.nextLine();
+
+            System.out.println("Enter the 2nd place finisher for Tournament (Format: Name, Score)");
+            String update2 = userInput.nextLine();
+            userInput.nextLine();
+
+            System.out.println("Enter the 3rd place finisher for Tournament (Format: Name, Score)");
+            String update3 = userInput.nextLine();
+            userInput.nextLine();
+
+            System.out.println("Enter the 4th place finisher for Tournament (Format: Name, Score)");
+            String update4 = userInput.nextLine();
+            userInput.nextLine();
+
+            System.out.println("Enter the 5th place finisher for Tournament (Format: Name, Score)");
+            String update5 = userInput.nextLine();
+            userInput.nextLine();
+
+            ArrayList<String> finalStandingsArray = new ArrayList<>();
+            finalStandingsArray.add(update1);
+            finalStandingsArray.add(update2);
+            finalStandingsArray.add(update3);
+            finalStandingsArray.add(update4);
+            finalStandingsArray.add(update5);
+        }
+
+        // Send updated Tournament Object to be written
+
 //    public static void main(String[] args) throws Exception{
 //
 //
 //    }
 
+    }
 }
