@@ -297,6 +297,7 @@ public class Tournaments {
 
     // Runs the methods updateMemberCurrentTournaments & updateMemberUpcomingTournaments to update their Tournament Statuses
     public void updateMemberTournamentsStatus(Member members) throws InvalidDateTimeException {
+
         // Check Tournaments in the Future List
         updateMemberUpcomingTournaments(members);
 
@@ -434,9 +435,9 @@ public class Tournaments {
         }
     }
 
-    public Member getMemberFromJsonToUpdateTournaments(int userInputedMemberId){
+    public Member getMemberFromJsonToUpdateTournaments(int userInputtedMemberId){
 
-        JSONObject jsonObj = Read.getMemberJSONRecordByMemberID(userInputedMemberId);
+        JSONObject jsonObj = Read.getMemberJSONRecordByMemberID(userInputtedMemberId);
 
         if(jsonObj != null){
             JSONObject membershipObj = (JSONObject) jsonObj.get("member");
@@ -455,16 +456,14 @@ public class Tournaments {
                     Long memberId = null;
                     memberId = (Long) members.get("memberID");
 
-                    if(memberId.equals((Long.valueOf(userInputedMemberId)))){
+                    if(memberId.equals((Long.valueOf(userInputtedMemberId)))){
                         memberObj = (JSONObject) familyMember;
-//                    System.out.println(memberObj);
                         break;
                     }
                 }
             } else {
                 // This member is not Family Plan Member
                 memberObj = (JSONObject) jsonObj.get("member");
-//            System.out.println(memberObj);
             }
 
             // Create the Member Object
@@ -477,9 +476,8 @@ public class Tournaments {
             foundMember.setPastTournaments((ArrayList<Long>) memberObj.get("pastTournaments"));
             foundMember.setUpcomingTournaments((ArrayList<Long>) memberObj.get("upcomingTournaments"));
 
-            System.out.println(foundMember);
-
             return foundMember;
+
         } else {
             System.out.println("No Member found with that Member ID");
 
@@ -487,18 +485,28 @@ public class Tournaments {
         }
     }
 
-    private static int getUserInputedMemberId() {
+    public void getUserInputtedMemberId() throws InvalidDateTimeException {
         Scanner userInput = new Scanner(System.in);
 
         System.out.println("Enter the memberId that you want to Update Tournament Status for: ");
-        int userInputedMemberId = userInput.nextInt();
-        return userInputedMemberId;
+        int userInputtedMemberId = userInput.nextInt();
+
+        // Creating empty Tournament object & Member Object to save results
+        Tournaments caller = new Tournaments();
+        Member thisMember = new Member();
+
+        // Gets user inputs and passes values to getMemberFromJsonToUpdateTournaments Method
+        thisMember = caller.getMemberFromJsonToUpdateTournaments(userInputtedMemberId);
+
+        if(thisMember != null){
+            caller.updateMemberCurrentTournaments(thisMember);
+        }
+
     }
 
-
-    public static void main(String[] args) throws Exception{
-
-
-    }
+//    public static void main(String[] args) throws Exception{
+//
+//
+//    }
 
 }
