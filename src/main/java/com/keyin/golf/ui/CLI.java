@@ -57,6 +57,7 @@ public class CLI {
             System.out.println(TEXT_GREEN + "\t8. " + TEXT_YELLOW + "Add/Edit a Value to Tournaments");
             System.out.println(TEXT_GREEN + "\t9. " + TEXT_YELLOW + "Delete a Member Record");
             System.out.println(TEXT_GREEN + "\t10. " + TEXT_YELLOW + "Delete a Tournament Record");
+            System.out.println(TEXT_GREEN + "\t11. " + TEXT_YELLOW + "Update a Members Tournament Statuses");
             System.out.println(TEXT_GREEN + "\t- " + TEXT_YELLOW +  "\"q\" to Quit");
             System.out.println(TEXT_GREEN + "\n\tEnter your desired choice below:" + TEXT_RESET);
             switch (input.next()) {
@@ -109,7 +110,7 @@ public class CLI {
                     }
                     break;
                 case "6":
-                    System.out.println(TEXT_YELLOW + "\n*Tournaments*");
+                    System.out.println(TEXT_YELLOW + "\n*Create Tournaments*");
 //                    System.out.println(TEXT_GREEN + "Enter the <whatever> for the tournament you wish to create:"
 //                            + TEXT_RESET);
 //                    int userInputId4 = input.nextInt();
@@ -121,6 +122,7 @@ public class CLI {
                     } catch (InvalidDateTimeException e) {
                         throw new RuntimeException(e);
                     }
+
                     break;
                 case "7":
                     System.out.println(TEXT_YELLOW + "\n*Members*");
@@ -168,6 +170,17 @@ public class CLI {
                     System.out.println(TEXT_GREEN + "\nDeleting...");
                     Delete.deleteTournamentJSONRecordById(userInputId8);
                     System.out.println(TEXT_GREEN + "JSON Record was successfully deleted.\n");
+                    break;
+                case "11":
+                    System.out.println(TEXT_YELLOW + "\n*Tournaments*");
+                    quit = true;
+
+                    Tournaments tournamentsGetMember = new Tournaments();
+                    try {
+                        tournamentsGetMember.getUserInputtedMemberId();
+                    } catch (InvalidDateTimeException e) {
+                        throw new RuntimeException(e);
+                    }
                     break;
                 case "q":
                     System.out.println(TEXT_GREEN + "\nQuiting...");
