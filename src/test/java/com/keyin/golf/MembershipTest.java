@@ -1,7 +1,5 @@
 package com.keyin.golf;
-import static org.mockito.Mockito.when;
 
-import org.junit.Before;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -11,6 +9,8 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 
 import java.util.ArrayList;
+import java.util.Date;
+
 
 
 @ExtendWith(MockitoExtension.class)
@@ -31,7 +31,6 @@ public class MembershipTest {
     }
     //Test to test the membership id
 
-
     @Test
     public void testMembershipId() {
 
@@ -39,7 +38,9 @@ public class MembershipTest {
 
         String result = String.valueOf(membership.getMembershipID());
 
-        Assertions.assertEquals("23L", result);
+
+        Assertions.assertSame(23, result);
+
 
         System.out.println("The membership id is suppose to be " + membership.getMembershipID());
     }
@@ -52,16 +53,18 @@ public class MembershipTest {
         mockMemberList.add(mockMember);
         Membership testMembership = new Membership();
         testMembership.setMembershipID(1L);
-//        testMembership.setMembershipStartDate(new SimpleDateFormat(2022, 11, 28));
-//        testMembership.setMembershipEndDate(new SimpleDateFormat(2023, 11, 28));
+
+        testMembership.setMembershipStartDate(new Date(2022, 11, 28));
+        testMembership.setMembershipEndDate(new Date(2022, 11, 28));
+
         testMembership.setMembershipType("Premium");
 
 
         Assertions.assertNotNull(testMembership.getMemberList());
         Assertions.assertEquals(1L, testMembership.getMembershipID());
-//        Assertions.assertEquals(new Date(2022, 11, 28), testMembership.getMembershipStartDate());
-//        Assertions.assertEquals(new Date(2022, 11, 28), testMembership.getMembershipEndDate());
+
+        Assertions.assertEquals(new Date(2022, 11, 28), testMembership.getMembershipStartDate());
+        Assertions.assertEquals(new Date(2022, 11, 28), testMembership.getMembershipEndDate());
         Assertions.assertEquals("Premium", testMembership.getMembershipType());
     }
-
 }
