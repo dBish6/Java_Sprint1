@@ -72,12 +72,9 @@ public class Write {
             newMember.put("upcomingTournaments",memberToAdd.getUpcomingTournaments());
 
             memberList.forEach(member->{
-                Boolean foundMatch = false;
+
                 JSONObject memberObject = (JSONObject) member;
                 if(memberObject.get("membershipID") == membershipID) {
-
-                    foundMatch = true;
-
                     if (memberObject.get("membershipType") != "Family Plan") {
                         memberObject.put("membershipType", "Family Plan");
                         JSONObject firstMember = new JSONObject();
@@ -113,14 +110,17 @@ public class Write {
                         memberObject.put("monthlyMembershipCost",newMembershipCost);
                     }
                 }
-                if(!foundMatch){
-                    System.err.println("ERROR: Membership ID not found");
-                }
             });
+
+            try(FileWriter writer = new FileWriter("src/main/golf.club.json/members.json")){
+                writer.write(memberList.toJSONString());
+            }
 
         }  catch (IOException | ParseException e) {
             e.printStackTrace();
         }
+
+
 
     }
     public JSONObject createMembershipObj(Membership membership){
@@ -238,7 +238,7 @@ public class Write {
         return completeObject;
     }
 
-    private void addToFile(JSONObject objectToAdd, String filename){
+    public void addToFile(JSONObject objectToAdd, String filename){
 
         JSONParser jsonParser = new JSONParser();
         try(FileReader reader = new FileReader(filename)) {

@@ -8,6 +8,9 @@ package com.keyin.golf;
    Creation Date: Oct 24, 2022
  */
 
+import com.keyin.golf.json_data.Write;
+import org.json.simple.JSONObject;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -141,7 +144,7 @@ public class Membership {
 
         return newMember;
     }
-    public static Membership createNewMembership(Member member) {
+    public static void createNewMembership(Member member) {
         // Scanner to receiver user input
         Scanner userInput = new Scanner(System.in);
 
@@ -202,6 +205,8 @@ public class Membership {
 
         newMembership.addMember(member);
 
-        return newMembership;
+        Write writer = new Write();
+        JSONObject newMembershipObject = writer.createMembershipObj(newMembership);
+        writer.addToFile(newMembershipObject,"src/main/golf.club.json/members.json");
     }
 }
