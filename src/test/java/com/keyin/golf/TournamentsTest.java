@@ -1,5 +1,6 @@
 package com.keyin.golf;
 
+import com.keyin.golf.exceptions.InvalidDateTimeException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -57,7 +58,7 @@ public class TournamentsTest {
     }
 
     @Test
-    public void testGetTournamentById() throws ParseException {
+    public void testGetTournamentById() throws InvalidDateTimeException {
         // Using tournaments.json for testing
         Tournaments test1 = new Tournaments();
         Tournaments test2 = new Tournaments();
@@ -70,7 +71,7 @@ public class TournamentsTest {
 
     // This method checks Current tournaments for member and moves them current if they are now current
     @Test
-    public void testUpdateMemberCurrentTournaments() {
+    public void testUpdateMemberCurrentTournaments() throws InvalidDateTimeException {
 
         // Tournaments for Member 1 at beginning of Test
         ArrayList<Long> currentTournamentsBeginning = new ArrayList<>();
@@ -88,7 +89,7 @@ public class TournamentsTest {
         pastTournamentsEndTest.add(3L);
 
         // Creating person object and adding tests to Person Object
-        Member member1 = new Member(2L, "Jimmy Rodgers", "Jimmy1_1@hotmail.com", "19 Kingpin Dr", "8670666");
+        Member member1 = new Member(2L, "Jimmy Rodgers", "Jimmy1_1@hotmail.com", "8670666", "19 Kingpin Dr");
         member1.setCurrentTournaments(currentTournamentsBeginning);
         member1.setPastTournaments(pastTournamentsBegninning);
 
@@ -106,7 +107,7 @@ public class TournamentsTest {
 
     // This method checks Upcoming tournaments for Member and moves them to Current if they are now current.
     @Test
-    public void testMemberUpcomingTournaments() {
+    public void testMemberUpcomingTournaments() throws InvalidDateTimeException {
         // Creating ArrayLists for what Beginning of tests
         ArrayList<Long> currentTournamentsBeginning = new ArrayList<>();
 
@@ -120,7 +121,7 @@ public class TournamentsTest {
         ArrayList<Long> upcomingTournamentsEndTest = new ArrayList<>();
         upcomingTournamentsEndTest.add(5L);
 
-        Member member2 = new Member(2L, "Jimmy Rodgers", "Jimmy1_1@hotmail.com", "19 Kingpin Dr", "8670666");
+        Member member2 = new Member(2L, "Jimmy Rodgers", "Jimmy1_1@hotmail.com", "8670666", "19 Kingpin Dr");
         member2.setCurrentTournaments(currentTournamentsBeginning);
         member2.setUpcomingTournaments(upcomingTournamentsBeginning);
 
@@ -142,7 +143,7 @@ public class TournamentsTest {
     }
 
     @Test
-    public void testUpdateMemberTournamentsStatus() {
+    public void testUpdateMemberTournamentsStatus() throws InvalidDateTimeException {
         // Creating ArrayLists for what Beginning of tests
         ArrayList<Long> currentTournamentsBeginning = new ArrayList<>();
         currentTournamentsBeginning.add(2L);
@@ -167,7 +168,7 @@ public class TournamentsTest {
         pastTournamentsEndTest.add(2L);
         pastTournamentsEndTest.add(3L);
 
-        Member member2 = new Member(2L, "Jimmy Rodgers", "Jimmy1_1@hotmail.com", "19 Kingpin Dr", "8670666");
+        Member member2 = new Member(2L, "Jimmy Rodgers", "Jimmy1_1@hotmail.com", "8670666", "19 Kingpin Dr");
         member2.setCurrentTournaments(currentTournamentsBeginning);
         member2.setUpcomingTournaments(upcomingTournamentsBeginning);
         member2.setPastTournaments(pastTournamentsBeginning);
@@ -187,6 +188,29 @@ public class TournamentsTest {
         Assertions.assertEquals(upcomingTournamentsEndTest, member2.getUpcomingTournaments());
         Assertions.assertNotEquals(upcomingTournamentsEndTest, member2.getCurrentTournaments());
         Assertions.assertNotEquals(currentTournamentsEndTest, member2.getUpcomingTournaments());
+    }
+
+    @Test
+    public void testGetMemberFromJsonToUpdateTournaments(){
+        // Creating members Objects that will be searched in members.json file
+//        Long memberID, String name, String email, String phoneNumber, String address
+        Member test1 = new Member(124L, "Jamie Joe", "jamieJoe12@gmail.com", "6093124", "19 Kingpin Dr");
+        Member test2 = new Member(126L, "Chuck Robinson", "Rob_132@hotmail.com", "5670646", "6 Yellow-belly Rd");
+        Tournaments tester = new Tournaments();
+
+        // Test case 1
+        Member test1Actual = tester.getMemberFromJsonToUpdateTournaments(124);
+        Assertions.assertEquals(test1.getMemberID(), test1Actual.getMemberID());
+        Assertions.assertEquals(124L, test1Actual.getMemberID());
+
+        Assertions.assertNotEquals(130L, test1Actual.getMemberID());
+
+        // Test Cast 2
+        Member test2Actual = tester.getMemberFromJsonToUpdateTournaments(126);
+        Assertions.assertEquals(test2.getMemberID(), test2Actual.getMemberID());
+        Assertions.assertEquals(126L, test2Actual.getMemberID());
+
+        Assertions.assertNotEquals(130L, test2Actual.getMemberID());
     }
 }
 
