@@ -10,7 +10,10 @@ package com.keyin.golf;
  */
 
 import com.keyin.golf.exceptions.InvalidDateTimeException;
+import com.keyin.golf.json_data.Add;
 import com.keyin.golf.json_data.Read;
+import com.keyin.golf.json_data.Write;
+import com.keyin.golf.ui.CLI;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
@@ -182,7 +185,7 @@ public class Tournaments {
         System.out.println("Enter the tournament name: ");
         String tourneyName = userInput.nextLine();
 
-        userInput.nextLine();
+//        userInput.nextLine();
         System.out.println("Enter the tournament start date (Format: March 2, 2022):");
         String tourneyStartDateString = userInput.nextLine();
         Date tourneyStartDate = null;
@@ -192,7 +195,7 @@ public class Tournaments {
             throw new InvalidDateTimeException("Tournament Start Date has an invalid date format.");
         }
 
-        userInput.nextLine();
+//        userInput.nextLine();
         System.out.println("Enter the tournament end date (Format: March 2, 2022):");
         String tourneyEndDateString = userInput.nextLine();
         Date tourneyEndDate = null;
@@ -202,7 +205,7 @@ public class Tournaments {
             throw new InvalidDateTimeException("Tournament End date has an invalid date format.");
         }
 
-        userInput.nextLine();
+//        userInput.nextLine();
         System.out.println("Enter the tournament golf club");
         String tourneyLocation = userInput.nextLine();
 
@@ -233,78 +236,99 @@ public class Tournaments {
 
 
         // Write data to JSON Tournament file
+        Write write = new Write();
+        write.createTournamentObj(newTourney);
 
         return newTourney;
     }
 
+    // Method that calls createNewTournament & then recalls the CLI interface when done running
+    public void createNewTournamentCaller() throws InvalidDateTimeException {
+        Tournaments tournamentsCaller = new Tournaments();
+
+        tournamentsCaller.createNewTournament();
+
+        CLI.userInterface();
+    }
+
     // Searching for tournament by tournamentId in tournaments.json
-    public Tournaments getTournamentByIdForJson(Long tournamentId) throws InvalidDateTimeException {
+    public Tournaments getTournamentByIdForJson(int tournamentId) throws InvalidDateTimeException {
         // Date formatter
         SimpleDateFormat dateFormatter = new SimpleDateFormat("MMMMM dd, yyyy");
 
         // Creating new Read Object to receive Tournaments / Members objects
         Read read = new Read();
-        JSONObject jsonObj = read.getTournamentJSONRecordById(Math.toIntExact(tournamentId));
+        JSONObject jsonObj = read.getTournamentJSONRecordById(tournamentId);
 
-        // First get the whole JSONObject to get specified values.
-        JSONObject tournamentObj = (JSONObject) jsonObj.get("tournament");
+        if(jsonObj != null){
+            // First get the whole JSONObject to get specified values.
+            JSONObject tournamentObj = (JSONObject) jsonObj.get("tournament");
 
-        // Get member memberID, name, email, and phone, etc.
-        Long tournamentID = (Long) tournamentObj.get("tournamentID");
+            // Get member memberID, name, email, and phone, etc.
+            Long tournamentID = (Long) tournamentObj.get("tournamentID");
 
-        // Updating the date to a date object
-        String tournamentStartDateString = (String) tournamentObj.get("tournamentStartDate");
-        Date tournamentStartDate = null;
+            // Updating the date to a date object
+            String tournamentStartDateString = (String) tournamentObj.get("tournamentStartDate");
+            Date tournamentStartDate = null;
 
-        try {
-            tournamentStartDate = dateFormatter.parse(tournamentStartDateString);
-        } catch (ParseException e) {
-            throw new InvalidDateTimeException("Tournament Start Date is not in a valid format.");
-        }
-
-        // Updating end date to a date object
-        String tournamentEndDateString = (String) tournamentObj.get("tournamentEndDate");
-        Date tournamentEndDate = null;
-        try {
-            tournamentEndDate = dateFormatter.parse(tournamentEndDateString);
-        } catch (ParseException e) {
-            throw new InvalidDateTimeException("Tournament End Date is not in a valid format.");
-        }
-
-        String tournamentName = (String) tournamentObj.get("name");
-        String location = (String) tournamentObj.get("location");
-        Long entryFee = (Long) tournamentObj.get("entryFee");
-        Long cashPrize = (Long) tournamentObj.get("cashPrize");
-
-        // Get membersParticipating and add to ArrayList
-        ArrayList<Long> membersInTournament = new ArrayList<>();
-
-        JSONArray membersParticipating = (JSONArray) tournamentObj.get("membersParticipating");
-        // Iterate though each member object in the familyMembers JSONArray.
-        for (Object member : membersParticipating) {
-            // Then creates the JSONObject out of the JSONArray.
-            JSONObject members = (JSONObject) member;
-            // Iterates through each key in the members JSONObject.
-            for (Object key : members.keySet()) {
-                // Gets each of the keys values and adds to ArrayList
-                membersInTournament.add((Long) members.get(key));
+            try {
+                tournamentStartDate = dateFormatter.parse(tournamentStartDateString);
+            } catch (ParseException e) {
+                throw new InvalidDateTimeException("Tournament Start Date is not in a valid format.");
             }
+
+            // Updating end date to a date object
+            String tournamentEndDateString = (String) tournamentObj.get("tournamentEndDate");
+            Date tournamentEndDate = null;
+            try {
+                tournamentEndDate = dateFormatter.parse(tournamentEndDateString);
+            } catch (ParseException e) {
+                throw new InvalidDateTimeException("Tournament End Date is not in a valid format.");
+            }
+
+            String tournamentName = (String) tournamentObj.get("name");
+            String location = (String) tournamentObj.get("location");
+            Long entryFee = (Long) tournamentObj.get("entryFee");
+            Long cashPrize = (Long) tournamentObj.get("cashPrize");
+
+            // Get membersParticipating and add to ArrayList
+            ArrayList<Long> membersInTournament = new ArrayList<>();
+
+            JSONArray membersParticipating = (JSONArray) tournamentObj.get("membersParticipating");
+            // Iterate though each member object in the familyMembers JSONArray.
+            for (Object member : membersParticipating) {
+                // Then creates the JSONObject out of the JSONArray.
+                JSONObject members = (JSONObject) member;
+                // Iterates through each key in the members JSONObject.
+                for (Object key : members.keySet()) {
+                    // Gets each of the keys values and adds to ArrayList
+                    membersInTournament.add((Long) members.get(key));
+                }
+            }
+
+            // Creating and returning the Tournament Information
+            Tournaments membersTournament = new Tournaments(tournamentID, tournamentStartDate, tournamentEndDate, tournamentName, location, entryFee, cashPrize, membersInTournament);
+
+            return membersTournament;
+        } else {
+            System.out.println("There was no tournament with Tournament ID of " + tournamentId + ".");
+            return null;
         }
-
-        // Creating and returning the Tournament Information
-        Tournaments membersTournament = new Tournaments(tournamentID, tournamentStartDate, tournamentEndDate, tournamentName, location, entryFee, cashPrize, membersInTournament);
-
-        return membersTournament;
     }
 
     // Runs the methods updateMemberCurrentTournaments & updateMemberUpcomingTournaments to update their Tournament Statuses
-    public void updateMemberTournamentsStatus(Member members) throws InvalidDateTimeException {
+    public void updateMemberTournamentsStatus(Member memberToUpdateTournaments) throws InvalidDateTimeException {
 
         // Check Tournaments in the Future List
-        updateMemberUpcomingTournaments(members);
+        updateMemberUpcomingTournaments(memberToUpdateTournaments);
 
         // Checking all tournaments in Current List
-        updateMemberCurrentTournaments(members);
+        updateMemberCurrentTournaments(memberToUpdateTournaments);
+
+        // Add the updated Members Object to the members.json file
+        Add add = new Add();
+//        add.setMemberTournamentDetails(memberToUpdateTournaments);
+
     }
 
     // Checks the dates of passed in members Current Tournaments & changes to pastTournaments if no longer current
@@ -333,7 +357,7 @@ public class Tournaments {
 
             // Finding the current tournament and getting Start / End dates
             try {
-                currentTournament = tourney.getTournamentByIdForJson((tourneyId));
+                currentTournament = tourney.getTournamentByIdForJson(Math.toIntExact((tourneyId)));
             } catch (InvalidDateTimeException e) {
                 throw new InvalidDateTimeException("Tournament found doesn't have a correct Start or End Date.");
             }
@@ -398,7 +422,7 @@ public class Tournaments {
 
             // Finding the current tournament and getting Start / End dates
             try {
-                upcomingTournament = tourney.getTournamentByIdForJson((tourneyId));
+                upcomingTournament = tourney.getTournamentByIdForJson(Math.toIntExact((tourneyId)));
             } catch (InvalidDateTimeException e) {
                 throw new InvalidDateTimeException("Requested Tournament ID has an error with Start or End Date.");
             }
@@ -437,6 +461,7 @@ public class Tournaments {
         }
     }
 
+    // Searches for a member from the members.json file
     public Member getMemberFromJsonToUpdateTournaments(int userInputtedMemberId){
 
         JSONObject jsonObj = Read.getMemberJSONRecordByMemberID(userInputtedMemberId);
@@ -481,62 +506,77 @@ public class Tournaments {
             return foundMember;
 
         } else {
-            System.out.println("No Member found with that Member ID");
+            System.out.println("No Member found with Member ID " + userInputtedMemberId + ".");
 
             return null;
         }
     }
 
+    // Gets user to input member Id that they want to update member tournament statuses for.
+    // Then calls the getMemberFromJsonToUpdateTournaments and passes the MemberID
     public void getUserInputtedMemberId() throws InvalidDateTimeException {
-        Scanner userInput = new Scanner(System.in);
 
+        Scanner userInput = new Scanner(System.in);
         System.out.println("Enter the memberId that you want to Update Tournament Status for: ");
         int userInputtedMemberId = userInput.nextInt();
 
-        // Creating empty Tournament object & Member Object to save results
-        Tournaments caller = new Tournaments();
-        Member thisMember = new Member();
+        Tournaments tournament = new Tournaments();
+        tournament.getMemberFromJsonToUpdateTournaments(userInputtedMemberId);
 
-        // Gets user inputs and passes values to getMemberFromJsonToUpdateTournaments Method
-        thisMember = caller.getMemberFromJsonToUpdateTournaments(userInputtedMemberId);
+//        // Creating empty Tournament object & Member Object to save results
+//        Tournaments caller = new Tournaments();
+//        Member thisMember = new Member();
+//
+//        // Gets user inputs and passes values to getMemberFromJsonToUpdateTournaments Method
+//        thisMember = caller.getMemberFromJsonToUpdateTournaments(userInputtedMemberId);
+//
+//        if(thisMember != null){
+//            caller.updateMemberCurrentTournaments(thisMember);
+//        }
 
-        if(thisMember != null){
-            caller.updateMemberCurrentTournaments(thisMember);
-        }
 
     }
 
     public void getUserInputToUpdateTournaments() throws InvalidDateTimeException, ParseException {
         Scanner input = new Scanner(System.in);
         System.out.println("Enter the Tournament ID");
-        Long tourneyId = input.nextLong();
+        int tourneyId = input.nextInt();
 
         // Finding the Tournament by ID in tournaments.json File
         Tournaments thisTourney = new Tournaments();
         thisTourney = thisTourney.getTournamentByIdForJson(tourneyId);
 
-        // Options for User Input
-        System.out.println("1. Change the Tournament ID");
-        System.out.println("2. Change the Tournament Start Date");
-        System.out.println("3. Change the Tournament End Date");
-        System.out.println("4. Change the Tournament Name");
-        System.out.println("5. Change the Tournament Location");
-        System.out.println("6. Change the Tournament Entry Fee");
-        System.out.println("7. Change the Tournament Cash Prize");
-        System.out.println("8. Add Members that are Participating in Tournament");
-        System.out.println("9. Add the Final Standings to Tournament");
+        System.out.println(thisTourney);
 
-        // Retrieving user input
-        int userSelection = input.nextInt();
+        if(thisTourney != null){
+            // Options for User Input
+            System.out.println("1. Change the Tournament ID");
+            System.out.println("2. Change the Tournament Start Date");
+            System.out.println("3. Change the Tournament End Date");
+            System.out.println("4. Change the Tournament Name");
+            System.out.println("5. Change the Tournament Location");
+            System.out.println("6. Change the Tournament Entry Fee");
+            System.out.println("7. Change the Tournament Cash Prize");
+            System.out.println("8. Add Members that are Participating in Tournament");
+            System.out.println("9. Add the Final Standings to Tournament");
 
-        if(userSelection <1 || userSelection > 10){
-            System.out.println("Please enter a selection between 1 and 8");
-            thisTourney.getUserInputToUpdateTournaments();
+            // Retrieving user input
+            int userSelection = input.nextInt();
+
+            if(userSelection <1 || userSelection > 10){
+                System.out.println("Please enter a selection between 1 and 9");
+                CLI.userInterface();
+            }
+
+            // Call next function here
+            Tournaments caller = new Tournaments();
+            caller.updateTournaments(thisTourney, userSelection);
+
+        } else {
+            System.out.println("There is no Tournament ID " + tourneyId + ".");
+            CLI.userInterface();
         }
 
-        // Call next function here
-        Tournaments caller = new Tournaments();
-        caller.updateTournaments(thisTourney, userSelection);
 
     }
 
@@ -548,6 +588,7 @@ public class Tournaments {
             System.out.println("Enter the updated Tournament ID");
             Long update = userInput.nextLong();
             tourney.setTournamentId(update);
+            CLI.userInterface();
         } else if(userSelection == 2){
             System.out.println("Enter the updated Tournament Start Date (Format: March 2, 2022)");
             String update = userInput.nextLine();
@@ -555,6 +596,7 @@ public class Tournaments {
             Date newDate = null;
             newDate = new SimpleDateFormat("MMMMM dd, yyyy").parse(update);
             tourney.setTournamentStartDate(newDate);
+            CLI.userInterface();
         } else if (userSelection == 3) {
             System.out.println("Enter the updated Tournament End Date (Format: March 2, 2022)");
             String update = userInput.nextLine();
@@ -562,22 +604,27 @@ public class Tournaments {
             Date newDate = null;
             newDate = new SimpleDateFormat("MMMMM dd, yyyy").parse(update);
             tourney.setTournamentEndDate(newDate);
+            CLI.userInterface();
         } else if(userSelection == 4){
             System.out.println("Enter the updated Tournament Name");
             String update = userInput.nextLine();
             tourney.setTournamentName(update);
+            CLI.userInterface();
         } else if(userSelection == 5){
             System.out.println("Enter the updated Tournament Location");
             String update = userInput.nextLine();
             tourney.setTournamentLocation(update);
+            CLI.userInterface();
         } else if(userSelection == 6){
             System.out.println("Enter the updated Tournament Fee");
             Long update = userInput.nextLong();
             tourney.setTournamentEntryFee(update);
+            CLI.userInterface();
         } else if(userSelection == 7){
             System.out.println("Enter the updated Tournament Cash Prize");
             Long update = userInput.nextLong();
             tourney.setTournamentCashPrize(update);
+            CLI.userInterface();
         } else if(userSelection == 8){
 
             // Retrieving members current in tourney
@@ -598,26 +645,22 @@ public class Tournaments {
 
             // Adding complete tournament member id's back to tournament
             tourney.setMembersParticipating(currentMemberList);
+            CLI.userInterface();
         } else if(userSelection == 9){
             System.out.println("Enter the 1st place finisher for Tournament (Format: Name, Score)");
             String update1 = userInput.nextLine();
-            userInput.nextLine();
 
             System.out.println("Enter the 2nd place finisher for Tournament (Format: Name, Score)");
             String update2 = userInput.nextLine();
-            userInput.nextLine();
 
             System.out.println("Enter the 3rd place finisher for Tournament (Format: Name, Score)");
             String update3 = userInput.nextLine();
-            userInput.nextLine();
 
             System.out.println("Enter the 4th place finisher for Tournament (Format: Name, Score)");
             String update4 = userInput.nextLine();
-            userInput.nextLine();
 
             System.out.println("Enter the 5th place finisher for Tournament (Format: Name, Score)");
             String update5 = userInput.nextLine();
-            userInput.nextLine();
 
             ArrayList<String> finalStandingsArray = new ArrayList<>();
             finalStandingsArray.add(update1);
@@ -625,14 +668,18 @@ public class Tournaments {
             finalStandingsArray.add(update3);
             finalStandingsArray.add(update4);
             finalStandingsArray.add(update5);
+
+            tourney.setFinalStandings(finalStandingsArray);
+            CLI.userInterface();
         }
 
-        // Send updated Tournament Object to be written
 
-//    public static void main(String[] args) throws Exception{
-//
-//
-//    }
+        // Send updated Tournament Object to be written
+    }
+
+    public static void main(String[] args) throws InvalidDateTimeException {
+
+        CLI.userInterface();
 
     }
 }

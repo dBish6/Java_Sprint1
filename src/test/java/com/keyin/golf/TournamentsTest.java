@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.text.ParseException;
@@ -22,7 +23,7 @@ public class TournamentsTest {
         private Tournaments mockTournament;
 
     @Test
-    public void testCreateNewTournament() {
+    public void testCreateNewTournament() throws InvalidDateTimeException {
 
         ArrayList<Long> membersInTourney = new ArrayList<>();
         membersInTourney.add(123L);
@@ -47,26 +48,30 @@ public class TournamentsTest {
         Tournaments test2 = new Tournaments(456L, startDate, endDate, "PEI Fall Invitational", "Anderson Greek Golf Course", 100L, 2000L, membersInTourney);
 
         // Testing the creation of Tournament
-//        Mockito.when(mockTournament.createNewTournament()).thenReturn(test1);
-//        assertEquals(test1, mockTournament.createNewTournament());
-//        assertNotEquals(test2, mockTournament.createNewTournament());
-//
-//        // Testing the get Tournament by ID
-//        Mockito.when(mockTournament.getTournamentId()).thenReturn(test1.getTournamentId());
-//        assertEquals(test1.getTournamentId(), mockTournament.getTournamentId());
-//        assertNotEquals(test2.getTournamentId(), mockTournament.getTournamentId());
+        Mockito.when(mockTournament.createNewTournament()).thenReturn(test1);
+        assertEquals(test1, mockTournament.createNewTournament());
+        assertNotEquals(test2, mockTournament.createNewTournament());
+
+        // Testing the get Tournament by ID
+        Mockito.when(mockTournament.getTournamentId()).thenReturn(test1.getTournamentId());
+        assertEquals(test1.getTournamentId(), mockTournament.getTournamentId());
+        assertNotEquals(test2.getTournamentId(), mockTournament.getTournamentId());
     }
 
+    // Searches for a Tournament Id in the Tournaments.json file
     @Test
     public void testGetTournamentById() throws InvalidDateTimeException {
         // Using tournaments.json for testing
         Tournaments test1 = new Tournaments();
-        Tournaments test2 = new Tournaments();
 
-        test2 = test1.getTournamentByIdForJson(Long.valueOf(String.valueOf(1)));
+        Tournaments test2 = test1.getTournamentByIdForJson(1);
+        Tournaments test3 = test1.getTournamentByIdForJson(7);
 
         assertEquals(1L, test2.getTournamentId());
         Assertions.assertNotEquals(2L, test2.getTournamentId());
+
+        // Test when there was no match found for search Tournament ID
+        assertEquals(null, test3);
     }
 
     // This method checks Current tournaments for member and moves them current if they are now current
