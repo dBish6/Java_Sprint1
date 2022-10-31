@@ -1,7 +1,7 @@
 package com.keyin.golf;
 
 /* Tournaments.java
-   Class for members of the tournament...
+   Class for Tournament Object
 
    Author: Chris Doucette
    Contributors:  David Bishop, Dominic Whelan and Blake Waddleton
@@ -75,6 +75,10 @@ public class Tournaments {
 
     // Getters / Setters
     public String getTournamentLocation() { return tournamentLocation;}
+
+    public ArrayList<String> getFinalStandings() {
+        return finalStandings;
+    }
 
     public void setTournamentLocation(String tournamentLocation) {
         this.tournamentLocation = tournamentLocation;
@@ -178,7 +182,7 @@ public class Tournaments {
         Date tourneyEndDate = null;
         tourneyEndDate = new SimpleDateFormat("MMMMM dd, yyyy").parse(tourneyEndDateString);
 
-        System.out.println("Enter the tournament location");
+        System.out.println("Enter the tournament location:");
         String tourneyLocation = userInput.nextLine();
 
         System.out.println("Enter the tournament entry fee:");
@@ -272,7 +276,7 @@ public class Tournaments {
 
             return membersTournament;
         } else {
-            System.out.println("There was no tournament with Tournament ID of " + tournamentId + ".");
+            System.err.println("There was no tournament with Tournament ID of " + tournamentId + ".");
             return null;
         }
     }
@@ -291,6 +295,12 @@ public class Tournaments {
         add.setMemberTournamentDetails(memberToUpdateTournaments);
 
 
+        // Delete outdated json record and write the new json record
+        Delete.deleteMemberJSONRecordByMembershipID(Math.toIntExact(memberToUpdateTournaments.getMemberID()));
+        Write write = new Write();
+        write.createMemberObj(memberToUpdateTournaments);
+
+        // Message to user
         System.out.println("Your Tournaments - Passed, Current & Upcoming have been updated!");
         System.out.println();
 
@@ -338,7 +348,7 @@ public class Tournaments {
                 today.getDate();
 
                 // Checking if current tournaments are still current.
-                if(currentTournamentTournamentEndDate.compareTo(today) < 0){
+                if(currentTournamentTournamentEndDate.compareTo(today) <= 0){
 
                     // Creating new ArrayList to receive current tourneys ArrayList from Members
                     ArrayList<Long> updateCurrentTournament = new ArrayList<>();
@@ -365,7 +375,7 @@ public class Tournaments {
             }
 
         } else {
-            System.out.println("No Current Tournaments to Update");
+            System.err.println("No Current Tournaments to Update");
         }
 
     }
@@ -409,7 +419,7 @@ public class Tournaments {
                 today.getDate();
 
                 // Checking if current tournaments are still current.
-                if(today.compareTo(upcomingTournamentTournamentStartDate) > 0){
+                if(today.compareTo(upcomingTournamentTournamentStartDate) >= 0){
 
                     // Creating new ArrayList to receive current tourneys ArrayList from Members
                     ArrayList<Long> updateUpcomingTournament = new ArrayList<>();
@@ -435,7 +445,7 @@ public class Tournaments {
                 counterForIndex++;
             }
         } else {
-            System.out.println("No Upcoming Tournaments to Update");
+            System.err.println("No Upcoming Tournaments to Update");
         }
     }
 
@@ -484,7 +494,7 @@ public class Tournaments {
             return foundMember;
 
         } else {
-            System.out.println("No Member found with Member ID " + userInputtedMemberId + ".");
+            System.err.println("No Member found with Member ID " + userInputtedMemberId + ".");
 
             return null;
         }
@@ -514,8 +524,6 @@ public class Tournaments {
         Tournaments thisTourney = new Tournaments();
         thisTourney = thisTourney.getTournamentByIdForJson(tourneyId);
 
-        System.out.println(thisTourney);
-
         if(thisTourney != null){
             // Options for User Input
             System.out.println("1. Change the Tournament ID");
@@ -532,7 +540,7 @@ public class Tournaments {
             int userSelection = input.nextInt();
 
             if(userSelection <1 || userSelection > 10){
-                System.out.println("Please enter a selection between 1 and 9");
+                System.err.println("Please enter a selection between 1 and 9");
                 CLI.userInterface();
             }
 
@@ -541,7 +549,7 @@ public class Tournaments {
             caller.updateTournaments(thisTourney, userSelection);
 
         } else {
-            System.out.println("There is no Tournament ID " + tourneyId + ".");
+            System.err.println("There is no Tournament ID " + tourneyId + ".");
             CLI.userInterface();
         }
 
@@ -551,17 +559,13 @@ public class Tournaments {
     public void updateTournaments(Tournaments tourney, int userSelection) throws ParseException {
         Scanner userInput = new Scanner(System.in);
         Write write = new Write();
-        Delete delete = new Delete();
 
         // Determine which actions to complete
         if(userSelection == 1){
             System.out.println("Enter the updated Tournament ID");
             Long update = userInput.nextLong();
             tourney.setTournamentId(update);
-            // Delete Object before creating new object
-            delete.deleteMemberJSONRecordByMembershipID(Math.toIntExact(tourney.getTournamentId()));
-            write.createTournamentObj(tourney);
-            CLI.userInterface();
+
         } else if(userSelection == 2){
             System.out.println("Enter the updated Tournament Start Date (Format: March 2, 2022)");
             String update = userInput.nextLine();
@@ -569,10 +573,7 @@ public class Tournaments {
             Date newDate = null;
             newDate = new SimpleDateFormat("MMMMM dd, yyyy").parse(update);
             tourney.setTournamentStartDate(newDate);
-            // Delete Object before creating new object
-            delete.deleteMemberJSONRecordByMembershipID(Math.toIntExact(tourney.getTournamentId()));
-            write.createTournamentObj(tourney);
-            CLI.userInterface();
+
         } else if (userSelection == 3) {
             System.out.println("Enter the updated Tournament End Date (Format: March 2, 2022)");
             String update = userInput.nextLine();
@@ -580,42 +581,27 @@ public class Tournaments {
             Date newDate = null;
             newDate = new SimpleDateFormat("MMMMM dd, yyyy").parse(update);
             tourney.setTournamentEndDate(newDate);
-            // Delete Object before creating new object
-            delete.deleteMemberJSONRecordByMembershipID(Math.toIntExact(tourney.getTournamentId()));
-            write.createTournamentObj(tourney);
-            CLI.userInterface();
+
         } else if(userSelection == 4){
             System.out.println("Enter the updated Tournament Name");
             String update = userInput.nextLine();
             tourney.setTournamentName(update);
-            // Delete Object before creating new object
-            delete.deleteMemberJSONRecordByMembershipID(Math.toIntExact(tourney.getTournamentId()));
-            write.createTournamentObj(tourney);
-            CLI.userInterface();
+
         } else if(userSelection == 5){
             System.out.println("Enter the updated Tournament Location");
             String update = userInput.nextLine();
             tourney.setTournamentLocation(update);
-            // Delete Object before creating new object
-            delete.deleteMemberJSONRecordByMembershipID(Math.toIntExact(tourney.getTournamentId()));
-            write.createTournamentObj(tourney);
-            CLI.userInterface();
+
         } else if(userSelection == 6){
             System.out.println("Enter the updated Tournament Fee");
             Long update = userInput.nextLong();
             tourney.setTournamentEntryFee(update);
-            // Delete Object before creating new object
-            delete.deleteMemberJSONRecordByMembershipID(Math.toIntExact(tourney.getTournamentId()));
-            write.createTournamentObj(tourney);
-            CLI.userInterface();
+
         } else if(userSelection == 7){
             System.out.println("Enter the updated Tournament Cash Prize");
             Long update = userInput.nextLong();
             tourney.setTournamentCashPrize(update);
-            // Delete Object before creating new object
-            delete.deleteMemberJSONRecordByMembershipID(Math.toIntExact(tourney.getTournamentId()));
-            write.createTournamentObj(tourney);
-            CLI.userInterface();
+
         } else if(userSelection == 8){
 
             // Retrieving members current in tourney
@@ -623,7 +609,7 @@ public class Tournaments {
             currentMemberList = tourney.getMembersParticipating();
 
             // Retrieving new members id
-            System.out.println("Enter the player's Members Id that you want to add to the tournament, seperated by a comma(,)");
+            System.out.println("Enter the player's Members Id that you want to add to the tournament, separated by a comma(,)");
             String update = userInput.nextLine();
 
             // Searching for at least one comma and if none adding only one add
@@ -644,42 +630,48 @@ public class Tournaments {
             // Adding complete tournament member id's back to tournament
             tourney.setMembersParticipating(currentMemberList);
 
-            // Delete Object before creating new object
-            delete.deleteMemberJSONRecordByMembershipID(Math.toIntExact(tourney.getTournamentId()));
-            write.createTournamentObj(tourney);
-
             System.out.println("Tournament members participating has been updated!");
             System.out.println();
 
-            CLI.userInterface();
         } else if(userSelection == 9){
-            System.out.println("Enter the 1st place finisher for Tournament (Format: Name, Score)");
-            String update1 = userInput.nextLine();
 
-            System.out.println("Enter the 2nd place finisher for Tournament (Format: Name, Score)");
-            String update2 = userInput.nextLine();
+            // Finding size of Tournament field
+            membersParticipating = tourney.getMembersParticipating();
+            int tourneySize = membersParticipating.size();
 
-            System.out.println("Enter the 3rd place finisher for Tournament (Format: Name, Score)");
-            String update3 = userInput.nextLine();
+            // Checking that someone is registered for Tourney
+            if(tourneySize == 0){
+                System.out.println("There are no members registered for this Tournament.");
+                System.out.println();
+            } else {
+                // Setting up variables for loop
+                int count = 0;
+                ArrayList<String> finalStandingsArray = new ArrayList<>();
 
-            System.out.println("Enter the 4th place finisher for Tournament (Format: Name, Score)");
-            String update4 = userInput.nextLine();
+                while(count < tourneySize){
+                    System.out.println("Enter member name for position " + (count + 1) + " in Tournament Standings (Format: Name, Score)");
+                    String update = userInput.nextLine();
 
-            System.out.println("Enter the 5th place finisher for Tournament (Format: Name, Score)");
-            String update5 = userInput.nextLine();
+                    finalStandingsArray.add((count + 1) + ": " + update);
 
-            ArrayList<String> finalStandingsArray = new ArrayList<>();
-            finalStandingsArray.add(update1);
-            finalStandingsArray.add(update2);
-            finalStandingsArray.add(update3);
-            finalStandingsArray.add(update4);
-            finalStandingsArray.add(update5);
+                    // Incrementing the counter
+                    count++;
+                }
 
-            tourney.setFinalStandings(finalStandingsArray);
-            // Delete Object before creating new object
-            delete.deleteMemberJSONRecordByMembershipID(Math.toIntExact(tourney.getTournamentId()));
-            write.createTournamentObj(tourney);
-            CLI.userInterface();
+                // All finishers have been added to final array standings
+                tourney.setFinalStandings(finalStandingsArray);
+
+                System.out.println(tourney.getFinalStandings());
+            }
+
         }
+        // Processing after all if statements
+
+        // Delete outdated json record and write the updated json record
+        Delete.deleteTournamentJSONRecordById(Math.toIntExact(tourney.getTournamentId()));
+        write.createTournamentObj(tourney);
+
+        // Call up the user interface again
+        CLI.userInterface();
     }
 }

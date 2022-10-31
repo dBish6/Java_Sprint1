@@ -1,7 +1,7 @@
 package com.keyin.golf;
 
 /* Members.java
-   Class for members of the tournament...
+   Class for Membership Object
 
    Author: Blake Waddleton
    Contributors:  David Bishop, Chris Doucette and Blake Waddleton

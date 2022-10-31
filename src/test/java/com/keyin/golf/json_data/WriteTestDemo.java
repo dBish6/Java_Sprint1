@@ -49,8 +49,8 @@ public class WriteTestDemo {
         testTournamentName = "Test Open";
         testTournamentStartDate = new Date(2023,8,8);
         testTournamentEndDate = new Date(2023,8,9);
-        testMembersParticipating = new ArrayList<>();
-        testMembersParticipating.add(0,23L);
+        testMembersParticipating = new ArrayList<Long>();
+        testMembersParticipating.add(0,12L);
         testMembersParticipating.add(1,45L);
         testTournamentLocation = "Literally a meadow";
         testTournamentEntryFee = 100L;
@@ -99,6 +99,8 @@ public class WriteTestDemo {
 
         Write writer = new Write();
         writer.createTournamentObj(testTournament);
+
+        System.out.println(testTournament.getMembersParticipating());
 
         Read.readAllJSONTournaments();
     }
