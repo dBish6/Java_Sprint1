@@ -242,26 +242,34 @@ public class Write {
         ArrayList<Long> members = tournament.getMembersParticipating();
         JSONObject membersParticipatingObject = new JSONObject();
         AtomicInteger count= new AtomicInteger(1);
-        members.forEach(member->{
-            String keyName = "member" + count;
-            membersParticipatingObject.put(keyName,member);
-            count.getAndIncrement();
-        });
-        JSONArray membersArray = new JSONArray();
-        membersArray.add(membersParticipatingObject);
-        tournamentObject.put("membersParticipating", membersArray);
+        if(members == null){
+            tournamentObject.put("membersParticipating", null);
+        } else {
+            members.forEach(member -> {
+                String keyName = "member" + count;
+                membersParticipatingObject.put(keyName, member);
+                count.getAndIncrement();
+            });
+            JSONArray membersArray = new JSONArray();
+            membersArray.add(membersParticipatingObject);
+            tournamentObject.put("membersParticipating", membersArray);
+        }
 
-        ArrayList<String> finalStandingssList = tournament.getFinalStandings();
+        ArrayList<String> finalStandingsList = tournament.getFinalStandings();
         JSONObject finalStandingsObject = new JSONObject();
         AtomicInteger count2= new AtomicInteger(1);
-        finalStandingssList.forEach(standing->{
-            String keyName = String.valueOf(count2);
-            finalStandingsObject.put(keyName,standing);
-            count2.getAndIncrement();
-        });
-        JSONArray finalStandingsArray = new JSONArray();
-        finalStandingsArray.add(finalStandingsObject);
-        tournamentObject.put("finalStandings", finalStandingsArray);
+        if(finalStandingsList == null){
+            tournamentObject.put("finalStandings", null);
+        } else {
+            finalStandingsList.forEach(standing -> {
+                String keyName = String.valueOf(count2);
+                finalStandingsObject.put(keyName, standing);
+                count2.getAndIncrement();
+            });
+            JSONArray finalStandingsArray = new JSONArray();
+            finalStandingsArray.add(finalStandingsObject);
+            tournamentObject.put("finalStandings", finalStandingsArray);
+        }
 
         JSONObject completeObject = new JSONObject();
         completeObject.put("tournament",tournamentObject);
