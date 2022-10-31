@@ -11,6 +11,7 @@ package com.keyin.golf;
 
 import com.keyin.golf.exceptions.InvalidDateTimeException;
 import com.keyin.golf.json_data.Add;
+import com.keyin.golf.json_data.Delete;
 import com.keyin.golf.json_data.Read;
 import com.keyin.golf.json_data.Write;
 import com.keyin.golf.ui.CLI;
@@ -549,12 +550,17 @@ public class Tournaments {
 
     public void updateTournaments(Tournaments tourney, int userSelection) throws ParseException {
         Scanner userInput = new Scanner(System.in);
+        Write write = new Write();
+        Delete delete = new Delete();
 
         // Determine which actions to complete
         if(userSelection == 1){
             System.out.println("Enter the updated Tournament ID");
             Long update = userInput.nextLong();
             tourney.setTournamentId(update);
+            // Delete Object before creating new object
+            delete.deleteMemberJSONRecordByMembershipID(Math.toIntExact(tourney.getTournamentId()));
+            write.createTournamentObj(tourney);
             CLI.userInterface();
         } else if(userSelection == 2){
             System.out.println("Enter the updated Tournament Start Date (Format: March 2, 2022)");
@@ -563,6 +569,9 @@ public class Tournaments {
             Date newDate = null;
             newDate = new SimpleDateFormat("MMMMM dd, yyyy").parse(update);
             tourney.setTournamentStartDate(newDate);
+            // Delete Object before creating new object
+            delete.deleteMemberJSONRecordByMembershipID(Math.toIntExact(tourney.getTournamentId()));
+            write.createTournamentObj(tourney);
             CLI.userInterface();
         } else if (userSelection == 3) {
             System.out.println("Enter the updated Tournament End Date (Format: March 2, 2022)");
@@ -571,26 +580,41 @@ public class Tournaments {
             Date newDate = null;
             newDate = new SimpleDateFormat("MMMMM dd, yyyy").parse(update);
             tourney.setTournamentEndDate(newDate);
+            // Delete Object before creating new object
+            delete.deleteMemberJSONRecordByMembershipID(Math.toIntExact(tourney.getTournamentId()));
+            write.createTournamentObj(tourney);
             CLI.userInterface();
         } else if(userSelection == 4){
             System.out.println("Enter the updated Tournament Name");
             String update = userInput.nextLine();
             tourney.setTournamentName(update);
+            // Delete Object before creating new object
+            delete.deleteMemberJSONRecordByMembershipID(Math.toIntExact(tourney.getTournamentId()));
+            write.createTournamentObj(tourney);
             CLI.userInterface();
         } else if(userSelection == 5){
             System.out.println("Enter the updated Tournament Location");
             String update = userInput.nextLine();
             tourney.setTournamentLocation(update);
+            // Delete Object before creating new object
+            delete.deleteMemberJSONRecordByMembershipID(Math.toIntExact(tourney.getTournamentId()));
+            write.createTournamentObj(tourney);
             CLI.userInterface();
         } else if(userSelection == 6){
             System.out.println("Enter the updated Tournament Fee");
             Long update = userInput.nextLong();
             tourney.setTournamentEntryFee(update);
+            // Delete Object before creating new object
+            delete.deleteMemberJSONRecordByMembershipID(Math.toIntExact(tourney.getTournamentId()));
+            write.createTournamentObj(tourney);
             CLI.userInterface();
         } else if(userSelection == 7){
             System.out.println("Enter the updated Tournament Cash Prize");
             Long update = userInput.nextLong();
             tourney.setTournamentCashPrize(update);
+            // Delete Object before creating new object
+            delete.deleteMemberJSONRecordByMembershipID(Math.toIntExact(tourney.getTournamentId()));
+            write.createTournamentObj(tourney);
             CLI.userInterface();
         } else if(userSelection == 8){
 
@@ -620,6 +644,10 @@ public class Tournaments {
             // Adding complete tournament member id's back to tournament
             tourney.setMembersParticipating(currentMemberList);
 
+            // Delete Object before creating new object
+            delete.deleteMemberJSONRecordByMembershipID(Math.toIntExact(tourney.getTournamentId()));
+            write.createTournamentObj(tourney);
+
             System.out.println("Tournament members participating has been updated!");
             System.out.println();
 
@@ -648,6 +676,9 @@ public class Tournaments {
             finalStandingsArray.add(update5);
 
             tourney.setFinalStandings(finalStandingsArray);
+            // Delete Object before creating new object
+            delete.deleteMemberJSONRecordByMembershipID(Math.toIntExact(tourney.getTournamentId()));
+            write.createTournamentObj(tourney);
             CLI.userInterface();
         }
     }
