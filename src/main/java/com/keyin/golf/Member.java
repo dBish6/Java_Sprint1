@@ -132,9 +132,4 @@ public class Member {
                 ", upcomingTournaments=" + this.upcomingTournaments +
                 "}";
     }
-
-    public static void main(String[] args) {
-        Member m1 = new Member();
-        System.out.println(m1);
-    }
 }

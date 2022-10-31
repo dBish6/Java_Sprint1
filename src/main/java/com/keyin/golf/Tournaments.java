@@ -1,7 +1,7 @@
 package com.keyin.golf;
 
 /* Tournaments.java
-   Class for members of the tournament...
+   Class for Tournament Object
 
    Author: Chris Doucette
    Contributors:  David Bishop, Dominic Whelan and Blake Waddleton
@@ -178,7 +178,7 @@ public class Tournaments {
         Date tourneyEndDate = null;
         tourneyEndDate = new SimpleDateFormat("MMMMM dd, yyyy").parse(tourneyEndDateString);
 
-        System.out.println("Enter the tournament location");
+        System.out.println("Enter the tournament location:");
         String tourneyLocation = userInput.nextLine();
 
         System.out.println("Enter the tournament entry fee:");
@@ -272,7 +272,7 @@ public class Tournaments {
 
             return membersTournament;
         } else {
-            System.out.println("There was no tournament with Tournament ID of " + tournamentId + ".");
+            System.err.println("There was no tournament with Tournament ID of " + tournamentId + ".");
             return null;
         }
     }
@@ -371,7 +371,7 @@ public class Tournaments {
             }
 
         } else {
-            System.out.println("No Current Tournaments to Update");
+            System.err.println("No Current Tournaments to Update");
         }
 
     }
@@ -441,7 +441,7 @@ public class Tournaments {
                 counterForIndex++;
             }
         } else {
-            System.out.println("No Upcoming Tournaments to Update");
+            System.err.println("No Upcoming Tournaments to Update");
         }
     }
 
@@ -490,7 +490,7 @@ public class Tournaments {
             return foundMember;
 
         } else {
-            System.out.println("No Member found with Member ID " + userInputtedMemberId + ".");
+            System.err.println("No Member found with Member ID " + userInputtedMemberId + ".");
 
             return null;
         }
@@ -536,7 +536,7 @@ public class Tournaments {
             int userSelection = input.nextInt();
 
             if(userSelection <1 || userSelection > 10){
-                System.out.println("Please enter a selection between 1 and 9");
+                System.err.println("Please enter a selection between 1 and 9");
                 CLI.userInterface();
             }
 
@@ -545,7 +545,7 @@ public class Tournaments {
             caller.updateTournaments(thisTourney, userSelection);
 
         } else {
-            System.out.println("There is no Tournament ID " + tourneyId + ".");
+            System.err.println("There is no Tournament ID " + tourneyId + ".");
             CLI.userInterface();
         }
 
