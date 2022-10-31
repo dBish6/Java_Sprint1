@@ -28,6 +28,7 @@ public class Add {
     // Used to set personal data ( phone,email,address, upcoming/current/past tournaments )
     public static void setMemberDetailValue(int ID, String keyToChange, String valueToSet) {
         ArrayList<String> allowableKeys = new ArrayList<>();
+        allowableKeys.add("name");
         allowableKeys.add("email");
         allowableKeys.add("phone");
         allowableKeys.add("address");
@@ -125,8 +126,4 @@ public class Add {
         }
     }
 
-    public static void main(String[] args) {
-
-        setMemberDetailValue(123,"phone","5671423");
-    }
 }

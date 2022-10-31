@@ -152,7 +152,7 @@ public class Membership {
         userInput.nextLine();
         System.out.println("""
                 Enter choice (1-4) for membership type
-                 1. Standard @ $125/month
+                 1. Standard @ $150/month
                  2. Family Plan @ $100/month per member
                  3. Special Offer @ $115/month
                  4. Trial Free(1 week)
