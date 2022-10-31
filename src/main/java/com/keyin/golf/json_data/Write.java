@@ -28,6 +28,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Objects;
 import java.util.Date;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class Write {
     public JSONObject createMemberObj(Member member){
@@ -215,7 +216,7 @@ public class Write {
         JSONObject memberObject = new JSONObject();
         memberObject.put("member",memberBody);
 
-        addToFile(memberObject,"src/main/golf.club.json/members.json");
+
         return memberObject;
     }
 
@@ -228,17 +229,7 @@ public class Write {
         String location = tournament.getTournamentLocation();
         Long entryFee = tournament.getTournamentEntryFee();
         Long cashPrize = tournament.getTournamentCashPrize();
-        JSONObject membersParticipating = new JSONObject();
-        ArrayList<Long> members = tournament.getMembersParticipating();
-        int count;
-        members.forEach(member->{
-            String key = "member" + members.indexOf(member);
-            membersParticipating.put(key,member);
-        });
-//        ArrayList<Long> finalStandings = tournament.getFinalStandings();
-//        finalStandings.forEach(standing->{
-//
-//        });
+
         tournamentObject.put("tournamentID",tournamentID);
         String tournamentStartString = new SimpleDateFormat("MMMMM dd, yyyy").format(tournamentStartDate);
         String tournamentEndString = new SimpleDateFormat("MMMMM dd, yyyy").format(tournamentEndDate);
@@ -248,7 +239,18 @@ public class Write {
         tournamentObject.put("location",location);
         tournamentObject.put("entryFee",entryFee);
         tournamentObject.put("cashPrize",cashPrize);
-        tournamentObject.put("membersParticipating",members);
+        ArrayList<Long> members = tournament.getMembersParticipating();
+        JSONObject membersParticipatingObject = new JSONObject();
+        AtomicInteger count= new AtomicInteger(1);
+        members.forEach(member->{
+            String keyName = "member" + count;
+            membersParticipatingObject.put(keyName,member);
+            count.getAndIncrement();
+        });
+        JSONArray membersArray = new JSONArray();
+        membersArray.add(membersParticipatingObject);
+        tournamentObject.put("membersParticipating", membersArray);
+        tournamentObject.put("finalStandings", null);
 
         JSONObject completeObject = new JSONObject();
         completeObject.put("tournament",tournamentObject);
