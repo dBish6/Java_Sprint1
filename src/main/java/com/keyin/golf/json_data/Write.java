@@ -183,15 +183,15 @@ public class Write {
             });
         } else {
             if(Objects.equals(membershipType, "Standard")){
-            int monthlyMembershipCost = 125;
-            memberBody.put("monthlyMembershipCost",monthlyMembershipCost);
-        } else if(Objects.equals(membershipType, "Trial")){
-            int monthlyMembershipCost = 0;
-            memberBody.put("monthlyMembershipCost",monthlyMembershipCost);
-        } else if(Objects.equals(membershipType, "Special Offer")){
-            int monthlyMembershipCost = 115;
-            memberBody.put("monthlyMembershipCost",monthlyMembershipCost);
-        }
+                int monthlyMembershipCost = 125;
+                memberBody.put("monthlyMembershipCost",monthlyMembershipCost);
+            } else if(Objects.equals(membershipType, "Trial")){
+                int monthlyMembershipCost = 0;
+                memberBody.put("monthlyMembershipCost",monthlyMembershipCost);
+            } else if(Objects.equals(membershipType, "Special Offer")){
+                int monthlyMembershipCost = 115;
+                memberBody.put("monthlyMembershipCost",monthlyMembershipCost);
+            }
             ArrayList<Member> memberList = membership.getMemberList();
             memberList.forEach(member -> {
 
@@ -250,7 +250,18 @@ public class Write {
         JSONArray membersArray = new JSONArray();
         membersArray.add(membersParticipatingObject);
         tournamentObject.put("membersParticipating", membersArray);
-        tournamentObject.put("finalStandings", null);
+
+        ArrayList<String> finalStandingssList = tournament.getFinalStandings();
+        JSONObject finalStandingsObject = new JSONObject();
+        AtomicInteger count2= new AtomicInteger(1);
+        finalStandingssList.forEach(standing->{
+            String keyName = String.valueOf(count2);
+            finalStandingsObject.put(keyName,standing);
+            count2.getAndIncrement();
+        });
+        JSONArray finalStandingsArray = new JSONArray();
+        finalStandingsArray.add(finalStandingsObject);
+        tournamentObject.put("finalStandings", finalStandingsArray);
 
         JSONObject completeObject = new JSONObject();
         completeObject.put("tournament",tournamentObject);
@@ -274,7 +285,7 @@ public class Write {
                 writer.write(objectList.toJSONString());
             }
         }  catch (IOException | ParseException e) {
-                e.printStackTrace();
+            e.printStackTrace();
         }
     }
 
