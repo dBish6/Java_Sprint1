@@ -46,12 +46,13 @@ public class Add {
                     JSONObject memberObj = (JSONObject) member;
                     JSONObject objDetails = (JSONObject) memberObj.get("member");
                     String membershipType = (String) objDetails.get("membershipType");
+                    Long userInputId = Long.valueOf(ID);
                     if (Objects.equals(membershipType, "Family Plan")) {
                         JSONArray familyMembers = (JSONArray) objDetails.get("familyMembers");
                         familyMembers.forEach(fMember -> {
                             JSONObject fmObj = (JSONObject) fMember;
                             Long memberID = (Long) fmObj.get("memberID");
-                            if (memberID == ID) {
+                            if (Objects.equals(memberID, userInputId)) {
                                 fmObj.put(keyToChange, valueToSet);
                                 try (FileWriter writer = new FileWriter("src/main/golf.club.json/members.json")) {
                                     writer.write(memberList.toJSONString());
@@ -62,7 +63,7 @@ public class Add {
                         });
                     } else {
                         Long memberID = (Long) objDetails.get("memberID");
-                        if (memberID == ID) {
+                        if (Objects.equals(memberID, userInputId)) {
                             objDetails.put(keyToChange, valueToSet);
                             writeFile(memberList,"src/main/golf.club.json/members.json");
                         }
