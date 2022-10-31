@@ -50,12 +50,10 @@ public class Membership {
         this.membershipStartDate = membershipStartDate;
         this.membershipExpireDate = membershipExpireDate;
         if (Objects.equals(membershipType, "Standard")) {
-            this.monthlyMembershipCost = 125L;
+            this.monthlyMembershipCost = 150L;
         } else if (Objects.equals(membershipType, "Special Offer")) {
             this.monthlyMembershipCost = 115L;
-        } else if (Objects.equals(membershipType, "Premium")) {
-            this.monthlyMembershipCost = 150L;
-        } else if (Objects.equals(membershipType, "Trial")) {
+        }else if (Objects.equals(membershipType, "Trial")) {
             this.monthlyMembershipCost = 0L;
         }
     }
@@ -157,13 +155,12 @@ public class Membership {
                  1. Standard @ $125/month
                  2. Family Plan @ $100/month per member
                  3. Special Offer @ $115/month
-                 4. Premium @ $150/month
-                 5. Trial Free(1 week)
+                 4. Trial Free(1 week)
                 """);
         int membershipTypeChoice = 0;
         while (membershipTypeChoice == 0) {
             int choice = userInput.nextInt();
-            if (choice < 1 || choice > 5) {
+            if (choice < 1 || choice > 4) {
                 System.err.println("Invalid Entry, Please Try Again");
             } else {
                 membershipTypeChoice = choice;
@@ -176,8 +173,6 @@ public class Membership {
             membershipType = "Family Plan";
         } else if (membershipTypeChoice == 3) {
             membershipType = "Special Offer";
-        } else if (membershipTypeChoice == 4) {
-            membershipType = "Premium";
         } else {
             membershipType = "Trial";
         }
