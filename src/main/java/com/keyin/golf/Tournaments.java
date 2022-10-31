@@ -76,6 +76,10 @@ public class Tournaments {
     // Getters / Setters
     public String getTournamentLocation() { return tournamentLocation;}
 
+    public ArrayList<String> getFinalStandings() {
+        return finalStandings;
+    }
+
     public void setTournamentLocation(String tournamentLocation) {
         this.tournamentLocation = tournamentLocation;
     }
@@ -629,36 +633,45 @@ public class Tournaments {
             System.out.println("Tournament members participating has been updated!");
             System.out.println();
 
-            CLI.userInterface();
         } else if(userSelection == 9){
-            System.out.println("Enter the 1st place finisher for Tournament (Format: Name, Score)");
-            String update1 = userInput.nextLine();
 
-            System.out.println("Enter the 2nd place finisher for Tournament (Format: Name, Score)");
-            String update2 = userInput.nextLine();
+            // Finding size of Tournament field
+            membersParticipating = tourney.getMembersParticipating();
+            int tourneySize = membersParticipating.size();
 
-            System.out.println("Enter the 3rd place finisher for Tournament (Format: Name, Score)");
-            String update3 = userInput.nextLine();
+            // Checking that someone is registered for Tourney
+            if(tourneySize == 0){
+                System.out.println("There are no members registered for this Tournament.");
+                System.out.println();
+            } else {
+                // Setting up variables for loop
+                int count = 0;
+                ArrayList<String> finalStandingsArray = new ArrayList<>();
 
-            System.out.println("Enter the 4th place finisher for Tournament (Format: Name, Score)");
-            String update4 = userInput.nextLine();
+                while(count < tourneySize){
+                    System.out.println("Enter member name for position " + (count + 1) + " in Tournament Standings (Format: Name, Score)");
+                    String update = userInput.nextLine();
 
-            System.out.println("Enter the 5th place finisher for Tournament (Format: Name, Score)");
-            String update5 = userInput.nextLine();
+                    finalStandingsArray.add((count + 1) + ": " + update);
 
-            ArrayList<String> finalStandingsArray = new ArrayList<>();
-            finalStandingsArray.add(update1);
-            finalStandingsArray.add(update2);
-            finalStandingsArray.add(update3);
-            finalStandingsArray.add(update4);
-            finalStandingsArray.add(update5);
+                    // Incrementing the counter
+                    count++;
+                }
 
-            tourney.setFinalStandings(finalStandingsArray);
+                // All finishers have been added to final array standings
+                tourney.setFinalStandings(finalStandingsArray);
+
+                System.out.println(tourney.getFinalStandings());
+            }
 
         }
+        // Processing after all if statements
+
         // Delete outdated json record and write the updated json record
         Delete.deleteTournamentJSONRecordById(Math.toIntExact(tourney.getTournamentId()));
         write.createTournamentObj(tourney);
+
+        // Call up the user interface again
         CLI.userInterface();
     }
 }
