@@ -201,6 +201,7 @@ public class Membership {
         newMembership.addMember(member);
 
         Write writer = new Write();
-        writer.createMembershipObj(newMembership);
+        JSONObject membershipObject = writer.createMembershipObj(newMembership);
+        writer.addToFile(membershipObject,"src/main/golf.club.json/members.json");
     }
 }

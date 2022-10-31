@@ -22,6 +22,7 @@ import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 @ExtendWith(MockitoExtension.class)
 public class WriteTest {
@@ -41,6 +42,8 @@ public class WriteTest {
         long mockMembershipID = 32;
         Mockito.when(mockMembership.getMembershipID()).thenReturn(mockMembershipID);
         Mockito.when(mockMembership.getMemberList()).thenReturn(memberList);
+        Mockito.when(mockMembership.getMembershipStartDate()).thenReturn(new Date(2022,8,8));
+        Mockito.when(mockMembership.getMembershipExpireDate()).thenReturn(new Date(2023,8,8));
 
 
         JSONObject testObject = writer.createMembershipObj(mockMembership);
