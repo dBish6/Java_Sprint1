@@ -652,7 +652,7 @@ public class Tournaments {
                     System.out.println("Enter member name for position " + (count + 1) + " in Tournament Standings (Format: Name, Score)");
                     String update = userInput.nextLine();
 
-                    finalStandingsArray.add((count + 1) + ": " + update);
+                    finalStandingsArray.add(update);
 
                     // Incrementing the counter
                     count++;
